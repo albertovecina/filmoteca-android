@@ -124,12 +124,12 @@ public class NetworkUtils {
     		
     		
     		titulo=titulo.trim();
-    		//AÃ±ado la informacion al HashMap
+    		//Añado la informacion al HashMap
     		Item.put(Constants.PARAM_ID_TITULO, "\t"+titulo);
     		Item.put(Constants.PARAM_ID_SUBTITULO, subtitulo);
     		Item.put(Constants.PARAM_ID_FECHA, fecha);
     		Item.put(Constants.PARAM_ID_URL, url);
-    		//AÃ±ado el HashMap al ArrayList
+    		//Añado el HashMap al ArrayList
     		Peliculas.add(Item);
     		
     	}

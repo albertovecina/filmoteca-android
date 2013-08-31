@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, Villena es gayer!</string>
     <string name="app_name">Filmoteca</string>
+    <string name="warning_no_internet_connection">Debe tener activa la conexión a internet.
+        \n¿Deseas acceder al menu de configuración?</string>
+    <string name="warning_no_films_recived">
+        No ha sido posible obtener la información.
+        \nEs posible que no existan eventos programados para la Filmoteca de Albacete.
+        \nDurante el més de agosto no hay programación.</string>
     <string name="image_title_desc">Imagen del título</string>
     <string name="image_search">Imagen del título</string>
     <string name="image_share">Imagen del título</string>
@@ -22,4 +27,8 @@
     <string name="web">http://www.albandroid.es</string>
     <string name="email">info@albandroid.es</string>
     <string name="findus">Escuela de Ingenieros Industriales - Aula 1.6</string>
+    
+    
+    <string name="dialog_accept">Aceptar</string>
+    <string name="dialog_cancel">Cancelar</string>
 </resources>

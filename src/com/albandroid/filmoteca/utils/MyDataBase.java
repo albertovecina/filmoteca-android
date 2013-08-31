@@ -29,10 +29,10 @@ public class MyDataBase extends SQLiteOpenHelper{
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
 		// TODO Auto-generated method stub
-		//Se elimina la versiÃ³n anterior de la tabla
+		//Se elimina la versión anterior de la tabla
         db.execSQL("DROP TABLE IF EXISTS Usuarios");
  
-        //Se crea la nueva versiÃ³n de la tabla
+        //Se crea la nueva versión de la tabla
         db.execSQL(sqlCreate);
 	}
 
