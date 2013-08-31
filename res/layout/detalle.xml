@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/black">
+
+                    <LinearLayout
+                        android:id="@+id/backgroundTopBarContainer"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" 
+                        android:background="@drawable/appshapetop">
+
+                        <LinearLayout
+                            android:id="@+id/buttonsLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="67dp"
+                            android:gravity="center" >
+
+                            <LinearLayout
+                                android:id="@+id/buscarFALayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:gravity="center"
+                                android:orientation="vertical" 
+                                android:onClick="buscarFA">
+								<TextView
+                                    android:id="@+id/textView1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/filmaffinity"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="#6f6f6f" />
+
+                                <ImageButton
+                                    android:id="@+id/buscarFA"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:contentDescription="@string/image_search"
+                                    android:onClick="buscarFA"
+                                    android:src="@drawable/buscar_button" />
+                                
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/verNavLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:gravity="center"
+                                android:orientation="vertical"
+								android:onClick="verEnNavegador">
+
+								<TextView
+								    android:id="@+id/textView2"
+								    android:layout_width="wrap_content"
+								    android:layout_height="wrap_content"
+								    android:text="@string/navegador"
+								    android:textAppearance="?android:attr/textAppearanceSmall"
+								    android:textColor="#6f6f6f" />
+
+                                <ImageButton
+                                    android:id="@+id/verNav"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:contentDescription="@string/image_navigator"
+                                    android:onClick="verEnNavegador"
+                                    android:src="@drawable/ver_nav_button" />
+                                
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/compartirLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:gravity="center"
+                                android:orientation="vertical" 
+                                android:onClick="compartir">
+								<TextView
+                                    android:id="@+id/textCompartir"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/share"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="#6f6f6f" />
+
+                                <ImageButton
+                                    android:id="@+id/compartir"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:contentDescription="@string/image_share"
+                                    android:onClick="compartir"
+                                    android:src="@drawable/compartir_button" />
+                                
+                            </LinearLayout>
+                        </LinearLayout>
+                    <View android:id="@+id/divider" android:layout_width="fill_parent" android:layout_height="1dp" android:background="@color/black" /><TextView android:id="@+id/detalleTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/texto_oscuro" android:textSize="20sp" android:textStyle="bold" android:typeface="serif" android:background="@color/white" /></LinearLayout>
+
+                    
+
+                    
+
+                    
+
+                    <LinearLayout
+                        android:id="@+id/webViewLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/appshapedown" >
+
+                    <WebView xmlns:android="http://schemas.android.com/apk/res/android" 
+                        android:id="@+id/webview" 
+                        android:layout_width="fill_parent" 
+                        android:layout_height="fill_parent" 
+                        android:layout_marginBottom="15dp" />
+                    </LinearLayout>
+
+</LinearLayout>

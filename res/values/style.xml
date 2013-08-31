@@ -1,0 +1,30 @@
+<resources>
+    <style name="MainTitleTheme">
+        <item name="android:background">#FFFFFF</item>
+    </style>
+    <style name="DetalleTitleTheme">
+  		<item name="android:textColor">#000000</item>
+  		<item name="android:background">#FFFFFF</item>
+  		<item name="android:textSize">30sp</item>
+    </style>
+    
+    <style name="MainTitleTextStyle">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="DetalleTitleTextStyle">
+	</style>
+ 
+    <style name="MainTheme" parent="android:Theme">
+        <item name="android:shadowColor">#FFFFFF</item>
+       <!--<item name="android:windowContentOverlay">@null</item>-->
+        <item name="android:windowTitleSize">100px</item>
+        <item name="android:windowTitleBackgroundStyle">@style/MainTitleTheme</item>
+        <item name="android:windowTitleStyle">@style/MainTitleTextStyle</item>
+    </style>
+    <style name="DetalleTheme" parent="android:Theme">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleSize">142px</item>
+        <item name="android:windowTitleBackgroundStyle">@style/DetalleTitleTheme</item>
+        <item name="android:windowTitleStyle">@style/DetalleTitleTextStyle</item>
+    </style>
+</resources>

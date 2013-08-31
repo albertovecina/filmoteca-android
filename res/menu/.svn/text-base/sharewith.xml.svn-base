@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/compartir" android:title="Compartir" android:icon="@android:drawable/ic_menu_share"></item>
+    <group android:id="@+id/group1">
+         <item android:id="@+id/navegar" android:title="Ver en navegador" android:icon="@android:drawable/ic_menu_view"></item>
+         <item android:id="@+id/filmaffinity" android:title="Buscar en FilmAffinity" android:icon="@android:drawable/ic_menu_search"></item>
+    </group>
+    
+
+</menu>

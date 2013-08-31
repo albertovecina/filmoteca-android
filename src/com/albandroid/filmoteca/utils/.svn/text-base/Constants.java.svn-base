@@ -1,0 +1,11 @@
+package com.albandroid.filmoteca.utils;
+
+public class Constants {
+	public static final String PARAM_ID_TITULO="Titulo";
+	public static final String PARAM_ID_SUBTITULO="Subtitulo";
+	public static final String PARAM_ID_DESCRIPCION="Descripcion";
+	public static final String PARAM_ID_URL="Url";
+	public static final String PARAM_ID_FECHA="Fechas";
+	//public static final String URL_SOURCE="http://www.albacete.es/es/webs-municipales/filmoteca/agenda";
+	public static final String URL_SOURCE="http://www.albacete.es/es/webs-municipales/filmoteca/agenda/folder_listing";
+}

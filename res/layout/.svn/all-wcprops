@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/alopecTrunk/!svn/ver/201/Filmoteca/res/layout
+END
+detalle.xml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/alopecTrunk/!svn/ver/229/Filmoteca/res/layout/detalle.xml
+END
+main.xml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/alopecTrunk/!svn/ver/235/Filmoteca/res/layout/main.xml
+END
+acercade.xml
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/alopecTrunk/!svn/ver/229/Filmoteca/res/layout/acercade.xml
+END
+detalle_title.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/alopecTrunk/!svn/ver/235/Filmoteca/res/layout/detalle_title.xml
+END
+main_title.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/alopecTrunk/!svn/ver/226/Filmoteca/res/layout/main_title.xml
+END
+pelicula_row.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/alopecTrunk/!svn/ver/235/Filmoteca/res/layout/pelicula_row.xml
+END

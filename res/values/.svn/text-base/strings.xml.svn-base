@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, Villena es gayer!</string>
+    <string name="app_name">Filmoteca</string>
+    <string name="image_title_desc">Imagen del título</string>
+    <string name="apk_name">Filmoteca de Albacete</string>
+
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#000000" >
+
+    <LinearLayout
+        android:id="@+id/infoCreditosContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+      
+        android:orientation="vertical" android:paddingLeft="10dp" android:paddingRight="10dp">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/developby"
+            android:textColor="@color/title_text" >
+        </TextView>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/albandroid"
+            android:textColor="@color/title_text" android:textStyle="bold">
+        </TextView>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/web"
+            android:textColor="@color/title_text" >
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:textColor="@color/title_text" >
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/findus"
+            android:textColor="@color/title_text" >
+        </TextView>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/albandroidLogo"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription="@string/image_title_desc"
+        android:src="@drawable/creditos" />
+
+</LinearLayout>

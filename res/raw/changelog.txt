@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <style type='text/css'>
+      a            { color:#a0a0e0 }
+      div.title    { 
+          color:#C0F0C0; 
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-top:1em; 
+          margin-bottom:0.5em; 
+          text-align:center }
+      div.subtitle { 
+          color:#C0F0C0; 
+          font-size:0.8em; 
+          margin-bottom:1em; 
+          text-align:center }
+      div.freetext { color:#F0F0F0 }
+      div.list     { color:#C0C0F0 }
+    </style>
+  </head>
+  <body>
+$ 1.1.9
+  % Version 1.1.9
+  _ 2012-11-15
+    * Correcciones de carácter general
+$ 1.1.9
+$ 1.1.8
+  % Version 1.1.8
+  _ 2012-08-15
+    * Solucionado el problema con el timeout del widget
+    * Nuevos cambios en la interface
+$ 1.1.8
+$ 1.1.7
+  % Version 1.1.7
+  _ 2012-07-29
+    * Nuevo widget para la visualización del calendario de la Filmoteca de Albacete
+$ 1.1.7
+$ END_OF_CHANGE_LOG
+  </body>
+</html>

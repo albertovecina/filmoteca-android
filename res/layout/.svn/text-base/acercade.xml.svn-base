@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/infoCreditosContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+      
+        android:orientation="vertical" android:paddingLeft="10dp" android:paddingRight="10dp">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Desarrollado por:"
+            android:textColor="@color/title_text" >
+        </TextView>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Asociación Juvenil Albandroid"
+            android:textColor="@color/title_text" android:textStyle="bold">
+        </TextView>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="http://www.albandroid.es"
+            android:textColor="@color/title_text" >
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="info@albandroid.es"
+            android:textColor="@color/title_text" >
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Escuela de Ingenieros Industriales - Aula 1.6"
+            android:textColor="@color/title_text" >
+        </TextView>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/albandroidLogo"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/creditos" />
+
+</LinearLayout>

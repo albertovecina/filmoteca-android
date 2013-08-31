@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" android:gravity="center">
+	<!--<ImageView
+        android:id="@+id/imageDetalleTitle"
+        android:contentDescription="@string/image_title_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/title" android:visibility="visible"/>-->
+
+   <!-- <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" android:gravity="center" android:layout_marginRight="10px">
+
+            <ImageButton
+                android:id="@+id/buscarFA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:onClick="buscarFA"
+                android:src="@drawable/buscar" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FilmAffinity"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/verNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:onClick="verEnNavegador"
+                android:src="@drawable/ver_nav" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Navegador"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" android:gravity="center" android:layout_marginLeft="10px">
+
+            <ImageButton
+                android:id="@+id/compartir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:onClick="compartir"
+                android:src="@drawable/compartir" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compartir"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+    </LinearLayout>-->
+    
+    <TextView
+        android:id="@+id/detalleTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/texto_oscuro"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+</LinearLayout>
