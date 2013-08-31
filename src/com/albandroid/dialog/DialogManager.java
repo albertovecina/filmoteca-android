@@ -30,6 +30,7 @@ public class DialogManager {
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
 				simpleDialogListener.onAccept();
+				dismissCurrentDialog();
 			}
 			
 		});
@@ -54,6 +55,7 @@ public class DialogManager {
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
 				okCancelDialogListener.onAccept();
+				dismissCurrentDialog();
 			}
 			
 		});
@@ -64,6 +66,7 @@ public class DialogManager {
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
 				okCancelDialogListener.onCancel();
+				dismissCurrentDialog();
 			}
 			
 		});
@@ -73,6 +76,11 @@ public class DialogManager {
 		mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 		mDialog.setContentView(mView);
 		mDialog.show();
+	}
+	
+	public static void dismissCurrentDialog(){
+		if (mDialog!=null)
+			mDialog.dismiss();
 	}
 
 }
