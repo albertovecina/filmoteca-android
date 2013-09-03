@@ -1,8 +1,8 @@
-package com.albandroid.dialog;
+package com.vsa.filmoteca.dialog;
 
-import com.albandroid.dialog.interfaces.OkCancelDialogListener;
-import com.albandroid.dialog.interfaces.SimpleDialogListener;
-import com.albandroid.filmoteca.R;
+import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
+import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
 
 import android.app.Dialog;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.albandroid.filmoteca;
+package com.vsa.filmoteca;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,9 +17,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.albandroid.filmoteca.utils.NetworkUtils;
-import com.albandroid.filmoteca.utils.Constants;
-import com.albandroid.filmoteca.utils.StringUtils;
+import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.utils.Constants;
+import com.vsa.filmoteca.utils.NetworkUtils;
+import com.vsa.filmoteca.utils.StringUtils;
 
 public class DetalleActivity extends Activity{
 /** Called when the activity is first created. */

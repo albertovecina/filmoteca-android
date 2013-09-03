@@ -1,4 +1,4 @@
-package com.albandroid.filmoteca.utils;
+package com.vsa.filmoteca.utils;
 
 public class Constants {
 	public static final String PARAM_ID_TITULO="Titulo";

@@ -1,4 +1,4 @@
-package com.albandroid.filmoteca.utils;
+package com.vsa.filmoteca.utils;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class StringUtils {
     htmlEntities.put("&egrave;","è"); htmlEntities.put("&Egrave;","È");
     htmlEntities.put("&ecirc;","ê") ; htmlEntities.put("&Ecirc;","Ê");
     htmlEntities.put("&euml;","ë")  ; htmlEntities.put("&Euml;","Ë");
-    htmlEntities.put("&iuml;","ï")  ; htmlEntities.put("&Iuml;","Ï");
+    htmlEntities.put("&iuml;","ï")  ; htmlEntities.put("&Iuml;","�?");
     htmlEntities.put("&ocirc;","ô") ; htmlEntities.put("&Ocirc;","Ô");
     htmlEntities.put("&ouml;","ö")  ; htmlEntities.put("&Ouml;","Ö");
     htmlEntities.put("&oslash;","ø") ; htmlEntities.put("&Oslash;","Ø");
@@ -107,7 +107,7 @@ public class StringUtils {
   }
   public static String removeAccents(String input) {
       // Cadena de caracteres original a sustituir.
-      String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
+      String original = "áàäéèëíìïóòöúùuñ�?ÀÄÉÈË�?Ì�?ÓÒÖÚÙÜÑçÇ";
       // Cadena de caracteres ASCII que reemplazarán los originales.
       String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
       String output = input;

@@ -1,4 +1,4 @@
-package com.albandroid.filmoteca.utils;
+package com.vsa.filmoteca.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

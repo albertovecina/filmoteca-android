@@ -1,4 +1,4 @@
-package com.albandroid.filmoteca.widget;
+package com.vsa.filmoteca.widget;
 
 
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.albandroid.filmoteca.FilmotecaActivity;
-import com.albandroid.filmoteca.R;
-import com.albandroid.filmoteca.utils.NetworkUtils;
-import com.albandroid.filmoteca.utils.Constants;
-import com.albandroid.filmoteca.utils.MyDataBase;
+import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.FilmotecaActivity;
+import com.vsa.filmoteca.utils.Constants;
+import com.vsa.filmoteca.utils.MyDataBase;
+import com.vsa.filmoteca.utils.NetworkUtils;
 
 public class MyWidgetProvider extends AppWidgetProvider {
 	int index=0;

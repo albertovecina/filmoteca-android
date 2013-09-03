@@ -1,4 +1,4 @@
-package com.albandroid.filmoteca.utils;
+package com.vsa.filmoteca.utils;
 
 /**
  * Copyright (C) 2011, Karsten Priegnitz
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.albandroid.filmoteca.R;
+import com.vsa.filmoteca.R;
 
 import android.app.AlertDialog;
 import android.content.Context;

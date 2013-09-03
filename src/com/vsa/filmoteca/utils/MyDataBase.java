@@ -1,4 +1,4 @@
-package com.albandroid.filmoteca.utils;
+package com.vsa.filmoteca.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,4 +1,4 @@
-package com.albandroid.filmoteca;
+package com.vsa.filmoteca;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -20,12 +20,13 @@ import android.view.Window;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.albandroid.dialog.DialogManager;
-import com.albandroid.dialog.interfaces.OkCancelDialogListener;
-import com.albandroid.dialog.interfaces.SimpleDialogListener;
-import com.albandroid.filmoteca.utils.ChangeLog;
-import com.albandroid.filmoteca.utils.Constants;
-import com.albandroid.filmoteca.utils.NetworkUtils;
+import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.dialog.DialogManager;
+import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
+import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
+import com.vsa.filmoteca.utils.ChangeLog;
+import com.vsa.filmoteca.utils.Constants;
+import com.vsa.filmoteca.utils.NetworkUtils;
 
 
 public class FilmotecaActivity extends ListActivity{
