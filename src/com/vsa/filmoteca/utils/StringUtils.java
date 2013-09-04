@@ -91,23 +91,10 @@ public class StringUtils {
       } while (continueLoop);
       return source;
   }
-
-  public static void main(String args[]) throws Exception {
-      // to see accented character to the console (Windows DOS Shell)
-      java.io.PrintStream ps = new java.io.PrintStream(System.out, true, "Cp850");
-      String test = "&copy; 2007  R&eacute;al Gagnon &lt;www.rgagnon.com&gt;";
-      ps.println(test + "\n-->\n" +unescapeHTML(test));
-
-      /*
-         output ((Windows DOS Shell):
-         &copy; 2007  R&eacute;al Gagnon &lt;www.rgagnon.com&gt;
-         -->
-         Â© 2007  RÃ©al Gagnon <www.rgagnon.com>
-      */
-  }
+  
   public static String removeAccents(String input) {
       // Cadena de caracteres original a sustituir.
-      String original = "Ã¡Ã Ã¤Ã©Ã¨Ã«Ã­Ã¬Ã¯Ã³Ã²Ã¶ÃºÃ¹uÃ±Ã?Ã€Ã„Ã‰ÃˆÃ‹Ã?ÃŒÃ?Ã“Ã’Ã–ÃšÃ™ÃœÃ‘Ã§Ã‡";
+      String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
       // Cadena de caracteres ASCII que reemplazarÃ¡n los originales.
       String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
       String output = input;
