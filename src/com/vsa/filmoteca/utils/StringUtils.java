@@ -3,36 +3,38 @@ package com.vsa.filmoteca.utils;
 import java.util.*;
 
 public class StringUtils {
-
+//http://www.rgagnon.com/javadetails/java-0307.html
+//http://www.v3rgu1.com/blog/231/2010/programacion/eliminar-acentos-y-caracteres-especiales-en-java/
+	
   private StringUtils() {}
 
   private static HashMap<String,String> htmlEntities;
   static {
-    htmlEntities = new HashMap<String,String>();
-    htmlEntities.put("&lt;","<")    ; htmlEntities.put("&gt;",">");
-    htmlEntities.put("&amp;","&")   ; htmlEntities.put("&quot;","\"");
-    htmlEntities.put("&agrave;","Ã "); htmlEntities.put("&Agrave;","Ã€");
-    htmlEntities.put("&acirc;","Ã¢") ; htmlEntities.put("&auml;","Ã¤");
-    htmlEntities.put("&Auml;","Ã„")  ; htmlEntities.put("&Acirc;","Ã‚");
-    htmlEntities.put("&aring;","Ã¥") ; htmlEntities.put("&Aring;","Ã…");
-    htmlEntities.put("&aelig;","Ã¦") ; htmlEntities.put("&AElig;","Ã†" );
-    htmlEntities.put("&ccedil;","Ã§"); htmlEntities.put("&Ccedil;","Ã‡");
-    htmlEntities.put("&eacute;","Ã©"); htmlEntities.put("&Eacute;","Ã‰" );
-    htmlEntities.put("&egrave;","Ã¨"); htmlEntities.put("&Egrave;","Ãˆ");
-    htmlEntities.put("&ecirc;","Ãª") ; htmlEntities.put("&Ecirc;","ÃŠ");
-    htmlEntities.put("&euml;","Ã«")  ; htmlEntities.put("&Euml;","Ã‹");
-    htmlEntities.put("&iuml;","Ã¯")  ; htmlEntities.put("&Iuml;","Ã?");
-    htmlEntities.put("&ocirc;","Ã´") ; htmlEntities.put("&Ocirc;","Ã”");
-    htmlEntities.put("&ouml;","Ã¶")  ; htmlEntities.put("&Ouml;","Ã–");
-    htmlEntities.put("&oslash;","Ã¸") ; htmlEntities.put("&Oslash;","Ã˜");
-    htmlEntities.put("&szlig;","ÃŸ") ; htmlEntities.put("&ugrave;","Ã¹");
-    htmlEntities.put("&Ugrave;","Ã™"); htmlEntities.put("&ucirc;","Ã»");
-    htmlEntities.put("&Ucirc;","Ã›") ; htmlEntities.put("&uuml;","Ã¼");
-    htmlEntities.put("&Uuml;","Ãœ")  ; htmlEntities.put("&nbsp;"," ");
-    htmlEntities.put("&copy;","\u00a9");
-    htmlEntities.put("&reg;","\u00ae");
-    htmlEntities.put("&euro;","\u20a0");
-  }
+		    htmlEntities = new HashMap<String,String>();
+		    htmlEntities.put("&lt;","<")    ; htmlEntities.put("&gt;",">");
+		    htmlEntities.put("&amp;","&")   ; htmlEntities.put("&quot;","\"");
+		    htmlEntities.put("&agrave;","à"); htmlEntities.put("&Agrave;","À");
+		    htmlEntities.put("&acirc;","â") ; htmlEntities.put("&auml;","ä");
+		    htmlEntities.put("&Auml;","Ä")  ; htmlEntities.put("&Acirc;","Â");
+		    htmlEntities.put("&aring;","å") ; htmlEntities.put("&Aring;","Å");
+		    htmlEntities.put("&aelig;","æ") ; htmlEntities.put("&AElig;","Æ" );
+		    htmlEntities.put("&ccedil;","ç"); htmlEntities.put("&Ccedil;","Ç");
+		    htmlEntities.put("&eacute;","é"); htmlEntities.put("&Eacute;","É" );
+		    htmlEntities.put("&egrave;","è"); htmlEntities.put("&Egrave;","È");
+		    htmlEntities.put("&ecirc;","ê") ; htmlEntities.put("&Ecirc;","Ê");
+		    htmlEntities.put("&euml;","ë")  ; htmlEntities.put("&Euml;","Ë");
+		    htmlEntities.put("&iuml;","ï")  ; htmlEntities.put("&Iuml;","Ï");
+		    htmlEntities.put("&ocirc;","ô") ; htmlEntities.put("&Ocirc;","Ô");
+		    htmlEntities.put("&ouml;","ö")  ; htmlEntities.put("&Ouml;","Ö");
+		    htmlEntities.put("&oslash;","ø") ; htmlEntities.put("&Oslash;","Ø");
+		    htmlEntities.put("&szlig;","ß") ; htmlEntities.put("&ugrave;","ù");
+		    htmlEntities.put("&Ugrave;","Ù"); htmlEntities.put("&ucirc;","û");
+		    htmlEntities.put("&Ucirc;","Û") ; htmlEntities.put("&uuml;","ü");
+		    htmlEntities.put("&Uuml;","Ü")  ; htmlEntities.put("&nbsp;"," ");
+		    htmlEntities.put("&copy;","\u00a9");
+		    htmlEntities.put("&reg;","\u00ae");
+		    htmlEntities.put("&euro;","\u20a0");
+	    }
 
 /*
    Here the original recursive version.
@@ -91,7 +93,7 @@ public class StringUtils {
       } while (continueLoop);
       return source;
   }
-  
+
   public static String removeAccents(String input) {
       // Cadena de caracteres original a sustituir.
       String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
