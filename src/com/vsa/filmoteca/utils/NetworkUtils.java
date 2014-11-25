@@ -97,11 +97,11 @@ public class NetworkUtils {
     	HashMap<String, String> Item;
     	while(pagina.indexOf("url\">")>0){
     		Item=new HashMap<String, String>();
-    		//Parseando URL de Sinopsis
+    		//Parsing sinopsis url
     		pagina=pagina.substring(pagina.indexOf("Evento"));
     		pagina=pagina.substring(pagina.indexOf("href=\"")+6);
     		url=pagina.substring(0,pagina.indexOf("\""));
-    		//Parseando el Titulo
+    		//Parsing title
     		pagina=pagina.substring(pagina.indexOf("url\">")+5, pagina.length());
     		titulo=pagina.substring(0, pagina.indexOf("</a>"));
     		if (titulo.indexOf("(")>0){
@@ -111,10 +111,10 @@ public class NetworkUtils {
     			subtitulo="";
     		}
     		
-    		//Parseando la fecha
+    		//Date parsing
     		pagina=pagina.substring(pagina.indexOf("description\">")+13,pagina.length());
     		fecha="-"+pagina.substring(0,pagina.indexOf("</span>"));
-    		//Quitamos el espacio al final del t√≠tulo
+    		//Delete whitespaces at the end
     		while(fecha.substring(fecha.length()-1).equals(" ") ||
     				fecha.substring(fecha.length()-1).equals('\b') ||
     				fecha.substring(fecha.length()-1).equals('\t')||
@@ -124,12 +124,12 @@ public class NetworkUtils {
     		
     		
     		titulo=titulo.trim();
-    		//AÒado la informacion al HashMap
+    		//Add the information to the hashmap
     		Item.put(Constants.PARAM_ID_TITULO, "\t"+titulo);
     		Item.put(Constants.PARAM_ID_SUBTITULO, subtitulo);
     		Item.put(Constants.PARAM_ID_FECHA, fecha);
     		Item.put(Constants.PARAM_ID_URL, url);
-    		//AÒado el HashMap al ArrayList
+    		//Add the hashmap to the arraylist
     		Peliculas.add(Item);
     		
     	}
