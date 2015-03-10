@@ -56,7 +56,7 @@ public class DialogManager {
 
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
-				okCancelDialogListener.onAccept();
+				okCancelDialogListener.onAcceptButtonPressed();
 				dismissCurrentDialog();
 			}
 			
@@ -67,7 +67,7 @@ public class DialogManager {
 
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
-				okCancelDialogListener.onCancel();
+				okCancelDialogListener.onCancelButtonPressed();
 				dismissCurrentDialog();
 			}
 			

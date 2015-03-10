@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -135,6 +136,58 @@ public class NetworkUtils {
     	}
     	return Peliculas;
     }
+
+    public static List<HashMap<String,String>> parseMoviesList(String html){
+        ArrayList<HashMap<String,String>> moviesList=new ArrayList<HashMap<String,String>>();
+        String titulo,subtitulo,fecha,url;
+
+        if(html=="" || html==null){
+            return null;
+        }
+
+        html=StringUtils.unescapeHTML(html);
+        HashMap<String, String> Item;
+        while(html.indexOf("url\">")>0){
+            Item=new HashMap<String, String>();
+            //Parsing sinopsis url
+            html=html.substring(html.indexOf("Evento"));
+            html=html.substring(html.indexOf("href=\"")+6);
+            url=html.substring(0,html.indexOf("\""));
+            //Parsing title
+            html=html.substring(html.indexOf("url\">")+5, html.length());
+            titulo=html.substring(0, html.indexOf("</a>"));
+            if (titulo.indexOf("(")>0){
+                titulo=html.substring(0, titulo.indexOf("("));
+                subtitulo=html.substring(html.indexOf("("));
+            }else{
+                subtitulo="";
+            }
+
+            //Date parsing
+            html=html.substring(html.indexOf("description\">")+13,html.length());
+            fecha="-"+html.substring(0,html.indexOf("</span>"));
+            //Delete whitespaces at the end
+            while(fecha.substring(fecha.length()-1).equals(" ") ||
+                    fecha.substring(fecha.length()-1).equals('\b') ||
+                    fecha.substring(fecha.length()-1).equals('\t')||
+                    fecha.substring(fecha.length()-1).equals('\r')){
+                fecha=fecha.substring(0,fecha.length()-1);
+            }
+
+
+            titulo=titulo.trim();
+            //Add the information to the hashmap
+            Item.put(Constants.PARAM_ID_TITULO, "\t"+titulo);
+            Item.put(Constants.PARAM_ID_SUBTITULO, subtitulo);
+            Item.put(Constants.PARAM_ID_FECHA, fecha);
+            Item.put(Constants.PARAM_ID_URL, url);
+            //Add the hashmap to the arraylist
+            moviesList.add(Item);
+
+        }
+        return moviesList;
+    }
+
     public static boolean isNetworkAvailable(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();

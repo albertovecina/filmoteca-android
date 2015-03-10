@@ -22,11 +22,11 @@
             android:orientation="vertical" android:gravity="center" android:layout_marginRight="10px">
 
             <ImageButton
-                android:id="@+id/buscarFA"
+                android:id="@+id/showInFilmAffinity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:onClick="buscarFA"
+                android:onClick="showInFilmAffinity"
                 android:src="@drawable/buscar" />
 
             <TextView
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:onClick="verEnNavegador"
+                android:onClick="showInBrowser"
                 android:src="@drawable/ver_nav" />
 
             <TextView
@@ -68,12 +68,12 @@
             android:orientation="vertical" android:gravity="center" android:layout_marginLeft="10px">
 
             <ImageButton
-                android:id="@+id/compartir"
+                android:id="@+id/showShareDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:onClick="compartir"
-                android:src="@drawable/compartir" />
+                android:onClick="showShareDialog"
+                android:src="@drawable/showShareDialog" />
 
             <TextView
                 android:id="@+id/textView3"

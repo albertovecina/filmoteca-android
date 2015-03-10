@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Filmoteca</string>
+    <string name="loading">Cargando…</string>
     <string name="warning_no_internet_connection">Debe tener activa la conexión a internet.
         \n¿Deseas acceder al menu de configuración?</string>
     <string name="warning_no_films_recived">
@@ -22,13 +23,23 @@
     <string name="share">Compartir</string>
     <string name="filmaffinity">FilmAffinity</string>
     <string name="navegador">Navegador</string>
+
+
+    <!-- About us -->
+    <string name="about_us_label">Acerca de…</string>
     <string name="developby">Desarrollado por:</string>
     <string name="albandroid">Asociación Juvenil Albandroid</string>
     <string name="web">http://www.albandroid.es</string>
     <string name="email">info@albandroid.es</string>
     <string name="findus">Escuela de Ingenieros Industriales - Aula 1.6</string>
+
+    <!-- Share -->
+    <string name="share_date">Fecha</string>
+    <string name="share_subject">Filmoteca de Albacete</string>
+    <string name="share_message">Voy a ir a la Filmoteca a ver:\nTítulo:</string>
     
-    
+    <!-- Dialog -->
+    <string name="timeout_dialog_message">No ha sido posible obtener la información, inténtelo de nuevo mas tarde.</string>
     <string name="dialog_accept">Aceptar</string>
     <string name="dialog_cancel">Cancelar</string>
 </resources>

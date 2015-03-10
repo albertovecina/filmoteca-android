@@ -14,8 +14,7 @@
             android:theme="@style/MainTheme" 
             android:label="Filmoteca de Albacete"
             android:launchMode="singleInstance"
-            android:configChanges="orientation|keyboardHidden"
-            >
+            android:configChanges="orientation|keyboardHidden|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,13 +23,13 @@
         <activity 
             android:name=".DetailActivity"
             android:label="DetalleActivity"
-            android:configChanges="orientation|keyboardHidden" 
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.NoTitleBar">
            
         </activity>
         <activity 
             android:name=".AboutActivity"
-            android:label="Acerca de..."
+            android:label="@string/about_us_label"
             android:theme="@style/android:Theme.Dialog">
            
         </activity>

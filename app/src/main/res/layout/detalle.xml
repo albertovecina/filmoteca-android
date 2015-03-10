@@ -24,7 +24,7 @@
                                 android:layout_height="fill_parent"
                                 android:gravity="center"
                                 android:orientation="vertical" 
-                                android:onClick="buscarFA">
+                                android:onClick="showInFilmAffinity">
 								<TextView
                                     android:id="@+id/textView1"
                                     android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
                                     android:layout_height="wrap_content"
                                     android:background="@null"
                                     android:contentDescription="@string/image_search"
-                                    android:onClick="buscarFA"
+                                    android:onClick="showInFilmAffinity"
                                     android:src="@drawable/buscar_button" />
                                 
                             </LinearLayout>
@@ -49,8 +49,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="fill_parent"
                                 android:gravity="center"
-                                android:orientation="vertical"
-								android:onClick="verEnNavegador">
+                                android:orientation="vertical">
 
 								<TextView
 								    android:id="@+id/textView2"
@@ -66,7 +65,6 @@
                                     android:layout_height="wrap_content"
                                     android:background="@null"
                                     android:contentDescription="@string/image_navigator"
-                                    android:onClick="verEnNavegador"
                                     android:src="@drawable/ver_nav_button" />
                                 
                             </LinearLayout>
@@ -77,7 +75,7 @@
                                 android:layout_height="fill_parent"
                                 android:gravity="center"
                                 android:orientation="vertical" 
-                                android:onClick="compartir">
+                                android:onClick="showShareDialog">
 								<TextView
                                     android:id="@+id/textCompartir"
                                     android:layout_width="wrap_content"
@@ -92,7 +90,7 @@
                                     android:layout_height="wrap_content"
                                     android:background="@null"
                                     android:contentDescription="@string/image_share"
-                                    android:onClick="compartir"
+                                    android:onClick="showShareDialog"
                                     android:src="@drawable/compartir_button" />
                                 
                             </LinearLayout>
