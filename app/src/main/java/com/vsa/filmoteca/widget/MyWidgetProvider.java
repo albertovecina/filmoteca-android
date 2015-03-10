@@ -18,8 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.vsa.filmoteca.MainActivity;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.FilmotecaActivity;
 import com.vsa.filmoteca.utils.Constants;
 import com.vsa.filmoteca.utils.MyDataBase;
 import com.vsa.filmoteca.utils.NetworkUtils;
@@ -84,7 +84,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
     	        actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
     	        views.setOnClickPendingIntent(R.id.right, actionPendingIntent);
     	        
-    	        active = new Intent(context, FilmotecaActivity.class);
+    	        active = new Intent(context, MainActivity.class);
 	        	actionPendingIntent = PendingIntent.getActivity(context, 0, active, 0);
 	        	views.setOnClickPendingIntent(R.id.widgetInfoLayout, actionPendingIntent);
 	        	Log.d("Prueba: ","Actualiza la vista");
@@ -208,7 +208,7 @@ private class GetItemsTask extends AsyncTask<String, Void, String> {
 			    	        actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
 			    	        views.setOnClickPendingIntent(R.id.right, actionPendingIntent); 
 			    	        
-			    	        active = new Intent(context, FilmotecaActivity.class);
+			    	        active = new Intent(context, MainActivity.class);
 				        	actionPendingIntent = PendingIntent.getActivity(context, 0, active, 0);
 				        	views.setOnClickPendingIntent(R.id.widgetInfoLayout, actionPendingIntent);
 			    	        

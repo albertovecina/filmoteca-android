@@ -6,25 +6,27 @@ import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+
 public class DialogManager {
 
 	private static Dialog mDialog=null;
-	
+
 	public static void showSimpleDialog(Context context, int messageResId, final SimpleDialogListener simpleDialogListener){
 		LayoutInflater mInflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View mView=mInflater.inflate(R.layout.dialog_simple, null);
+
+		View view=mInflater.inflate(R.layout.dialog_simple, null);
 		
-		TextView textViewMessage=(TextView)mView.findViewById(R.id.textview_dialog_message);
+		TextView textViewMessage= ButterKnife.findById(view, R.id.textview_dialog_message);
 		textViewMessage.setText(context.getResources().getString(messageResId));
 
-		Button buttonAccept=(Button)mView.findViewById(R.id.button_dialog_confirm);
+		Button buttonAccept= ButterKnife.findById(view, R.id.button_dialog_confirm);
 		buttonAccept.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View view) {
@@ -38,18 +40,18 @@ public class DialogManager {
 		
 		mDialog=new Dialog(context);
 		mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		mDialog.setContentView(mView);
+		mDialog.setContentView(view);
 		mDialog.show();
 	}
 	
 	public static void showOkCancelDialog(Context context, int messageResId, final OkCancelDialogListener okCancelDialogListener){
 		LayoutInflater mInflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View mView=mInflater.inflate(R.layout.dialog_ok_cancel, null);
+		View view=mInflater.inflate(R.layout.dialog_ok_cancel, null);
 		
-		TextView textViewMessage=(TextView)mView.findViewById(R.id.textview_dialog_message);
+		TextView textViewMessage = ButterKnife.findById(view, R.id.textview_dialog_message);
 		textViewMessage.setText(context.getResources().getString(messageResId));
 
-		Button buttonAccept=(Button)mView.findViewById(R.id.button_dialog_confirm);
+		Button buttonAccept = ButterKnife.findById(view, R.id.button_dialog_confirm);
 		buttonAccept.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View view) {
@@ -60,7 +62,7 @@ public class DialogManager {
 			
 		});
 		
-		Button buttonCancel=(Button)mView.findViewById(R.id.button_dialog_cancel);
+		Button buttonCancel = ButterKnife.findById(view, R.id.button_dialog_cancel);
 		buttonCancel.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View view) {
@@ -74,7 +76,7 @@ public class DialogManager {
 		
 		mDialog=new Dialog(context);
 		mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		mDialog.setContentView(mView);
+		mDialog.setContentView(view);
 		mDialog.show();
 	}
 	

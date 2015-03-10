@@ -17,29 +17,32 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.utils.Constants;
 import com.vsa.filmoteca.utils.NetworkUtils;
 import com.vsa.filmoteca.utils.StringUtils;
 
-public class DetalleActivity extends Activity{
-/** Called when the activity is first created. */
-	//String info;
-	Dialog dialog;
-	WebView webview;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class DetailActivity extends Activity{
+
+    @InjectView(R.id.webview) WebView mWebView;
+    @InjectView(R.id.detalleTitle) TextView mTitle;
+
+    private Dialog mDialog;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//Esto debe ir antes del setContentview
     	//requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	setContentView(R.layout.detalle);
+        ButterKnife.inject(this);
     	//El setFeatureInt debe ir despues del setContentView
     	//getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.detalle_title);
-    	TextView tituloDetalle=(TextView) findViewById(R.id.detalleTitle);
-    	tituloDetalle.setText(
-    			this.getIntent().getExtras().getString(Constants.PARAM_ID_TITULO).substring(1));
+    	mTitle.setText(
+                this.getIntent().getExtras().getString(Constants.PARAM_ID_TITULO).substring(1));
        
-    	webview =(WebView)findViewById(R.id.webview);
         GetHTMLTask getHTMLTask=new GetHTMLTask(this);
         getHTMLTask.execute();
 
@@ -169,8 +172,8 @@ public class DetalleActivity extends Activity{
 	    			dialog.dismiss();
 	    			timeOutDialog();
 	    		}else{
-					webview.loadDataWithBaseURL (null, result, "text/html", "utf-8", 
-							"about:blank"); 
+					mWebView.loadDataWithBaseURL(null, result, "text/html", "utf-8",
+                            "about:blank");
 					//Quitamos la ventana de cargando
 					dialog.dismiss();
 	    		}

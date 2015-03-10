@@ -3,11 +3,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import android.view.Window;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.dialog.DialogManager;
 import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
@@ -29,7 +26,7 @@ import com.vsa.filmoteca.utils.Constants;
 import com.vsa.filmoteca.utils.NetworkUtils;
 
 
-public class FilmotecaActivity extends ListActivity{
+public class MainActivity extends ListActivity{
 	/** Called when the activity is first created. */
 	ArrayList<HashMap<String, String>> Peliculas;
 	GetItemsTask getItemsTask;
@@ -87,7 +84,7 @@ public class FilmotecaActivity extends ListActivity{
 		
 		switch(item.getItemId()){
 		case R.id.acercade:
-			Intent acercade=new Intent(this,AcercaDeActivity.class);
+			Intent acercade=new Intent(this,AboutActivity.class);
 			
 			startActivity(acercade);
 			break;
@@ -101,7 +98,7 @@ public class FilmotecaActivity extends ListActivity{
 		String titulo=Peliculas.get(position).get(Constants.PARAM_ID_TITULO);
 		
 	
-		Intent i=new Intent(this,DetalleActivity.class);
+		Intent i=new Intent(this,DetailActivity.class);
 		i.putExtra(Constants.PARAM_ID_URL, url);
 		i.putExtra(Constants.PARAM_ID_FECHA, fecha);
 		i.putExtra(Constants.PARAM_ID_TITULO, titulo);
@@ -122,7 +119,7 @@ public class FilmotecaActivity extends ListActivity{
 
 					public void onCancel() {
 						// TODO Auto-generated method stub
-						FilmotecaActivity.this.finish();
+						MainActivity.this.finish();
 					}
 				
 				}
@@ -136,7 +133,7 @@ public class FilmotecaActivity extends ListActivity{
 
 					public void onAccept() {
 						// TODO Auto-generated method stub
-						FilmotecaActivity.this.finish();
+						MainActivity.this.finish();
 					}
 			
 		});
