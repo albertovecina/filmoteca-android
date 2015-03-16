@@ -1,7 +1,5 @@
 package com.vsa.filmoteca;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,10 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.vsa.filmoteca.utils.StringUtils;
@@ -24,7 +20,6 @@ import org.apache.http.protocol.HTTP;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class DetailActivity extends ActionBarActivity implements DetailView{
 
@@ -44,7 +39,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-    	setContentView(R.layout.detalle);
+    	setContentView(R.layout.detail);
         ButterKnife.inject(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

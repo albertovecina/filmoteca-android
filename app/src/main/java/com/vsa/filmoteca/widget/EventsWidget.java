@@ -23,8 +23,8 @@ import com.vsa.filmoteca.utils.NetworkUtils;
 
 public class EventsWidget extends AppWidgetProvider implements EventsWidgetView{
 
-    private int index=0;
-    private int size=0;
+    private int mCurrentMovieIndex = 0;
+    private int mMoviesListSize = 0;
 
     private RemoteViews mViews;
     private Intent mIntent;
@@ -63,30 +63,30 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView{
 	    if(intent.getAction().equals(Constants.ACTION_WIDGET_LEFT) || intent.getAction().equals(Constants.ACTION_WIDGET_RIGHT)){
 	    	//Obtenemos el indice actual y el tamaño de la base de datos
     		SharedPreferences mySharedPreferences=context.getSharedPreferences(Constants.SHAREDPREFERENCES_NAME,Context.MODE_PRIVATE);
-    		index=mySharedPreferences.getInt(Constants.SHAREDPREFERENCES_CURRENT, 0);
-    		size=mySharedPreferences.getInt(Constants.SHAREDPREFERENCES_SIZE, 0);
-	    	if(size!=0){
+    		mCurrentMovieIndex =mySharedPreferences.getInt(Constants.SHAREDPREFERENCES_CURRENT, 0);
+    		mMoviesListSize =mySharedPreferences.getInt(Constants.SHAREDPREFERENCES_SIZE, 0);
+	    	if(mMoviesListSize !=0){
 	    		if (intent.getAction().equals(Constants.ACTION_WIDGET_LEFT)) {
-	    			if (index>0){
-	    	        	index--;
+	    			if (mCurrentMovieIndex >0){
+	    	        	mCurrentMovieIndex--;
 	    	        	//Actualizamos el valor del indice
 	    	        	SharedPreferences.Editor mySharedPreferencesEditor = mySharedPreferences.edit();
-	        	        mySharedPreferencesEditor.putInt(Constants.SHAREDPREFERENCES_CURRENT, index);
+	        	        mySharedPreferencesEditor.putInt(Constants.SHAREDPREFERENCES_CURRENT, mCurrentMovieIndex);
 	        	        mySharedPreferencesEditor.commit();
 	    			}
 	    		} else if (intent.getAction().equals(Constants.ACTION_WIDGET_RIGHT)) {
-	    			if (index<(size-1)){
-	        	       	index++;
+	    			if (mCurrentMovieIndex <(mMoviesListSize -1)){
+	        	       	mCurrentMovieIndex++;
 	        	        //Actualizamos el valor del indice
 	        	       	SharedPreferences.Editor mySharedPreferencesEditor = mySharedPreferences.edit();
-	        	        mySharedPreferencesEditor.putInt(Constants.SHAREDPREFERENCES_CURRENT, index);
+	        	        mySharedPreferencesEditor.putInt(Constants.SHAREDPREFERENCES_CURRENT, mCurrentMovieIndex);
 	        	        mySharedPreferencesEditor.commit();
 	    			}
 	    		}
 	    		//Get the movie from database
 	    		WidgetDataSource widgetDataSource = new WidgetDataSource(context);
                 widgetDataSource.open();
-                HashMap<String, String> movie = widgetDataSource.getMovie(index);
+                HashMap<String, String> movie = widgetDataSource.getMovie(mCurrentMovieIndex);
                 widgetDataSource.close();
 	    		//Preparamos la vista
     	        Intent active = new Intent(context, EventsWidget.class);
@@ -104,7 +104,7 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView{
 	        	mViews.setOnClickPendingIntent(R.id.widgetInfoLayout, actionPendingIntent);
     	       	mViews.setTextViewText(R.id.widgetTitleText, movie.get(Constants.PARAM_ID_TITULO));
     	       	mViews.setTextViewText(R.id.widgetDateText, movie.get(Constants.PARAM_ID_FECHA));
-    	       	mViews.setTextViewText(R.id.widgetPageText, Integer.toString(index + 1) + " / " + size);
+    	       	mViews.setTextViewText(R.id.widgetPageText, Integer.toString(mCurrentMovieIndex + 1) + " / " + mMoviesListSize);
     	       	
     	       	appWidgetManager.updateAppWidget(appWidgetIds, mViews);
 	    	}
@@ -176,10 +176,10 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView{
 		    
 		    //Solicitando datos
 		    if(NetworkUtils.isNetworkAvailable((context))){
-				index=0;
-			    mMovies =NetworkUtils.getItems(Constants.TIMEOUT_WIDGET);
+				mCurrentMovieIndex = 0;
+			    mMovies = NetworkUtils.getItems(Constants.TIMEOUT_WIDGET);
 		    }else{
-		    	mMovies =null;
+		    	mMovies = null;
 		    }
 		    return null;
 		    
@@ -223,13 +223,13 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView{
 			    	        
 			    	        mIntent = new Intent(context, MainActivity.class);
                             if(mMovies != null && mMovies.size()>0)
-                                mIntent.putExtra(MainActivity.EXTRA_MOVIE, mMovies.get(index));
+                                mIntent.putExtra(MainActivity.EXTRA_MOVIE, mMovies.get(mCurrentMovieIndex));
 				        	mPendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 				        	mViews.setOnClickPendingIntent(R.id.widgetInfoLayout, mPendingIntent);
                             hideProgress();
-				        	mViews.setTextViewText(R.id.widgetTitleText, mMovies.get(index).get(Constants.PARAM_ID_TITULO));
-				        	mViews.setTextViewText(R.id.widgetDateText, mMovies.get(index).get(Constants.PARAM_ID_FECHA));
-				        	mViews.setTextViewText(R.id.widgetPageText, Integer.toString(index + 1) + " / " + mMovies.size());
+				        	mViews.setTextViewText(R.id.widgetTitleText, mMovies.get(mCurrentMovieIndex).get(Constants.PARAM_ID_TITULO));
+				        	mViews.setTextViewText(R.id.widgetDateText, mMovies.get(mCurrentMovieIndex).get(Constants.PARAM_ID_FECHA));
+				        	mViews.setTextViewText(R.id.widgetPageText, Integer.toString(mCurrentMovieIndex + 1) + " / " + mMovies.size());
 			        	
 			    	 }
 						 

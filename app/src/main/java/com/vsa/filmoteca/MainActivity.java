@@ -1,24 +1,16 @@
 package com.vsa.filmoteca;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -28,7 +20,6 @@ import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
 import com.vsa.filmoteca.utils.ChangeLog;
 import com.vsa.filmoteca.utils.Constants;
-import com.vsa.filmoteca.utils.NetworkUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -100,7 +91,6 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
 				new SimpleDialogListener(){
 
 					public void onAccept() {
-						// TODO Auto-generated method stub
 						MainActivity.this.finish();
 					}
 			
@@ -146,7 +136,7 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
 
     @Override
     public void showAboutUs() {
-        Intent acercade=new Intent(this,AboutActivity.class);
+        Intent acercade = new Intent(this,AboutActivity.class);
         startActivity(acercade);
     }
 
@@ -159,7 +149,7 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
     public void setMovies(List<HashMap<String, String>> moviesList) {
         String[] from=new String[] {Constants.PARAM_ID_TITULO,Constants.PARAM_ID_FECHA};
         int[] to=new int[]{R.id.titulo,R.id.fecha};
-        SimpleAdapter ListaPeliculas=new SimpleAdapter(this, moviesList,R.layout.pelicula_row, from, to);
+        SimpleAdapter ListaPeliculas=new SimpleAdapter(this, moviesList,R.layout.row_movie, from, to);
         mListView.setAdapter(ListaPeliculas);
     }
 
