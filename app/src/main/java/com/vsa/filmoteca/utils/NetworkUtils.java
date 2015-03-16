@@ -165,7 +165,7 @@ public class NetworkUtils {
 
             //Date parsing
             html=html.substring(html.indexOf("description\">")+13,html.length());
-            fecha="-"+html.substring(0,html.indexOf("</span>"));
+            fecha="- "+html.substring(0,html.indexOf("</span>"));
             //Delete whitespaces at the end
             while(fecha.substring(fecha.length()-1).equals(" ") ||
                     fecha.substring(fecha.length()-1).equals('\b') ||

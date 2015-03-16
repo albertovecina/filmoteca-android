@@ -9,12 +9,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -25,33 +30,45 @@ import com.vsa.filmoteca.utils.ChangeLog;
 import com.vsa.filmoteca.utils.Constants;
 import com.vsa.filmoteca.utils.NetworkUtils;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-public class MainActivity extends ListActivity implements MainView{
+
+public class MainActivity extends ActionBarActivity implements MainView, AdapterView.OnItemClickListener{
 	/** Called when the activity is first created. */
+
+    public static final String EXTRA_MOVIE = "extra_movie";
 
     private MainPresenter mPresenter;
 
+    @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.listview_movies) ListView mListView;
     private ProgressDialog mProgressDialog;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-    	//Esto quita la barra de titulo.
-    	//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     	super.onCreate(savedInstanceState);
-    	//Esto debe ir antes del setContentview
-    	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	setContentView(R.layout.main);
-       	//El setFeatureInt debe ir despues del setContentView
-    	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
-    	initViews();
+        ButterKnife.inject(this);
         mPresenter = new MainPresentImpl(this);
 
+        initViews();
+
     }
-	@Override
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mPresenter.onResume(intent);
+    }
+
+    @Override
 	protected void onResume() {
 		super.onResume();
-        mPresenter.onResume();
+        mPresenter.onResume(getIntent());
 	}
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu){
 		super.onCreateOptionsMenu(menu);
 		return mPresenter.onCreateOptionsMenu(getMenuInflater(), menu);
@@ -59,15 +76,17 @@ public class MainActivity extends ListActivity implements MainView{
 
     @Override
     public void initViews() {
+        mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
+                R.color.color_accent,
+                R.color.color_primary);
+        mListView.setOnItemClickListener(this);
         mProgressDialog = ProgressDialog.show(this, "",
                 getString(R.string.loading), true,false);
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
 		return mPresenter.onOptionsItemSelected(item);
-	}
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        mPresenter.onMovieClicked(position);
 	}
 
     @Override
@@ -99,6 +118,11 @@ public class MainActivity extends ListActivity implements MainView{
     }
 
     @Override
+    public void stopRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void showChangeLog() {
         //La clase ChangeLog muestra los cambios en la ultima versión
         ChangeLog cl = new ChangeLog(this);
@@ -113,9 +137,9 @@ public class MainActivity extends ListActivity implements MainView{
         String titulo= movie.get(Constants.PARAM_ID_TITULO);
 
         Intent i=new Intent(this,DetailActivity.class);
-        i.putExtra(Constants.PARAM_ID_URL, url);
-        i.putExtra(Constants.PARAM_ID_FECHA, fecha);
-        i.putExtra(Constants.PARAM_ID_TITULO, titulo);
+        i.putExtra(DetailActivity.EXTRA_URL, url);
+        i.putExtra(DetailActivity.EXTRA_TITLE, titulo);
+        i.putExtra(DetailActivity.EXTRA_DATE, fecha);
         startActivity(i);
     }
 
@@ -136,12 +160,12 @@ public class MainActivity extends ListActivity implements MainView{
         String[] from=new String[] {Constants.PARAM_ID_TITULO,Constants.PARAM_ID_FECHA};
         int[] to=new int[]{R.id.titulo,R.id.fecha};
         SimpleAdapter ListaPeliculas=new SimpleAdapter(this, moviesList,R.layout.pelicula_row, from, to);
-        setListAdapter(ListaPeliculas);
+        mListView.setAdapter(ListaPeliculas);
     }
 
     @Override
     public boolean isListLoaded() {
-        return !(getListAdapter() == null);
+        return !(mListView.getAdapter() == null);
     }
 
     @Override
@@ -149,4 +173,8 @@ public class MainActivity extends ListActivity implements MainView{
         return this;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mPresenter.onMovieClicked(position);
+    }
 }

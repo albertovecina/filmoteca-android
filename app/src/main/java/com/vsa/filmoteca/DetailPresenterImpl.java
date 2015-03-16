@@ -1,11 +1,15 @@
 package com.vsa.filmoteca;
 
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.vsa.filmoteca.utils.Constants;
+import com.vsa.filmoteca.widget.EventsWidget;
 
 import org.apache.http.Header;
 
@@ -14,7 +18,9 @@ import org.apache.http.Header;
  */
 public class DetailPresenterImpl extends AsyncHttpResponseHandler implements DetailPresenter{
 
-    DetailView mDetailView;
+    private DetailView mDetailView;
+
+    private String mCurrentUrl;
 
     public DetailPresenterImpl(DetailView detailView){
         mDetailView = detailView;
@@ -38,6 +44,14 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
             case R.id.filmaffinity:
                 mDetailView.showInFilmAffinity();
                 return true;
+            case R.id.refresh:
+                onRefresh();
+                return true;
+            case R.id.acercade:
+                mDetailView.showAboutUs();
+                return true;
+            case android.R.id.home:
+                mDetailView.onBackPressed();
             default:
                 return false;
         }
@@ -45,17 +59,17 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
 
     @Override
     public void loadContent(String url) {
+        mCurrentUrl = url;
+        mDetailView.stopRefreshing();
         mDetailView.showProgressDialog();
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, this);
-
+        client.get(mCurrentUrl, this);
     }
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         String html = parseHTML(new String(responseBody));
         if(html == null) {
-            mDetailView.finish();
             mDetailView.showTimeOutDialog();
         } else {
             mDetailView.setWebViewContent(html);
@@ -65,8 +79,10 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
 
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        mDetailView.finish();
         mDetailView.showTimeOutDialog();
+        //Probably this error comes from an inconsistent widget data. We must to update
+        //the widget information to match the entries for the next time.
+        updateWidget();
     }
 
     private String parseHTML(String html){
@@ -76,7 +92,7 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
         }
         //Style
         String style="<style type=\"text/css\">img{ max-width:100%!important; height:auto!important;} strong{font-size:13px;} " +
-                "*{background-color:#f3f3f3!important;}"+
+                //"*{background-color:#f3f3f3!important;}"+
                 "a{font-size:15px!important;}"+
                 "p{text-align:center;}"+
                 ".documentDescription{font-weight:bold;color:#000000; text-align:center;}"+
@@ -94,5 +110,21 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
         res=res.replaceAll("\\<th", "<td");
         res=res.replaceAll("<\\/th", "</td");
         return res;
+    }
+
+    @Override
+    public void onRefresh() {
+        if(mCurrentUrl != null && !mCurrentUrl.isEmpty())
+            loadContent(mCurrentUrl);
+    }
+
+    private void updateWidget(){
+        Intent intent = new Intent(mDetailView.getContext(), EventsWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int[] ids = {R.xml.appwidget_info};
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        mDetailView.getContext().sendBroadcast(intent);
     }
 }

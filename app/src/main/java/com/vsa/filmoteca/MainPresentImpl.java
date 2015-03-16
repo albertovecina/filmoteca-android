@@ -1,6 +1,7 @@
 package com.vsa.filmoteca;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,6 +39,9 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+            case R.id.refresh:
+                loadMovies();
+                break;
             case R.id.acercade:
                 mMainView.showAboutUs();
                 return true;
@@ -46,12 +50,18 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
     }
 
     @Override
-    public void onResume() {
-        if(!mMainView.isListLoaded()){
-            if(!NetworkUtils.isNetworkAvailable(mMainView.getContext())){
-                mMainView.showWifiRequestDialog(this);
-            }else{
-                loadMovies();
+    public void onResume(Intent intent) {
+        HashMap<String,String> movie = (HashMap<String, String>) intent.getSerializableExtra(MainActivity.EXTRA_MOVIE);
+        if(movie!=null) {
+            mMainView.showDetail(movie);
+            intent.removeExtra(MainActivity.EXTRA_MOVIE);
+        } else {
+            if (!mMainView.isListLoaded()) {
+                if (!NetworkUtils.isNetworkAvailable(mMainView.getContext())) {
+                    mMainView.showWifiRequestDialog(this);
+                } else {
+                    loadMovies();
+                }
             }
         }
     }
@@ -64,8 +74,10 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
 
     @Override
     public void loadMovies() {
+        mMainView.stopRefreshing();
         mMainView.showProgressDialog();
         AsyncHttpClient client = new AsyncHttpClient();
+        client.setTimeout(Constants.TIMEOUT_APP);
         client.get(Constants.URL_SOURCE, this);
     }
 
@@ -86,7 +98,7 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
 
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+        mMainView.showTimeOutDialog();
     }
 
     @Override
@@ -97,5 +109,10 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
     @Override
     public void onCancelButtonPressed() {
         mMainView.finish();
+    }
+
+    @Override
+    public void onRefresh() {
+        loadMovies();
     }
 }

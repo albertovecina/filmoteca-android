@@ -1,91 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="6dp"
-    android:orientation="horizontal" >
-
-    <LinearLayout
-        android:id="@+id/widgetLayoutContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingTop="5dp"
-        android:background="@drawable/customshape">
-
-        <Button
+    android:orientation="horizontal"
+    android:background="@drawable/customshape" >
+        <ImageButton
             android:id="@+id/left"
             android:layout_width="30dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="0"
-            android:text="@string/iz" />
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/selector_widget_left_drawable"
+            android:background="@drawable/selector_widget_button_background" />
 
         <ImageButton
             android:id="@+id/widgetUpdateButton"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/left"
+            android:layout_toLeftOf="@+id/right"
+            android:layout_centerHorizontal="true"
             android:visibility="gone"
             android:src="@android:drawable/ic_menu_rotate" />
 
         <ProgressBar
             android:id="@+id/widgetProgressBar"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone" android:layout_gravity="center_vertical"/>
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/widgetInfoLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/left"
+            android:layout_toLeftOf="@+id/right"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/widgetTitleText"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top|center"
-                android:text="Filmoteca de Albacete"
+                android:gravity="center"
+                android:layout_alignParentTop="true"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textColor="@color/gris_oscuro"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/widgetDateText"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/widgetTitleText"
+                android:layout_above="@+id/widgetPageText"
+                android:baselineAligned="false"
+                android:layout_marginLeft="5dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:textColor="@color/texto_oscuro" 
+                android:textColor="@color/texto_oscuro"
                 />
 
-            <LinearLayout
-                android:id="@+id/widgetPageLayout"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="0"
-                android:orientation="vertical" android:gravity="center">
+            <TextView
+                android:id="@id/widgetPageText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom|center"
+                android:text="- / -"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="10dp" android:textColor="@color/gris_oscuro"/>
 
-                <TextView
-                    android:id="@+id/widgetPageText"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center"
-                    android:text="- / -"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="10dp" android:textColor="@color/gris_oscuro"/>
 
-            </LinearLayout>
 
-        </LinearLayout>
 
-        <Button
-            android:id="@+id/right"
-            android:layout_width="30dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="0"
-            android:text="@string/de" />
+    </RelativeLayout>
 
-    </LinearLayout>
+    <ImageButton
+        android:id="@id/right"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/selector_widget_right_drawable"
+        android:background="@drawable/selector_widget_button_background" />
 
-</LinearLayout>
+</RelativeLayout>

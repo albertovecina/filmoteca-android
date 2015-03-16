@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/compartir" android:title="Compartir" android:icon="@android:drawable/ic_menu_share"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:filmoteca="http://schemas.android.com/apk/res-auto" >
+
     <group android:id="@+id/group1">
-         <item android:id="@+id/navegar" android:title="Ver en navegador" android:icon="@android:drawable/ic_menu_view"></item>
-         <item android:id="@+id/filmaffinity" android:title="Buscar en FilmAffinity" android:icon="@android:drawable/ic_menu_search"></item>
+        <item android:id="@+id/navegar"
+            android:title="Ver en navegador"
+            android:icon="@drawable/ic_google_chrome"
+            filmoteca:showAsAction="always" />
+        <item android:id="@+id/filmaffinity"
+            android:title="Buscar en FilmAffinity"
+            android:icon="@drawable/ic_movie"
+            filmoteca:showAsAction="always" />
+        <item android:id="@+id/compartir"
+            android:title="Compartir"
+            android:icon="@drawable/ic_share"
+            filmoteca:showAsAction="always" />
     </group>
-    
+
+    <item android:id="@+id/refresh"
+        android:title="@string/refresh" />
+    <item android:id="@+id/acercade"
+        android:title="@string/about_us" />
 
 </menu>

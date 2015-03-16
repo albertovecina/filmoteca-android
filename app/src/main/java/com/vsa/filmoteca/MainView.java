@@ -16,6 +16,7 @@ public interface MainView {
     public void showChangeLog();
     public void showProgressDialog();
     public void hideProgressDialog();
+    public void stopRefreshing();
     public void showWifiRequestDialog(OkCancelDialogListener okCancelDialogListener);
     public void showWifiSettings();
     public void showTimeOutDialog();

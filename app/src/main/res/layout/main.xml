@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:background="@color/black">
-
+    android:orientation="vertical" >
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <ListView
-            android:id="@+id/android:list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/appshapedown"
-            android:cacheColorHint="#00000000"
-            android:paddingBottom="10dp">
+            android:id="@+id/listview_movies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:listSelector="@drawable/selector_listview" >
         </ListView>
-
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

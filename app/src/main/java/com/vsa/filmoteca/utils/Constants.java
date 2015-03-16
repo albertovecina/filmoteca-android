@@ -1,11 +1,11 @@
 package com.vsa.filmoteca.utils;
 
 public class Constants {
-	public static final String PARAM_ID_TITULO="Titulo";
-	public static final String PARAM_ID_SUBTITULO="Subtitulo";
-	public static final String PARAM_ID_DESCRIPCION="Descripcion";
-	public static final String PARAM_ID_URL="Url";
-	public static final String PARAM_ID_FECHA="Fecha";
+	public static final String PARAM_ID_TITULO="title";
+	public static final String PARAM_ID_SUBTITULO="subtitle";
+	public static final String PARAM_ID_DESCRIPCION="description";
+	public static final String PARAM_ID_URL="url";
+	public static final String PARAM_ID_FECHA="date";
 	//public static final String URL_SOURCE="http://www.albacete.es/es/webs-municipales/filmoteca/agenda";
 	public static final String URL_SOURCE="http://www.albacete.es/es/webs-municipales/filmoteca/agenda/folder_listing";
 	//TimeOut
@@ -18,7 +18,7 @@ public class Constants {
 	public static final String ACTION_WIDGET_LAUNCH = "ActionReceiverLaunch";
 	public static final String ACTION_WIDGET_READY = "mobi.intuitit.android.hpp.ACTION_READY";
 	//Base de datos
-	public static final String DB_NAME="MyDataBase";
+	public static final String DB_NAME="WidgetDatabase.db";
 	//SharedPreferences
 	public static final String SHAREDPREFERENCES_NAME="MySharedPreferences";
 	public static final String SHAREDPREFERENCES_CURRENT="Current";

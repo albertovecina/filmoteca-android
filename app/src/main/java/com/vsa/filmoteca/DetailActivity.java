@@ -1,19 +1,24 @@
 package com.vsa.filmoteca;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.vsa.filmoteca.utils.Constants;
 import com.vsa.filmoteca.utils.StringUtils;
+import com.vsa.filmoteca.view.ObservableWebView;
 
 import org.apache.http.protocol.HTTP;
 
@@ -21,9 +26,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class DetailActivity extends Activity implements DetailView{
+public class DetailActivity extends ActionBarActivity implements DetailView{
 
-    @InjectView(R.id.webview) WebView mWebView;
+    public static final String EXTRA_DATE="extra_date";
+    public static final String EXTRA_TITLE="extra_title";
+    public static final String EXTRA_URL="extra_url";
+
+    @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.webview) ObservableWebView mWebView;
     @InjectView(R.id.detalleTitle) TextView mTitle;
 
     private ProgressDialog mProgressDialog;
@@ -36,19 +46,34 @@ public class DetailActivity extends Activity implements DetailView{
 		super.onCreate(savedInstanceState);
     	setContentView(R.layout.detalle);
         ButterKnife.inject(this);
-        initViews();
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
 
         mPresenter = new DetailPresenterImpl(this);
-        mPresenter.loadContent(getIntent().getStringExtra(Constants.PARAM_ID_URL));
 
+        initViews();
+
+        mPresenter.loadContent(getIntent().getStringExtra(EXTRA_URL));
     }
 
 
     @Override
     public void initViews() {
+        mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
+                R.color.color_accent,
+                R.color.color_primary);
+        mWebView.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
+            @Override
+            public void onScroll(int l, int t) {
+                mSwipeRefreshLayout.setEnabled(t == 0);
+            }
+        });
         mProgressDialog = ProgressDialog.show(this, "",
                 getString(R.string.loading), true,false);
-        mTitle.setText(getIntent().getStringExtra(Constants.PARAM_ID_TITULO)
+        mTitle.setText(getIntent().getStringExtra(EXTRA_TITLE)
                 .substring(1));
     }
 
@@ -63,6 +88,11 @@ public class DetailActivity extends Activity implements DetailView{
     }
 
     @Override
+    public void stopRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		super.onCreateOptionsMenu(menu);
 		return mPresenter.onCreateOptionsMenu(getMenuInflater(), menu);
@@ -73,10 +103,9 @@ public class DetailActivity extends Activity implements DetailView{
         return mPresenter.onOptionsItemSelected(item);
 	}
 
-    @OnClick({R.id.buscarFA, R.id.buscarFALayout})
 	public void showInFilmAffinity(){
 		String url="";
-		String titulo=this.getIntent().getExtras().getString(Constants.PARAM_ID_TITULO); 
+		String titulo=this.getIntent().getExtras().getString(EXTRA_TITLE);
 		titulo=titulo.replace(" ", "+");
 		
 		//Le quito los acentos
@@ -86,17 +115,15 @@ public class DetailActivity extends Activity implements DetailView{
 		startActivity(i_filmaffinity);
 	}
 
-    @OnClick({R.id.verNav, R.id.verNavLayout})
     public void showInBrowser(){
-		String url=this.getIntent().getStringExtra(Constants.PARAM_ID_URL);
+		String url=this.getIntent().getStringExtra(EXTRA_URL);
 		Intent i_navegar = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
 		startActivity(i_navegar);
 	}
 
-    @OnClick({R.id.compartir, R.id.compartirLayout})
 	public void showShareDialog(){
-		String tituloCmpBtn = getIntent().getStringExtra(Constants.PARAM_ID_TITULO);
-		String fechaCmpBtn = getString(R.string.share_date) + ": " + getIntent().getStringExtra(Constants.PARAM_ID_FECHA).substring(1);
+		String tituloCmpBtn = getIntent().getStringExtra(EXTRA_TITLE);
+		String fechaCmpBtn = getString(R.string.share_date) + ": " + getIntent().getStringExtra(EXTRA_DATE).substring(1);
 		String infoCmpBtn = getString(R.string.share_message) + " " +tituloCmpBtn+"\n"+fechaCmpBtn;
 		Intent intent=new Intent(Intent.ACTION_SEND);
 		intent.setType(HTTP.PLAIN_TEXT_TYPE);
@@ -113,12 +140,7 @@ public class DetailActivity extends Activity implements DetailView{
                .setCancelable(false)
                .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
-                       try {
-                           finish();
-                       } catch (Throwable e) {
-                           // TODO Auto-generated catch block
-                           e.printStackTrace();
-                       }
+                       finish();
                    }
                });
         AlertDialog alert = builder.create();
@@ -129,5 +151,16 @@ public class DetailActivity extends Activity implements DetailView{
     public void setWebViewContent(String html) {
         mWebView.loadDataWithBaseURL(null, html, "text/html", "utf-8",
                 "about:blank");
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void showAboutUs() {
+        Intent acercade=new Intent(this,AboutActivity.class);
+        startActivity(acercade);
     }
 }

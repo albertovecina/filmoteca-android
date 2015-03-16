@@ -24,9 +24,14 @@
     <string name="filmaffinity">FilmAffinity</string>
     <string name="navegador">Navegador</string>
 
+    <!-- MainActivity -->
+    <string name="mainactivity_title">Programación</string>
+
+    <!-- Menu -->
+    <string name="refresh">Actualizar</string>
 
     <!-- About us -->
-    <string name="about_us_label">Acerca de…</string>
+    <string name="about_us">Acerca de…</string>
     <string name="developby">Desarrollado por:</string>
     <string name="albandroid">Asociación Juvenil Albandroid</string>
     <string name="web">http://www.albandroid.es</string>
