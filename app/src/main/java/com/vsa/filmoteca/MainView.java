@@ -17,9 +17,11 @@ public interface MainView {
     public void showProgressDialog();
     public void hideProgressDialog();
     public void stopRefreshing();
+    public void showTitle(int moviesCount);
     public void showWifiRequestDialog(OkCancelDialogListener okCancelDialogListener);
     public void showWifiSettings();
     public void showTimeOutDialog();
+    public void showNoEventsDialog();
     public void showDetail(HashMap<String, String> movie);
     public void showAboutUs();
     public void setMovies(List<HashMap<String, String>> moviesList);

@@ -22,7 +22,8 @@
             android:layout_toLeftOf="@+id/right"
             android:layout_centerHorizontal="true"
             android:visibility="gone"
-            android:src="@android:drawable/ic_menu_rotate" />
+            android:src="@drawable/selector_widget_refresh_drawable"
+            android:background="@drawable/selector_widget_button_background" />
 
         <ProgressBar
             android:id="@+id/widgetProgressBar"

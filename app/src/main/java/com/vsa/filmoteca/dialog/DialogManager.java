@@ -4,8 +4,10 @@ import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,73 +18,41 @@ import butterknife.ButterKnife;
 
 public class DialogManager {
 
-	private static Dialog mDialog=null;
-
 	public static void showSimpleDialog(Context context, int messageResId, final SimpleDialogListener simpleDialogListener){
-		LayoutInflater mInflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		View view=mInflater.inflate(R.layout.dialog_simple, null);
-		
-		TextView textViewMessage= ButterKnife.findById(view, R.id.textview_dialog_message);
-		textViewMessage.setText(context.getResources().getString(messageResId));
-
-		Button buttonAccept= ButterKnife.findById(view, R.id.button_dialog_confirm);
-		buttonAccept.setOnClickListener(new OnClickListener(){
-
-			public void onClick(View view) {
-				// TODO Auto-generated method stub
-				simpleDialogListener.onAccept();
-				dismissCurrentDialog();
-			}
-			
-		});
-		
-		
-		mDialog=new Dialog(context);
-		mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		mDialog.setContentView(view);
-		mDialog.show();
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.dialog_title);
+        builder.setMessage(messageResId);
+        builder.setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                simpleDialogListener.onAccept();
+                dialog.dismiss();
+            }
+        });
+		builder.show();
 	}
 	
 	public static void showOkCancelDialog(Context context, int messageResId, final OkCancelDialogListener okCancelDialogListener){
-		LayoutInflater mInflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view=mInflater.inflate(R.layout.dialog_ok_cancel, null);
-		
-		TextView textViewMessage = ButterKnife.findById(view, R.id.textview_dialog_message);
-		textViewMessage.setText(context.getResources().getString(messageResId));
-
-		Button buttonAccept = ButterKnife.findById(view, R.id.button_dialog_confirm);
-		buttonAccept.setOnClickListener(new OnClickListener(){
-
-			public void onClick(View view) {
-				// TODO Auto-generated method stub
-				okCancelDialogListener.onAcceptButtonPressed();
-				dismissCurrentDialog();
-			}
-			
-		});
-		
-		Button buttonCancel = ButterKnife.findById(view, R.id.button_dialog_cancel);
-		buttonCancel.setOnClickListener(new OnClickListener(){
-
-			public void onClick(View view) {
-				// TODO Auto-generated method stub
-				okCancelDialogListener.onCancelButtonPressed();
-				dismissCurrentDialog();
-			}
-			
-		});
-		
-		
-		mDialog=new Dialog(context);
-		mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		mDialog.setContentView(view);
-		mDialog.show();
-	}
-	
-	public static void dismissCurrentDialog(){
-		if (mDialog!=null)
-			mDialog.dismiss();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.dialog_title);
+        builder.setMessage(messageResId);
+        builder.setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                okCancelDialogListener.onAcceptButtonPressed();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                okCancelDialogListener.onCancelButtonPressed();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
 	}
 
 }

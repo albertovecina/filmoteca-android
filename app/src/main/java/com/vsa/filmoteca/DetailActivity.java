@@ -11,10 +11,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.vsa.filmoteca.dialog.DialogManager;
+import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
 import com.vsa.filmoteca.utils.StringUtils;
-import com.vsa.filmoteca.view.ObservableWebView;
+import com.vsa.filmoteca.webview.ObservableWebView;
 
 import org.apache.http.protocol.HTTP;
 
@@ -53,6 +57,11 @@ public class DetailActivity extends ActionBarActivity implements DetailView{
         mPresenter.loadContent(getIntent().getStringExtra(EXTRA_URL));
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mPresenter.onNewIntent(intent);
+    }
 
     @Override
     public void initViews() {
@@ -68,7 +77,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView{
         });
         mProgressDialog = ProgressDialog.show(this, "",
                 getString(R.string.loading), true,false);
-        mTitle.setText(getIntent().getStringExtra(EXTRA_TITLE)
+        showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE)
                 .substring(1));
     }
 
@@ -80,6 +89,11 @@ public class DetailActivity extends ActionBarActivity implements DetailView{
     @Override
     public void hideProgressDialog() {
         mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void showMovieTitle(String title) {
+        mTitle.setText(title);
     }
 
     @Override
@@ -130,16 +144,12 @@ public class DetailActivity extends ActionBarActivity implements DetailView{
 
     @Override
     public void showTimeOutDialog(){
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.timeout_dialog_message))
-               .setCancelable(false)
-               .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                       finish();
-                   }
-               });
-        AlertDialog alert = builder.create();
-        alert.show();
+        DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message, new SimpleDialogListener(){
+            @Override
+            public void onAccept() {
+                finish();
+            }
+        });
     }
 
     @Override

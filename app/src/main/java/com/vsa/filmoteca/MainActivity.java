@@ -2,6 +2,7 @@ package com.vsa.filmoteca;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -39,7 +40,7 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	setContentView(R.layout.main);
+        setContentView(R.layout.main);
         ButterKnife.inject(this);
         mPresenter = new MainPresentImpl(this);
 
@@ -67,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
 
     @Override
     public void initViews() {
+        showTitle(0);
         mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
@@ -80,6 +82,15 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
 		return mPresenter.onOptionsItemSelected(item);
 	}
 
+
+    @Override
+    public void showTitle(int moviesCount) {
+        if(moviesCount < 1)
+            getSupportActionBar().setTitle(R.string.title_main);
+        else
+            getSupportActionBar().setTitle(getString(R.string.title_main) + " (" + moviesCount + ")");
+    }
+
     @Override
     public void showWifiRequestDialog(OkCancelDialogListener okCancelDialogListener){
         DialogManager.showOkCancelDialog(this, R.string.warning_no_internet_connection, okCancelDialogListener);
@@ -87,14 +98,26 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
 
     @Override
 	public void showTimeOutDialog(){
-		DialogManager.showSimpleDialog(this, R.string.warning_no_films_recived,
-				new SimpleDialogListener(){
+		DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message,
+            new SimpleDialogListener() {
 
-					public void onAccept() {
-						MainActivity.this.finish();
-					}
-			
-		});
+                public void onAccept() {
+                    MainActivity.this.finish();
+                }
+
+            });
+    }
+
+    @Override
+    public void showNoEventsDialog() {
+        DialogManager.showSimpleDialog(this, R.string.warning_no_films_recived,
+            new SimpleDialogListener() {
+
+                public void onAccept() {
+                    MainActivity.this.finish();
+                }
+
+            });
     }
 
     @Override

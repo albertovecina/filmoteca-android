@@ -16,6 +16,7 @@ public interface DetailView {
     public void initViews();
     public void showProgressDialog();
     public void hideProgressDialog();
+    public void showMovieTitle(String title);
     public void stopRefreshing();
     public void showTimeOutDialog();
     public void showInFilmAffinity();

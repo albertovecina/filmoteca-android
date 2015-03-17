@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.vsa.filmoteca.utils.Constants;
+import com.vsa.filmoteca.utils.PageParser;
 import com.vsa.filmoteca.widget.EventsWidget;
 
 import org.apache.http.Header;
@@ -28,7 +28,7 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
 
     @Override
     public boolean onCreateOptionsMenu(MenuInflater inflater, Menu menu) {
-        inflater.inflate(R.menu.sharewith, menu);
+        inflater.inflate(R.menu.menu_detail, menu);
         return true;
     }
 
@@ -66,15 +66,23 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
         client.get(mCurrentUrl, this);
     }
 
+
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        String html = parseHTML(new String(responseBody));
-        if(html == null) {
+        String html = PageParser.parseDetailPage(new String(responseBody));
+        if(html == null)
             mDetailView.showTimeOutDialog();
-        } else {
+        else
             mDetailView.setWebViewContent(html);
-        }
         mDetailView.hideProgressDialog();
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        mDetailView.setWebViewContent("<html></html>");
+        mDetailView.showMovieTitle(intent.getStringExtra(DetailActivity.EXTRA_TITLE)
+                .substring(1));
+        loadContent(intent.getStringExtra(DetailActivity.EXTRA_URL));
     }
 
     @Override
@@ -83,33 +91,6 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
         //Probably this error comes from an inconsistent widget data. We must to update
         //the widget information to match the entries for the next time.
         updateWidget();
-    }
-
-    private String parseHTML(String html){
-        String res;
-        if(html==null){
-            return html;
-        }
-        //Style
-        String style="<style type=\"text/css\">img{ max-width:100%!important; height:auto!important;} strong{font-size:13px;} " +
-                //"*{background-color:#f3f3f3!important;}"+
-                "a{font-size:15px!important;}"+
-                "p{text-align:center;}"+
-                ".documentDescription{font-weight:bold;color:#000000; text-align:center;}"+
-                ".tablaeventos table{ width:100%!important;}"+
-                ".tablaeventos td{width:50%!important;}"+
-                "a {color:#000000; font-weight:bold;}"+
-                ".vevent{font-size:15px!important; color:#5f5c5c;}"+
-                "td{ font-size:15px!important;line-height:18px; vertical-align:top;}"+
-                "table{border:1px solid #848484;}"+
-                "th{float:left!important;font-size:13px!important;}</style>";
-
-        //Parseando Info
-        html=html.substring(html.indexOf("<div class=\"vevent\">"));
-        res=style+html.substring(0,html.indexOf("<div class=\"relatedItems\">"));
-        res=res.replaceAll("\\<th", "<td");
-        res=res.replaceAll("<\\/th", "</td");
-        return res;
     }
 
     @Override
@@ -127,4 +108,5 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
         mDetailView.getContext().sendBroadcast(intent);
     }
+
 }

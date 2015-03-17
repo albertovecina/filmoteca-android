@@ -11,6 +11,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.filmoteca.utils.Constants;
 import com.vsa.filmoteca.utils.NetworkUtils;
+import com.vsa.filmoteca.utils.PageParser;
 
 import org.apache.http.Header;
 
@@ -53,8 +54,8 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
     public void onResume(Intent intent) {
         HashMap<String,String> movie = (HashMap<String, String>) intent.getSerializableExtra(MainActivity.EXTRA_MOVIE);
         if(movie!=null) {
-            mMainView.showDetail(movie);
             intent.removeExtra(MainActivity.EXTRA_MOVIE);
+            mMainView.showDetail(movie);
         } else {
             if (!mMainView.isListLoaded()) {
                 if (!NetworkUtils.isNetworkAvailable(mMainView.getContext())) {
@@ -68,7 +69,7 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
 
     @Override
     public boolean onCreateOptionsMenu(MenuInflater inflater, Menu menu) {
-        inflater.inflate(R.menu.acercade, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -90,10 +91,14 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         String html = new String(responseBody);
-        mMoviesList = NetworkUtils.parseMoviesList(html);
-        mMainView.setMovies(mMoviesList);
-        mMainView.hideProgressDialog();
+        mMoviesList = PageParser.parseMoviesList(html);
+        mMainView.showTitle(mMoviesList.size());
+        if(mMoviesList.size() < 1)
+            mMainView.showNoEventsDialog();
+        else
+            mMainView.setMovies(mMoviesList);
         mMainView.showChangeLog();
+        mMainView.hideProgressDialog();
     }
 
     @Override

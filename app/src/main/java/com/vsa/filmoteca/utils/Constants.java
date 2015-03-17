@@ -14,9 +14,6 @@ public class Constants {
 	//Acciones del widget
 	public static final String ACTION_WIDGET_LEFT = "ActionReceiverLeft";
 	public static final String ACTION_WIDGET_RIGHT = "ActionReceiverRight";
-	public static final String ACTION_WIDGET_UPDATE = "ActionReceiverUpdate";
-	public static final String ACTION_WIDGET_LAUNCH = "ActionReceiverLaunch";
-	public static final String ACTION_WIDGET_READY = "mobi.intuitit.android.hpp.ACTION_READY";
 	//Base de datos
 	public static final String DB_NAME="WidgetDatabase.db";
 	//SharedPreferences

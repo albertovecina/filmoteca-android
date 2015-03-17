@@ -108,13 +108,7 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView{
     	       	
     	       	appWidgetManager.updateAppWidget(appWidgetIds, mViews);
 	    	}
-	    }else{ 
-	    	if (intent.getAction().equals(Constants.ACTION_WIDGET_UPDATE)) {
-	    
-				GetItemsTask task=new GetItemsTask(context);
-		        task.execute();
-	    	}
-	    }	
+	    } 
 	}
 
 
@@ -146,7 +140,7 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView{
 		
 		GetItemsTask(Context c){
 			super();
-			context=c;
+			context = c;
 
 		}
 		@Override
@@ -188,10 +182,12 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView{
 			protected void onPostExecute(String result) {
 				// TODO Auto-generated method stub
 				super.onPostExecute(result);
-				if (mMovies ==null){
+				if (mMovies == null){
 			    	showRefreshButton();
-		        	mIntent = new Intent(context, EventsWidget.class);
-		        	mIntent.setAction(Constants.ACTION_WIDGET_UPDATE);
+                    mIntent = new Intent(context, EventsWidget.class);
+                    mIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                    int[] ids = {R.xml.appwidget_info};
+                    mIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
 			        mPendingIntent = PendingIntent.getBroadcast(context, 0, mIntent, 0);
 			        mViews.setOnClickPendingIntent(R.id.widgetUpdateButton, mPendingIntent);
 			    }else{
