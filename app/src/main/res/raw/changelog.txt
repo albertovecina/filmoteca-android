@@ -21,7 +21,7 @@
   <body>
 $ 1.2
   % v1.2
-  _ 2012-11-15
+  _ 2015-03-17
     * Mejoras en la funcionalidad del widget
     * Añadida funcionalidad para actualizar al deslizar
     * Implementado material design
