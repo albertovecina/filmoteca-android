@@ -168,4 +168,11 @@ public class DetailActivity extends ActionBarActivity implements DetailView{
         Intent acercade=new Intent(this,AboutActivity.class);
         startActivity(acercade);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }

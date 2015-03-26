@@ -53,7 +53,7 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
     @Override
     public void onResume(Intent intent) {
         HashMap<String,String> movie = (HashMap<String, String>) intent.getSerializableExtra(MainActivity.EXTRA_MOVIE);
-        if(movie!=null) {
+        if(movie != null) {
             intent.removeExtra(MainActivity.EXTRA_MOVIE);
             mMainView.showDetail(movie);
         } else {
