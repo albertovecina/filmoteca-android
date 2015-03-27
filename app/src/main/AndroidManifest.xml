@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.MainTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:configChanges="orientation|keyboardHidden|screenSize" >
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name=".DetailActivity"
+            android:name=".view.activity.DetailActivity"
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -29,13 +29,13 @@
            
         </activity>
         <activity 
-            android:name=".AboutActivity"
+            android:name=".view.activity.AboutActivity"
             android:launchMode="singleInstance"
             android:label="@string/about_us"
             android:theme="@style/Theme.Transparent">
            
         </activity>
-        <receiver android:name=".widget.EventsWidget" >
+        <receiver android:name=".view.widget.EventsWidget" >
 		    <intent-filter>
 		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 		    </intent-filter>

@@ -1,8 +1,10 @@
-package com.vsa.filmoteca;
+package com.vsa.filmoteca.view;
 
 import android.content.Context;
 
-import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
+import com.vsa.filmoteca.model.Movie;
+import com.vsa.filmoteca.view.adapter.EventsAdapter;
+import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Created by seldon on 10/03/15.
  */
-public interface MainView {
+public interface MainView<E extends EventsAdapter.Event> {
 
     public void initViews();
     public void showChangeLog();
@@ -22,9 +24,9 @@ public interface MainView {
     public void showWifiSettings();
     public void showTimeOutDialog();
     public void showNoEventsDialog();
-    public void showDetail(HashMap<String, String> movie);
+    public void showDetail(Movie movie);
     public void showAboutUs();
-    public void setMovies(List<HashMap<String, String>> moviesList);
+    public void setMovies(List<E> moviesList);
     public boolean isListLoaded();
     public Context getContext();
     public void finish();

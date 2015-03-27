@@ -36,36 +36,6 @@ public class StringUtils {
               htmlEntities.put("&euro;","\u20a0");
 	    }
 
-/*
-   Here the original recursive version.
-   It is fine unless you pass a big string then a Stack Overflow is possible :-(
-
-
-  public static final String unescapeHTML(String source, int start){
-     int i,j;
-
-     i = source.indexOf("&", start);
-     if (i > -1) {
-        j = source.indexOf(";" ,i);
-        if (j > i) {
-           String entityToLookFor = source.substring(i , j + 1);
-           String value = (String)htmlEntities.get(entityToLookFor);
-           if (value != null) {
-             source = new StringBuffer().append(source.substring(0 , i))
-                                   .append(value)
-                                   .append(source.substring(j + 1))
-                                   .toString();
-             return unescapeHTML(source, i + 1); // recursive call
-           }
-         }
-     }
-     return source;
-  }
-
-   M. McNeely Jr. has sent a version with do...while()loop which is more robust.
-   Thanks to him!
-*/
-
   public static final String unescapeHTML(String source) {
       int i, j;
 

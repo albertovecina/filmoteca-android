@@ -3,23 +3,23 @@
     xmlns:filmoteca="http://schemas.android.com/apk/res-auto" >
 
     <group android:id="@+id/group1">
-        <item android:id="@+id/navegar"
+        <item android:id="@+id/menu_item_browser"
             android:title="Ver en navegador"
             android:icon="@drawable/ic_google_chrome"
             filmoteca:showAsAction="always" />
-        <item android:id="@+id/filmaffinity"
+        <item android:id="@+id/menu_item_filmaffinity"
             android:title="Buscar en FilmAffinity"
             android:icon="@drawable/ic_movie"
             filmoteca:showAsAction="always" />
-        <item android:id="@+id/compartir"
+        <item android:id="@+id/menu_item_share"
             android:title="Compartir"
             android:icon="@drawable/ic_share"
             filmoteca:showAsAction="always" />
     </group>
 
-    <item android:id="@+id/refresh"
+    <item android:id="@+id/menu_item_refresh"
         android:title="@string/refresh" />
-    <item android:id="@+id/acercade"
+    <item android:id="@+id/menu_item_about_us"
         android:title="@string/about_us" />
 
 </menu>

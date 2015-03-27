@@ -1,4 +1,4 @@
-package com.vsa.filmoteca;
+package com.vsa.filmoteca.view;
 
 import android.content.Context;
 import android.content.Intent;

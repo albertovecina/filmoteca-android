@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.database;
+package com.vsa.filmoteca.model.database;
 
 import android.provider.BaseColumns;
 

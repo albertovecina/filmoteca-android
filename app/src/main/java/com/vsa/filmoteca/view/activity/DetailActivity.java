@@ -1,9 +1,7 @@
-package com.vsa.filmoteca;
+package com.vsa.filmoteca.view.activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,21 +9,23 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-import com.vsa.filmoteca.dialog.DialogManager;
-import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
+import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.view.dialog.DialogManager;
+import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
+import com.vsa.filmoteca.presenter.DetailPresenter;
+import com.vsa.filmoteca.presenter.DetailPresenterImpl;
 import com.vsa.filmoteca.utils.StringUtils;
-import com.vsa.filmoteca.webview.ObservableWebView;
+import com.vsa.filmoteca.view.DetailView;
+import com.vsa.filmoteca.view.webview.ObservableWebView;
 
 import org.apache.http.protocol.HTTP;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DetailActivity extends ActionBarActivity implements DetailView{
+public class DetailActivity extends ActionBarActivity implements DetailView {
 
     public static final String EXTRA_DATE="extra_date";
     public static final String EXTRA_TITLE="extra_title";
@@ -43,7 +43,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-    	setContentView(R.layout.detail);
+    	setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,8 +77,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView{
         });
         mProgressDialog = ProgressDialog.show(this, "",
                 getString(R.string.loading), true,false);
-        showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE)
-                .substring(1));
+        showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE));
     }
 
     @Override

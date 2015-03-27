@@ -1,8 +1,6 @@
-package com.vsa.filmoteca;
-import java.util.HashMap;
+package com.vsa.filmoteca.view.activity;
 import java.util.List;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,19 +12,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
-import com.vsa.filmoteca.dialog.DialogManager;
-import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
-import com.vsa.filmoteca.dialog.interfaces.SimpleDialogListener;
+import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.model.Movie;
+import com.vsa.filmoteca.presenter.MainPresenterImpl;
+import com.vsa.filmoteca.view.adapter.EventsAdapter;
+import com.vsa.filmoteca.view.dialog.DialogManager;
+import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
+import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
+import com.vsa.filmoteca.presenter.MainPresenter;
 import com.vsa.filmoteca.utils.ChangeLog;
-import com.vsa.filmoteca.utils.Constants;
+import com.vsa.filmoteca.view.MainView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends ActionBarActivity implements MainView, AdapterView.OnItemClickListener{
+public class MainActivity extends ActionBarActivity implements MainView<EventsAdapter.Event>, AdapterView.OnItemClickListener{
 	/** Called when the activity is first created. */
 
     public static final String EXTRA_MOVIE = "extra_movie";
@@ -40,9 +42,9 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        mPresenter = new MainPresentImpl(this);
+        mPresenter = new MainPresenterImpl(this);
 
         initViews();
 
@@ -144,10 +146,10 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
     }
 
     @Override
-    public void showDetail(HashMap<String, String> movie) {
-        String url= movie.get(Constants.PARAM_ID_URL);
-        String fecha= movie.get(Constants.PARAM_ID_FECHA);
-        String titulo= movie.get(Constants.PARAM_ID_TITULO);
+    public void showDetail(Movie movie) {
+        String url= movie.getUrl();
+        String fecha= movie.getDate();
+        String titulo= movie.getTitle();
 
         Intent i=new Intent(this,DetailActivity.class);
         i.putExtra(DetailActivity.EXTRA_URL, url);
@@ -169,11 +171,9 @@ public class MainActivity extends ActionBarActivity implements MainView, Adapter
     }
 
     @Override
-    public void setMovies(List<HashMap<String, String>> moviesList) {
-        String[] from=new String[] {Constants.PARAM_ID_TITULO,Constants.PARAM_ID_FECHA};
-        int[] to=new int[]{R.id.titulo,R.id.fecha};
-        SimpleAdapter ListaPeliculas=new SimpleAdapter(this, moviesList,R.layout.row_movie, from, to);
-        mListView.setAdapter(ListaPeliculas);
+    public void setMovies(List<EventsAdapter.Event> moviesList) {
+        EventsAdapter eventsAdapter = new EventsAdapter(this, moviesList);
+        mListView.setAdapter(eventsAdapter);
     }
 
     @Override

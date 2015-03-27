@@ -1,13 +1,14 @@
-package com.vsa.filmoteca;
+package com.vsa.filmoteca.view.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.vsa.filmoteca.R;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class AboutActivity extends Activity implements View.OnClickListener {
 
@@ -16,7 +17,7 @@ public class AboutActivity extends Activity implements View.OnClickListener {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.about_us);
+		setContentView(R.layout.activity_about_us);
         ButterKnife.inject(this);
         mLayoutAboutUsContainer.setOnClickListener(this);
 	}

@@ -1,4 +1,4 @@
-package com.vsa.filmoteca;
+package com.vsa.filmoteca.presenter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,27 +8,33 @@ import android.view.MenuItem;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.vsa.filmoteca.dialog.interfaces.OkCancelDialogListener;
+import com.vsa.filmoteca.model.Movie;
+import com.vsa.filmoteca.model.MoviesFactory;
+import com.vsa.filmoteca.view.activity.MainActivity;
+import com.vsa.filmoteca.view.MainView;
+import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.view.adapter.EventsAdapter;
+import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.filmoteca.utils.Constants;
 import com.vsa.filmoteca.utils.NetworkUtils;
-import com.vsa.filmoteca.utils.PageParser;
 
 import org.apache.http.Header;
 
-import java.util.HashMap;
 import java.util.List;
+
+import hugo.weaving.DebugLog;
 
 /**
  * Created by seldon on 10/03/15.
  */
 
-public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPresenter, OkCancelDialogListener {
+public class MainPresenterImpl extends AsyncHttpResponseHandler implements MainPresenter, OkCancelDialogListener {
 
     private MainView mMainView;
 
-    private List<HashMap<String, String>> mMoviesList;
+    private List<Movie> mMoviesList;
 
-    public MainPresentImpl(MainView mainView){
+    public MainPresenterImpl(MainView mainView){
         mMainView = mainView;
     }
 
@@ -40,10 +46,10 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.refresh:
+            case R.id.menu_item_refresh:
                 loadMovies();
                 break;
-            case R.id.acercade:
+            case R.id.menu_item_about_us:
                 mMainView.showAboutUs();
                 return true;
         }
@@ -52,7 +58,7 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
 
     @Override
     public void onResume(Intent intent) {
-        HashMap<String,String> movie = (HashMap<String, String>) intent.getSerializableExtra(MainActivity.EXTRA_MOVIE);
+        Movie movie = (Movie) intent.getSerializableExtra(MainActivity.EXTRA_MOVIE);
         if(movie != null) {
             intent.removeExtra(MainActivity.EXTRA_MOVIE);
             mMainView.showDetail(movie);
@@ -91,7 +97,7 @@ public class MainPresentImpl extends AsyncHttpResponseHandler implements MainPre
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         String html = new String(responseBody);
-        mMoviesList = PageParser.parseMoviesList(html);
+        mMoviesList = MoviesFactory.getMoviesList(html);
         mMainView.showTitle(mMoviesList.size());
         if(mMoviesList.size() < 1)
             mMainView.showNoEventsDialog();

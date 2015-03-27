@@ -19,6 +19,11 @@
     </style>
   </head>
   <body>
+$ 1.2.1
+  % v1.2.1
+  _ 2015-03-30
+    * Eliminado el scroll horizontal en la ficha de la película
+    * Correcciones de carácter general
 $ 1.2
   % v1.2
   _ 2015-03-17

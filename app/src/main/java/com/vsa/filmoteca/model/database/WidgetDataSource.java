@@ -1,8 +1,9 @@
-package com.vsa.filmoteca.database;
+package com.vsa.filmoteca.model.database;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import com.vsa.filmoteca.model.Movie;
 
 import com.vsa.filmoteca.utils.Constants;
 
@@ -29,17 +30,19 @@ public class WidgetDataSource {
         mDatabaseHelper.close();
     }
 
-    public void insertMovie(int index, HashMap<String, String> movie){
+    public void insertMovie(int index, Movie movie){
         mDatabase.execSQL("INSERT INTO " + WidgetDataBaseHelper.TABLE_MOVIES +
-                " VALUES ("+Integer.toString(index)+",'"+
-                movie.get(Constants.PARAM_ID_TITULO)+"','Subtitulo','"+
-                movie.get(Constants.PARAM_ID_DESCRIPCION)+"','"+
-                movie.get(Constants.PARAM_ID_FECHA)+"','"+
-                movie.get(Constants.PARAM_ID_URL)+"')");
+                " VALUES (" +
+                Integer.toString(index) + ",'" +
+                movie.getTitle() + "','" +
+                movie.getSubtitle() + "','" +
+                "description','" +
+                movie.getDate() + "','" +
+                movie.getUrl() + "')");
     }
 
-    public HashMap<String, String> getMovie(int index){
-        HashMap<String, String> movie = new HashMap<String, String>();
+    public Movie getMovie(int index){
+        Movie movie = new Movie();
         Cursor cursor=mDatabase.rawQuery("SELECT "+
                 MoviesTable.COLUMN_TITLE +
                 "," +
@@ -50,10 +53,10 @@ public class WidgetDataSource {
                 MoviesTable.COLUMN_URL +
                 " FROM " + MoviesTable.TABLE_NAME + " WHERE cod="+index, null);
         cursor.moveToFirst();
-        movie.put(Constants.PARAM_ID_TITULO, cursor.getString(0));
-        movie.put(Constants.PARAM_ID_DESCRIPCION, cursor.getString(1));
-        movie.put(Constants.PARAM_ID_FECHA, cursor.getString(2));
-        movie.put(Constants.PARAM_ID_URL, cursor.getString(3));
+        movie.setTitle(cursor.getString(0));
+        movie.setSubtitle(cursor.getString(1));
+        movie.setDate(cursor.getString(2));
+        movie.setUrl(cursor.getString(3));
         cursor.close();
         return movie;
     }
