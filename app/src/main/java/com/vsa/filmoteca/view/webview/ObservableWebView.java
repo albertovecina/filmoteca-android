@@ -11,8 +11,10 @@ import android.webkit.WebViewClient;
 public class ObservableWebView extends WebView
 {
     private OnScrollChangedCallback mOnScrollChangedCallback;
-
+    private OnOverScrollListener mOnOverScrollListener;
     private OnContentLoadedListener mOnContentLoadedListener;
+
+    private boolean startedOverScrollingY;
 
     public ObservableWebView(final Context context)
     {
@@ -49,7 +51,18 @@ public class ObservableWebView extends WebView
     protected void onScrollChanged(final int l, final int t, final int oldl, final int oldt)
     {
         super.onScrollChanged(l, t, oldl, oldt);
-        if(mOnScrollChangedCallback != null) mOnScrollChangedCallback.onScroll(l, t);
+        if (t < oldt) startedOverScrollingY = false;
+        if(mOnScrollChangedCallback != null) mOnScrollChangedCallback.onScroll(l, t, oldl, oldt);
+    }
+
+    @Override
+    protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
+        if (scrollY > 0 && clampedY && !startedOverScrollingY) {
+            startedOverScrollingY = true;
+            if(mOnOverScrollListener != null)
+                mOnOverScrollListener.onOverScroll();
+        }
+        super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
     }
 
     public OnScrollChangedCallback getOnScrollChangedCallback()
@@ -62,12 +75,16 @@ public class ObservableWebView extends WebView
         mOnScrollChangedCallback = onScrollChangedCallback;
     }
 
+    public void setOnOverScollListener(final OnOverScrollListener onOverScrollListener) {
+        mOnOverScrollListener = onOverScrollListener;
+    }
+
     /**
      * Impliment in the activity/fragment/view that you want to listen to the webview
      */
     public static interface OnScrollChangedCallback
     {
-        public void onScroll(int l, int t);
+        public void onScroll(int l, int t, int oldl, int oldt);
     }
 
     public void setOnContentLoadedListener (OnContentLoadedListener onContentLoadedListener) {
@@ -76,5 +93,9 @@ public class ObservableWebView extends WebView
 
     public interface OnContentLoadedListener {
         public void onContentLoaded();
+    }
+
+    public interface OnOverScrollListener {
+        public void onOverScroll();
     }
 }

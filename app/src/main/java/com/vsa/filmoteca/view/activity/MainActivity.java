@@ -21,7 +21,7 @@ import com.vsa.filmoteca.view.dialog.DialogManager;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
 import com.vsa.filmoteca.presenter.MainPresenter;
-import com.vsa.filmoteca.utils.ChangeLog;
+import com.vsa.filmoteca.presenter.utils.ChangeLog;
 import com.vsa.filmoteca.view.MainView;
 
 import butterknife.ButterKnife;
@@ -68,7 +68,6 @@ public class MainActivity extends ActionBarActivity implements MainView<EventsAd
 		return mPresenter.onCreateOptionsMenu(getMenuInflater(), menu);
 	}
 
-    @Override
     public void initViews() {
         showTitle(0);
         mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
@@ -88,9 +87,9 @@ public class MainActivity extends ActionBarActivity implements MainView<EventsAd
     @Override
     public void showTitle(int moviesCount) {
         if(moviesCount < 1)
-            getSupportActionBar().setTitle(R.string.title_main);
+            getSupportActionBar().setTitle(R.string.title_activity_main);
         else
-            getSupportActionBar().setTitle(getString(R.string.title_main) + " (" + moviesCount + ")");
+            getSupportActionBar().setTitle(getString(R.string.title_activity_main) + " (" + moviesCount + ")");
     }
 
     @Override
@@ -146,7 +145,7 @@ public class MainActivity extends ActionBarActivity implements MainView<EventsAd
     }
 
     @Override
-    public void showDetail(Movie movie) {
+    public void navigateToDetail(Movie movie) {
         String url= movie.getUrl();
         String fecha= movie.getDate();
         String titulo= movie.getTitle();

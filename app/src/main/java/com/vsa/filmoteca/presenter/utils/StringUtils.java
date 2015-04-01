@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.utils;
+package com.vsa.filmoteca.presenter.utils;
 
 import java.util.*;
 
@@ -75,5 +75,24 @@ public class StringUtils {
           output = output.replace(original.charAt(i), ascii.charAt(i));
       }//for i
       return output;
+  }
+
+  public static String firstLetterUpperCase(String source) {
+      if(source != null) {
+          StringBuffer res = new StringBuffer();
+
+          String[] strArr = source.split(" ");
+          for (String str : strArr) {
+              char[] stringArray = str.trim().toCharArray();
+              stringArray[0] = Character.toUpperCase(stringArray[0]);
+              str = new String(stringArray);
+
+              res.append(str).append(" ");
+          }
+
+          return res.toString().trim();
+      } else {
+          return "";
+      }
   }
 }

@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.utils;
+package com.vsa.filmoteca.presenter.utils;
 
 /**
  * Copyright (C) 2011, Karsten Priegnitz

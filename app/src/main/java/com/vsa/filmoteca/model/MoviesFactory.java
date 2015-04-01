@@ -1,15 +1,11 @@
 package com.vsa.filmoteca.model;
 
-import com.vsa.filmoteca.utils.Constants;
-import com.vsa.filmoteca.utils.StringUtils;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

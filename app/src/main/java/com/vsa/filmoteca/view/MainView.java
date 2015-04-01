@@ -14,7 +14,6 @@ import java.util.List;
  */
 public interface MainView<E extends EventsAdapter.Event> {
 
-    public void initViews();
     public void showChangeLog();
     public void showProgressDialog();
     public void hideProgressDialog();
@@ -24,7 +23,7 @@ public interface MainView<E extends EventsAdapter.Event> {
     public void showWifiSettings();
     public void showTimeOutDialog();
     public void showNoEventsDialog();
-    public void showDetail(Movie movie);
+    public void navigateToDetail(Movie movie);
     public void showAboutUs();
     public void setMovies(List<E> moviesList);
     public boolean isListLoaded();

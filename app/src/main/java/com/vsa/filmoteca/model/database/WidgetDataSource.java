@@ -5,10 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.vsa.filmoteca.model.Movie;
 
-import com.vsa.filmoteca.utils.Constants;
-
-import java.util.HashMap;
-
 /**
  * Created by seldon on 16/03/15.
  */

@@ -18,11 +18,19 @@
 
     <!-- Menu -->
     <string name="share">Compartir</string>
-    <string name="filmaffinity">FilmAffinity</string>
-    <string name="navegador">Navegador</string>
+    <string name="filmaffinity">Buscar en FilmAffinity</string>
+    <string name="browser">Ver en el navegador</string>
 
     <!-- MainActivity -->
-    <string name="title_main">Programación</string>
+    <string name="title_activity_main">Programación</string>
+
+    <!-- Comments -->
+    <string name="title_activity_comments">Comentarios</string>
+    <string name="error_empty_message">Escribe tu mensaje</string>
+    <string name="hint_message">¿Que tal la peli?</string>
+    <string name="error_cant_load_tweets">No se han podido cargar los tweets, inténtalo de nuevo más tarde</string>
+    <string name="error_cant_login">No se han podido iniciar la sesión</string>
+    <string name="error_cant_post_tweet">No se ha podido enviar el mensaje</string>
 
     <!-- Menu -->
     <string name="refresh">Actualizar</string>
@@ -46,4 +54,7 @@
     <string name="timeout_dialog_message">No ha sido posible obtener la información, inténtelo de nuevo mas tarde.</string>
     <string name="dialog_accept">Aceptar</string>
     <string name="dialog_cancel">Cancelar</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

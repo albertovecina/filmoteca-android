@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.utils;
+package com.vsa.filmoteca.presenter.utils;
 
 public class Constants {
 	public static final String URL_SOURCE="http://www.albacete.es/es/webs-municipales/filmoteca/agenda/folder_listing";
@@ -8,4 +8,7 @@ public class Constants {
 	//Acciones del widget
 	public static final String ACTION_WIDGET_LEFT = "ActionReceiverLeft";
 	public static final String ACTION_WIDGET_RIGHT = "ActionReceiverRight";
+    //Twitter
+    public static final String HASHTAG_FILMOTECA = "#FilmotecaAB";
+
 }

@@ -8,28 +8,37 @@ import android.view.MenuItem;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.vsa.filmoteca.view.activity.DetailActivity;
-import com.vsa.filmoteca.view.DetailView;
 import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.view.DetailView;
+import com.vsa.filmoteca.view.activity.CommentsActivity;
+import com.vsa.filmoteca.view.activity.DetailActivity;
 import com.vsa.filmoteca.view.widget.EventsWidget;
 
 import org.apache.http.Header;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by seldon on 13/03/15.
  */
 public class DetailPresenterImpl extends AsyncHttpResponseHandler implements DetailPresenter{
 
-    private DetailView mDetailView;
-
+    private DetailView mView;
     private String mCurrentUrl;
 
+    private String mTitle;
+
     public DetailPresenterImpl(DetailView detailView){
-        mDetailView = detailView;
+        mView = detailView;
     }
+
+    private static final String CLASS_TABLAEVENTOS = "tablaeventos";
+    private static final String CLASS_VEVENT = "vevent";
 
     @Override
     public boolean onCreateOptionsMenu(MenuInflater inflater, Menu menu) {
@@ -41,32 +50,48 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.menu_item_share:
-                mDetailView.showShareDialog();
+                mView.showShareDialog();
                 return true;
             case R.id.menu_item_browser:
-                mDetailView.showInBrowser();
+                mView.showInBrowser();
                 return true;
             case R.id.menu_item_filmaffinity:
-                mDetailView.showInFilmAffinity();
+                mView.showInFilmAffinity();
                 return true;
             case R.id.menu_item_refresh:
                 onRefresh();
                 return true;
             case R.id.menu_item_about_us:
-                mDetailView.showAboutUs();
+                mView.showAboutUs();
                 return true;
             case android.R.id.home:
-                mDetailView.onBackPressed();
+                mView.onBackPressed();
+                return true;
             default:
                 return false;
         }
     }
 
+
     @Override
+    public void onNewIntent(Intent intent) {
+        String url = intent.getStringExtra(DetailActivity.EXTRA_URL);
+        if(url != null && !url.isEmpty()) {
+            mTitle = intent.getStringExtra(DetailActivity.EXTRA_TITLE);
+            mView.setWebViewContent("<html></html>");
+            mView.showMovieTitle(mTitle);
+            loadContent(url);
+        }
+    }
+
+    public void onFabClick() {
+        mView.navitgateToComments(mTitle);
+    }
+
     public void loadContent(String url) {
         mCurrentUrl = url;
-        mDetailView.stopRefreshing();
-        mDetailView.showProgressDialog();
+        mView.stopRefreshing();
+        mView.showProgressDialog();
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(mCurrentUrl, this);
     }
@@ -76,22 +101,15 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         String html = parseDetailPage(new String(responseBody));
         if(html == null)
-            mDetailView.showTimeOutDialog();
+            mView.showTimeOutDialog();
         else
-            mDetailView.setWebViewContent(html);
-        mDetailView.hideProgressDialog();
-    }
-
-    @Override
-    public void onNewIntent(Intent intent) {
-        mDetailView.setWebViewContent("<html></html>");
-        mDetailView.showMovieTitle(intent.getStringExtra(DetailActivity.EXTRA_TITLE));
-        loadContent(intent.getStringExtra(DetailActivity.EXTRA_URL));
+            mView.setWebViewContent(html);
+        mView.hideProgressDialog();
     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        mDetailView.showTimeOutDialog();
+        mView.showTimeOutDialog();
         //Probably this error comes from an inconsistent widget data. We must to update
         //the widget information to match the entries for the next time.
         updateWidget();
@@ -104,23 +122,25 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
     }
 
     private void updateWidget(){
-        Intent intent = new Intent(mDetailView.getContext(), EventsWidget.class);
+        Intent intent = new Intent(mView.getContext(), EventsWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
         // since it seems the onUpdate() is only fired on that:
         int[] ids = {R.xml.appwidget_info};
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
-        mDetailView.getContext().sendBroadcast(intent);
+        mView.getContext().sendBroadcast(intent);
     }
 
     private String parseDetailPage(String html){
+
         if(html==null){
             return html;
         }
         //Style
         String style="<style type=\"text/css\">img{ max-width:100%!important; height:auto!important;} strong{font-size:13px;} " +
-                //"*{background-color:#f3f3f3!important;}"+
-                "a{font-size:15px!important;}"+
+                "a{font-size:15px!important;" +
+                    "word-wrap: break-word; /* Internet Explorer 5.5+ */ "+
+                "}"+
                 "p{text-align:center;}"+
                 ".documentDescription{font-weight:bold;color:#000000; text-align:center;}"+
                 ".tablaeventos table{ width:100%!important;}"+
@@ -139,12 +159,22 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
                 "}" +
                 "th{float:left!important;font-size:13px!important;}</style>";
 
-        //Parseando Info
         Document document = Jsoup.parse(html);
         document.getElementsByTag("dd").removeAttr("style");
-        html = document.getElementsByClass("vevent").first().html();
+        document.getElementsByTag("a").removeAttr("href");
 
-        return style + html;
+        Element vevent = document.getElementsByClass(CLASS_VEVENT).first();
+
+        if(vevent.getElementsByClass(CLASS_TABLAEVENTOS).isEmpty()) {
+            Element tablaeventos = document.getElementsByClass(CLASS_TABLAEVENTOS).first();
+            if(tablaeventos != null) {
+                List<Node> nodesToInsert = new ArrayList<Node>();
+                nodesToInsert.add((Node) tablaeventos);
+                vevent = vevent.insertChildren(vevent.childNodeSize(), nodesToInsert);
+            }
+        }
+
+        return style + vevent.html();
     }
 }
 

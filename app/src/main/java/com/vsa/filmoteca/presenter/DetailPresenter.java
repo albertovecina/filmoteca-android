@@ -15,5 +15,5 @@ public interface DetailPresenter extends SwipeRefreshLayout.OnRefreshListener {
     public boolean onCreateOptionsMenu(MenuInflater inflater, Menu menu);
     public boolean onOptionsItemSelected(MenuItem item);
     public void onNewIntent(Intent intent);
-    public void loadContent(String url);
+    public void onFabClick();
 }

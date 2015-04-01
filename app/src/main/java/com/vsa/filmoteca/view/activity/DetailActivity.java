@@ -5,18 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.view.dialog.DialogManager;
 import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
 import com.vsa.filmoteca.presenter.DetailPresenter;
 import com.vsa.filmoteca.presenter.DetailPresenterImpl;
-import com.vsa.filmoteca.utils.StringUtils;
+import com.vsa.filmoteca.presenter.utils.StringUtils;
 import com.vsa.filmoteca.view.DetailView;
 import com.vsa.filmoteca.view.webview.ObservableWebView;
 
@@ -25,7 +30,7 @@ import org.apache.http.protocol.HTTP;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DetailActivity extends ActionBarActivity implements DetailView {
+public class DetailActivity extends ActionBarActivity implements DetailView, View.OnClickListener {
 
     public static final String EXTRA_DATE="extra_date";
     public static final String EXTRA_TITLE="extra_title";
@@ -34,6 +39,8 @@ public class DetailActivity extends ActionBarActivity implements DetailView {
     @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.webview) ObservableWebView mWebView;
     @InjectView(R.id.detalleTitle) TextView mTitle;
+    @InjectView(R.id.fab_comments) FloatingActionButton mFabComments;
+
 
     private ProgressDialog mProgressDialog;
 
@@ -53,8 +60,8 @@ public class DetailActivity extends ActionBarActivity implements DetailView {
         mPresenter = new DetailPresenterImpl(this);
 
         initViews();
+        mPresenter.onNewIntent(getIntent());
 
-        mPresenter.loadContent(getIntent().getStringExtra(EXTRA_URL));
     }
 
     @Override
@@ -63,21 +70,30 @@ public class DetailActivity extends ActionBarActivity implements DetailView {
         mPresenter.onNewIntent(intent);
     }
 
-    @Override
     public void initViews() {
+        mFabComments.setOnClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary);
         mWebView.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
             @Override
-            public void onScroll(int l, int t) {
+            public void onScroll(int l, int t, int oldl, int oldt) {
                 mSwipeRefreshLayout.setEnabled(t == 0);
+                if(t<oldt && !mFabComments.isVisible())
+                    mFabComments.show(true);
+            }
+        });
+        mWebView.setOnOverScollListener(new ObservableWebView.OnOverScrollListener() {
+            @Override
+            public void onOverScroll() {
+                mFabComments.hide(true);
             }
         });
         mProgressDialog = ProgressDialog.show(this, "",
                 getString(R.string.loading), true,false);
         showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE));
+
     }
 
     @Override
@@ -143,7 +159,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView {
 
     @Override
     public void showTimeOutDialog(){
-        DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message, new SimpleDialogListener(){
+        DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message, new SimpleDialogListener() {
             @Override
             public void onAccept() {
                 finish();
@@ -158,6 +174,14 @@ public class DetailActivity extends ActionBarActivity implements DetailView {
     }
 
     @Override
+    public void navitgateToComments(String title) {
+        Intent intent = new Intent(this, CommentsActivity.class);
+        intent.putExtra(CommentsActivity.EXTRA_TITLE, title);
+        startActivity(intent);
+    }
+
+
+    @Override
     public Context getContext() {
         return this;
     }
@@ -169,9 +193,8 @@ public class DetailActivity extends ActionBarActivity implements DetailView {
     }
 
     @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+    public void onClick(View v) {
+        if(v == mFabComments)
+            mPresenter.onFabClick();
     }
-
 }

@@ -19,6 +19,10 @@
     </style>
   </head>
   <body>
+$ 1.2.2
+  % v1.2.2
+  _ 2015-04-07
+    * Nueva funcionalidad: Lee las opiniones de otros usuarios y escribe comentarios sobre los eventos de la filmoteca desde la propia aplicación utilizando tu cuenta de Twitter.
 $ 1.2.1
   % v1.2.1
   _ 2015-03-30

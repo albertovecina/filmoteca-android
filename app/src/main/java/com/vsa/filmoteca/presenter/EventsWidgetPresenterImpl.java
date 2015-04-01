@@ -10,7 +10,7 @@ import com.vsa.filmoteca.model.Movie;
 import com.vsa.filmoteca.model.MoviesFactory;
 import com.vsa.filmoteca.model.database.WidgetDataSource;
 import com.vsa.filmoteca.model.sharedpreferences.SharedPreferencesManager;
-import com.vsa.filmoteca.utils.Constants;
+import com.vsa.filmoteca.presenter.utils.Constants;
 import com.vsa.filmoteca.view.EventsWidgetView;
 
 import org.apache.http.Header;

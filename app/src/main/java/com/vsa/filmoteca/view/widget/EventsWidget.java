@@ -14,7 +14,7 @@ import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.model.Movie;
 import com.vsa.filmoteca.presenter.EventsWidgetPresenter;
 import com.vsa.filmoteca.presenter.EventsWidgetPresenterImpl;
-import com.vsa.filmoteca.utils.Constants;
+import com.vsa.filmoteca.presenter.utils.Constants;
 import com.vsa.filmoteca.view.EventsWidgetView;
 import com.vsa.filmoteca.view.activity.MainActivity;
 
@@ -62,6 +62,7 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView 
     @Override
     public void setupMovieView(Context context, Movie movie) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         if(movie != null)
             intent.putExtra(MainActivity.EXTRA_MOVIE, movie);
         PendingIntent actionPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

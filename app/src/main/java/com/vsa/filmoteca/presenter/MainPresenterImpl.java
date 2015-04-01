@@ -13,16 +13,13 @@ import com.vsa.filmoteca.model.MoviesFactory;
 import com.vsa.filmoteca.view.activity.MainActivity;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.view.adapter.EventsAdapter;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
-import com.vsa.filmoteca.utils.Constants;
-import com.vsa.filmoteca.utils.NetworkUtils;
+import com.vsa.filmoteca.presenter.utils.Constants;
+import com.vsa.filmoteca.presenter.utils.NetworkUtils;
 
 import org.apache.http.Header;
 
 import java.util.List;
-
-import hugo.weaving.DebugLog;
 
 /**
  * Created by seldon on 10/03/15.
@@ -40,7 +37,7 @@ public class MainPresenterImpl extends AsyncHttpResponseHandler implements MainP
 
     @Override
     public void onMovieClicked(int position) {
-        mMainView.showDetail(mMoviesList.get(position));
+        mMainView.navigateToDetail(mMoviesList.get(position));
     }
 
     @Override
@@ -48,7 +45,7 @@ public class MainPresenterImpl extends AsyncHttpResponseHandler implements MainP
         switch(item.getItemId()){
             case R.id.menu_item_refresh:
                 loadMovies();
-                break;
+                return true;
             case R.id.menu_item_about_us:
                 mMainView.showAboutUs();
                 return true;
@@ -61,7 +58,7 @@ public class MainPresenterImpl extends AsyncHttpResponseHandler implements MainP
         Movie movie = (Movie) intent.getSerializableExtra(MainActivity.EXTRA_MOVIE);
         if(movie != null) {
             intent.removeExtra(MainActivity.EXTRA_MOVIE);
-            mMainView.showDetail(movie);
+            mMainView.navigateToDetail(movie);
         } else {
             if (!mMainView.isListLoaded()) {
                 if (!NetworkUtils.isNetworkAvailable(mMainView.getContext())) {

@@ -6,13 +6,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
+        android:name=".FilmotecaApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.MainTheme" >
+        <meta-data android:name="io.fabric.ApiKey" android:value="@string/twitter_api_key"/>
         <activity
             android:name=".view.activity.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleInstance"
             android:configChanges="orientation|keyboardHidden|screenSize" >
             <intent-filter
                 android:label="@string/app_name" >
@@ -22,11 +23,13 @@
         </activity>
         <activity 
             android:name=".view.activity.DetailActivity"
-            android:launchMode="singleInstance"
-            android:noHistory="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".view.activity.MainActivity"
             android:theme="@style/Theme.DetailTheme" >
-           
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activity.MainActivity" />
         </activity>
         <activity 
             android:name=".view.activity.AboutActivity"
@@ -35,14 +38,28 @@
             android:theme="@style/Theme.Transparent">
            
         </activity>
+        <activity
+            android:name=".view.activity.CommentsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/title_activity_comments"
+            android:parentActivityName=".view.activity.DetailActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activity.DetailActivity" />
+        </activity>
+
         <receiver android:name=".view.widget.EventsWidget" >
-		    <intent-filter>
-		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-		    </intent-filter>
-		    <meta-data android:name="android.appwidget.provider"
-		               android:resource="@xml/appwidget_info" />
-		
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/appwidget_info" />
 		</receiver>
+
+        <service
+            android:name=".presenter.service.ReloadTweetsService" />
+
     </application>
 
 </manifest>

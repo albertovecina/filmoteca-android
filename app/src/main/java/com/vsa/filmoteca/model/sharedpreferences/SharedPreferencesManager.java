@@ -12,6 +12,9 @@ public class SharedPreferencesManager {
     private static final String SHAREDPREFERENCES_NAME = "MySharedPreferences";
     private static final String SHAREDPREFERENCES_CURRENT = "Current";
     private static final String SHAREDPREFERENCES_SIZE = "Size";
+    private static final String SHAREDPREFERENCES_TWITTER_PROFILE_IMAGE_URL = "TwitterProfileImageUrl";
+    private static final String SHAREDPREFERENCES_TWITTER_USER_DESCRIPTION = "TwitterUserDescription";
+
 
     private static SharedPreferences mSharedPreferences;
 
@@ -45,5 +48,40 @@ public class SharedPreferencesManager {
                 .putInt(SHAREDPREFERENCES_SIZE, index)
                 .commit();
     }
+
+    public static String getTwitterProfileImageUrl(Context context) {
+        initSharedPreferences(context);
+        return mSharedPreferences.getString(SHAREDPREFERENCES_TWITTER_PROFILE_IMAGE_URL, "");
+    }
+
+    public static void setTwitterProfileImageUrl(Context context, String url) {
+        initSharedPreferences(context);
+        mSharedPreferences
+                .edit()
+                .putString(SHAREDPREFERENCES_TWITTER_PROFILE_IMAGE_URL, url)
+                .commit();
+    }
+
+    public static String getTwitterUserDescription(Context context) {
+        initSharedPreferences(context);
+        return mSharedPreferences.getString(SHAREDPREFERENCES_TWITTER_USER_DESCRIPTION, "");
+    }
+
+    public static void setTwitterUserDescription(Context context, String userDescription) {
+        initSharedPreferences(context);
+        mSharedPreferences
+                .edit()
+                .putString(SHAREDPREFERENCES_TWITTER_USER_DESCRIPTION, userDescription)
+                .commit();
+    }
+
+    public static void removeTwitterAccountInfo(Context context) {
+        mSharedPreferences
+                .edit()
+                .remove(SHAREDPREFERENCES_TWITTER_PROFILE_IMAGE_URL)
+                .remove(SHAREDPREFERENCES_TWITTER_USER_DESCRIPTION)
+                .commit();
+    }
+
 
 }

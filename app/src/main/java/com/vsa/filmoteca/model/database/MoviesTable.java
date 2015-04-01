@@ -2,8 +2,6 @@ package com.vsa.filmoteca.model.database;
 
 import android.provider.BaseColumns;
 
-import com.vsa.filmoteca.utils.Constants;
-
 /**
  * Created by seldon on 16/03/15.
  */

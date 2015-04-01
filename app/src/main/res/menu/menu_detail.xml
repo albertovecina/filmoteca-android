@@ -4,15 +4,15 @@
 
     <group android:id="@+id/group1">
         <item android:id="@+id/menu_item_browser"
-            android:title="Ver en navegador"
+            android:title="@string/browser"
             android:icon="@drawable/ic_google_chrome"
             filmoteca:showAsAction="always" />
         <item android:id="@+id/menu_item_filmaffinity"
-            android:title="Buscar en FilmAffinity"
+            android:title="@string/filmaffinity"
             android:icon="@drawable/ic_movie"
             filmoteca:showAsAction="always" />
         <item android:id="@+id/menu_item_share"
-            android:title="Compartir"
+            android:title="@string/share"
             android:icon="@drawable/ic_share"
             filmoteca:showAsAction="always" />
     </group>
