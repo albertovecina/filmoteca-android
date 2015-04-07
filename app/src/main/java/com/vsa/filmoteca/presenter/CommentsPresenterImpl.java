@@ -249,12 +249,11 @@ public class CommentsPresenterImpl implements CommentsPresenter {
     synchronized private void showTweets(List<Tweet> tweets) {
         List<Tweet> realTweets = new ArrayList<>(tweets);
         List<Tweet> fakeTweetsList = FakeTweetsManager.getFakeTweets(mMovieHashTag);
-        for(Tweet tweet:realTweets) {
-            if(fakeTweetsList.contains(tweet)) {
+
+        for(Tweet tweet:realTweets)
+            if(fakeTweetsList.contains(tweet))
                 fakeTweetsList.remove(tweet);
-                Toast.makeText(mView.getContext(), "REEMPLAZO EL TWEET FAKE POR EL TWEET REAL", Toast.LENGTH_SHORT).show();
-            }
-        }
+        
         realTweets.addAll(fakeTweetsList);
         Collections.sort(realTweets, mTweetComparator);
         mView.showTweets(realTweets);
