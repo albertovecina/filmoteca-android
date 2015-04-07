@@ -135,7 +135,7 @@ public class CommentsPresenterImpl implements CommentsPresenter {
     public void onResume(String movieTitle) {
         EventBus.getDefault().register(this);
         if(!movieTitle.isEmpty())
-            mMovieHashTag = createHashMovieTag(movieTitle);
+            mMovieHashTag = createMovieHashTag(movieTitle);
         restoreSession();
         loadTweets(mGuestSession, mMovieHashTag);
         if(mUserSession != null && !mUserSession.getAuthToken().isExpired()) {
@@ -271,9 +271,10 @@ public class CommentsPresenterImpl implements CommentsPresenter {
         showTweets(tweetList);
     }
 
-    private String createHashMovieTag(String movieTitle) {
-        String moviewHashTag = movieTitle.toLowerCase();
-        return "#" + StringUtils.firstLetterUpperCase(moviewHashTag).replace(" ", "");
+    private String createMovieHashTag(String movieTitle) {
+        String movieHashTag = movieTitle.toLowerCase();
+        movieHashTag = movieHashTag.replaceAll("\\p{Punct}+", "");
+        return "#" + StringUtils.firstLetterUpperCase(movieHashTag).replace(" ", "");
     }
 
     private void startRefreshingTweets() {
