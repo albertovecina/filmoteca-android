@@ -16,13 +16,13 @@ public class MoviesFactory {
     private static final String CLASS_EVENT = "contenttype-evento";
     public static final String CLASS_DATE = "description";
 
-    public static List<Movie> getMoviesList(String html){
+    public static List<Movie> getMoviesList(String source){
         List<Movie> moviesList=new ArrayList<Movie>();
 
-        if(html==null || html.isEmpty())
+        if(source==null || source.isEmpty())
             return moviesList;
 
-        Document document = Jsoup.parse(html);
+        Document document = Jsoup.parse(source);
         Elements events = document.getElementsByClass(CLASS_EVENT);
         Elements dates = document.getElementsByClass(CLASS_DATE);
 
