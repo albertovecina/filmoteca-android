@@ -15,7 +15,7 @@ public interface DetailView {
     public void showInBrowser();
     public void showShareDialog();
     public void showAboutUs();
-    public void setWebViewContent(String html);
+    public void setWebViewContent(String html, String baseUrl);
     public void navitgateToComments(String title);
     public Context getContext();
     public void onBackPressed();

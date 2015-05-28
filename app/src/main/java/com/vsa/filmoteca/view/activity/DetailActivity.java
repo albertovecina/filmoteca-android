@@ -168,8 +168,8 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
     }
 
     @Override
-    public void setWebViewContent(String html) {
-        mWebView.loadDataWithBaseURL(null, html, "text/html", "utf-8",
+    public void setWebViewContent(String html, String baseUrl) {
+        mWebView.loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8",
                 "about:blank");
     }
 

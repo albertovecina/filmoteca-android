@@ -76,7 +76,7 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
         String url = intent.getStringExtra(DetailActivity.EXTRA_URL);
         if(url != null && !url.isEmpty()) {
             mTitle = intent.getStringExtra(DetailActivity.EXTRA_TITLE);
-            mView.setWebViewContent("<html></html>");
+            mView.setWebViewContent("<html></html>", url);
             mView.showMovieTitle(mTitle);
             loadContent(url);
         }
@@ -97,11 +97,17 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        String html = DetailInfoParser.parse(new String(responseBody));
+        String html;
+        try {
+            html = DetailInfoParser.parse(new String(responseBody));
+        } catch (Exception e) {
+            e.printStackTrace();
+            html = "";
+        }
         if(html == null)
             mView.showTimeOutDialog();
         else
-            mView.setWebViewContent(html);
+            mView.setWebViewContent(html, mCurrentUrl);
         mView.hideProgressDialog();
     }
 

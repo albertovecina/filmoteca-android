@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,20 @@ public class DetailInfoParser {
     private static final String CLASS_TABLAEVENTOS = "tablaeventos";
     private static final String CLASS_VEVENT = "vevent";
 
-    public static String parse(String source) {
+    private static final String TAG_DD = "dd";
+    private static final String TAG_A = "a";
+    private static final String TAG_IMG = "img";
+
+    private static final String ATTR_STYLE = "style";
+    private static final String ATTR_HREF = "href";
+
+
+    public static String parse(String source) throws Exception{
         if(source == null)
             return null;
         //Style
-        String style="<style type=\"text/css\">img{ max-width:100%!important; height:auto!important;} strong{font-size:13px;} " +
+        String style="<style type=\"text/css\">" +
+                "img, input{ max-width:100%!important; height:auto!important;} strong{font-size:13px;} " +
                 "a{font-size:15px!important;" +
                 "word-wrap: break-word; /* Internet Explorer 5.5+ */ "+
                 "}"+
@@ -43,21 +53,31 @@ public class DetailInfoParser {
                 "th{float:left!important;font-size:13px!important;}</style>";
 
         Document document = Jsoup.parse(source);
-        document.getElementsByTag("dd").removeAttr("style");
-        document.getElementsByTag("a").removeAttr("href");
+        document.getElementsByTag(TAG_DD).removeAttr(ATTR_STYLE);
+        document.getElementsByTag(TAG_A).removeAttr(ATTR_HREF);
 
         Element vevent = document.getElementsByClass(CLASS_VEVENT).first();
 
-        if(vevent.getElementsByClass(CLASS_TABLAEVENTOS).isEmpty()) {
-            Element tablaeventos = document.getElementsByClass(CLASS_TABLAEVENTOS).first();
-            if(tablaeventos != null) {
-                List<Node> nodesToInsert = new ArrayList<Node>();
-                nodesToInsert.add((Node) tablaeventos);
-                vevent = vevent.insertChildren(vevent.childNodeSize(), nodesToInsert);
-            }
+        Elements tablaEventosList = vevent.getElementsByClass(CLASS_TABLAEVENTOS);
+        Element tablaEventos;
+
+        if(tablaEventosList.isEmpty()) {
+            tablaEventos = document.getElementsByClass(CLASS_TABLAEVENTOS).first();
+            List<Node> nodesToInsert = new ArrayList<>();
+            nodesToInsert.add(tablaEventos);
+            vevent = vevent.insertChildren(vevent.childNodeSize(), nodesToInsert);
+        } else {
+            tablaEventos = tablaEventosList.first();
         }
 
-        return style + vevent.html();
+        if(tablaEventosList != null) {
+            Elements tablaEventosIcons = tablaEventos.getElementsByTag(TAG_IMG);
+            tablaEventosIcons.remove();
+        }
+
+        String parsedHTML = vevent.html();
+
+        return style + parsedHTML;
     }
 
 }
