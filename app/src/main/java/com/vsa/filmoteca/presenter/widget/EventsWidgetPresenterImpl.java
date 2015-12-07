@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presenter;
+package com.vsa.filmoteca.presenter.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -13,9 +13,9 @@ import com.vsa.filmoteca.model.sharedpreferences.SharedPreferencesManager;
 import com.vsa.filmoteca.presenter.utils.Constants;
 import com.vsa.filmoteca.view.EventsWidgetView;
 
-import org.apache.http.Header;
-
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by seldon on 27/03/15.
@@ -31,22 +31,22 @@ public class EventsWidgetPresenterImpl extends AsyncHttpResponseHandler implemen
 
     private Context mContext;
 
-    public EventsWidgetPresenterImpl(EventsWidgetView view){
+    public EventsWidgetPresenterImpl(EventsWidgetView view) {
         mView = view;
     }
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        mMovies = MoviesFactory.getMoviesList(new String(responseBody));
-        if (mMovies == null){
+        mMovies = MoviesFactory.parseMoviesList(new String(responseBody));
+        if (mMovies == null) {
             mView.showRefreshButton(mContext);
         } else {
-            if(mMovies.size()!=0){
+            if (mMovies.size() != 0) {
                 //Actualizando base de datos
                 WidgetDataSource widgetDataSource = new WidgetDataSource(mContext);
                 widgetDataSource.open();
                 widgetDataSource.clearMovies();
-                for(int x=0;x< mMovies.size();x++)
+                for (int x = 0; x < mMovies.size(); x++)
                     widgetDataSource.insertMovie(x, mMovies.get(x));
                 widgetDataSource.close();
 
@@ -59,7 +59,7 @@ public class EventsWidgetPresenterImpl extends AsyncHttpResponseHandler implemen
                 //Configurando la vista
                 mView.setupLRButtons(mContext);
                 Movie movie = null;
-                if(mMovies != null && mMovies.size()>0)
+                if (mMovies != null && mMovies.size() > 0)
                     movie = mMovies.get(mCurrentMovieIndex);
                 mView.hideProgress();
                 mView.setupMovieView(mContext, movie);
@@ -88,19 +88,19 @@ public class EventsWidgetPresenterImpl extends AsyncHttpResponseHandler implemen
     public void onReceive(Context context, Intent intent) {
         mContext = context;
         mView.initWidget(mContext);
-        if(intent.getAction().equals(Constants.ACTION_WIDGET_LEFT) || intent.getAction().equals(Constants.ACTION_WIDGET_RIGHT)){
+        if (intent.getAction().equals(Constants.ACTION_WIDGET_LEFT) || intent.getAction().equals(Constants.ACTION_WIDGET_RIGHT)) {
             //Obtenemos el indice actual y el tamaño de la base de datos
             mCurrentMovieIndex = SharedPreferencesManager.getCurrentMovieIndex(context);
             mMoviesListSize = SharedPreferencesManager.getMoviesCount(context);
-            if(mMoviesListSize != 0){
+            if (mMoviesListSize != 0) {
                 if (intent.getAction().equals(Constants.ACTION_WIDGET_LEFT)) {
-                    if (mCurrentMovieIndex > 0){
+                    if (mCurrentMovieIndex > 0) {
                         mCurrentMovieIndex--;
                         //Actualizamos el valor del indice
                         SharedPreferencesManager.setCurrentMovieIndex(context, mCurrentMovieIndex);
                     }
                 } else if (intent.getAction().equals(Constants.ACTION_WIDGET_RIGHT)) {
-                    if (mCurrentMovieIndex <(mMoviesListSize - 1)){
+                    if (mCurrentMovieIndex < (mMoviesListSize - 1)) {
                         mCurrentMovieIndex++;
                         //Actualizamos el valor del indice
                         SharedPreferencesManager.setCurrentMovieIndex(context, mCurrentMovieIndex);

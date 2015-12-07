@@ -16,28 +16,29 @@ public class MoviesFactory {
     private static final String CLASS_EVENT = "contenttype-evento";
     public static final String CLASS_DATE = "description";
 
-    public static List<Movie> getMoviesList(String source){
-        List<Movie> moviesList=new ArrayList<Movie>();
+    public static List<Movie> parseMoviesList(String html) {
+        List<Movie> moviesList = new ArrayList<Movie>();
 
-        if(source==null || source.isEmpty())
+        if (html == null || html.isEmpty())
             return moviesList;
 
-        Document document = Jsoup.parse(source);
+        Document document = Jsoup.parse(html);
         Elements events = document.getElementsByClass(CLASS_EVENT);
         Elements dates = document.getElementsByClass(CLASS_DATE);
 
         Movie movie;
 
-        for(int x = 0; x < events.size(); x++){
+        for (int x = 0; x < events.size(); x++) {
             Element event = events.get(x);
             movie = new Movie();
             Element link = event.getElementsByClass("url").first();
             String title = link.text();
             if (title.indexOf("(") > 0) {
-                movie.setTitle(title.substring(0, title.indexOf("(")));
+                movie.setTitle(title.substring(0, title.indexOf("(")).trim());
                 movie.setSubtitle(title.substring(title.indexOf("(")));
             } else {
-                movie.setTitle(title);
+                movie.setTitle(title.trim());
+                movie.setSubtitle("");
             }
 
             movie.setUrl(link.attr("href"));

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -23,8 +24,8 @@ import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.TweetView;
 import com.twitter.sdk.android.tweetui.TweetViewAdapter;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.presenter.CommentsPresenter;
-import com.vsa.filmoteca.presenter.CommentsPresenterImpl;
+import com.vsa.filmoteca.presenter.comments.CommentsPresenter;
+import com.vsa.filmoteca.presenter.comments.CommentsPresenterImpl;
 import com.vsa.filmoteca.view.CommentsView;
 
 import java.util.ArrayList;
@@ -34,18 +35,26 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CommentsActivity extends ActionBarActivity implements CommentsView, TextWatcher{
+public class CommentsActivity extends AppCompatActivity implements CommentsView, TextWatcher {
 
     public static final String EXTRA_TITLE = "extra_title";
 
-    @InjectView(R.id.imageview_profile_image) ImageView mImageViewProfileImage;
-    @InjectView(R.id.textview_user_name) TextView mTextViewUserName;
-    @InjectView(R.id.textview_user_description) TextView mTextViewUserDescription;
-    @InjectView(R.id.textview_char_counter) TextView mTextViewCharCounter;
-    @InjectView(R.id.listview_tweets) ListView mListViewTweets;
-    @InjectView(R.id.edittext_twitter_message) EditText mEditTextTwitterMessage;
-    @InjectView(R.id.login_button) TwitterLoginButton mLoginButton;
-    @InjectView(R.id.layout_tweet_editor) LinearLayout mLayoutTweetEditor;
+    @InjectView(R.id.imageview_profile_image)
+    ImageView mImageViewProfileImage;
+    @InjectView(R.id.textview_user_name)
+    TextView mTextViewUserName;
+    @InjectView(R.id.textview_user_description)
+    TextView mTextViewUserDescription;
+    @InjectView(R.id.textview_char_counter)
+    TextView mTextViewCharCounter;
+    @InjectView(R.id.listview_tweets)
+    ListView mListViewTweets;
+    @InjectView(R.id.edittext_twitter_message)
+    EditText mEditTextTwitterMessage;
+    @InjectView(R.id.login_button)
+    TwitterLoginButton mLoginButton;
+    @InjectView(R.id.layout_tweet_editor)
+    LinearLayout mLayoutTweetEditor;
 
     private CommentsPresenter mPresenter = new CommentsPresenterImpl(this);
     private ProgressDialog mProgressDialog;
@@ -94,7 +103,7 @@ public class CommentsActivity extends ActionBarActivity implements CommentsView,
     }
 
     @OnClick(R.id.button_publish_tweet)
-    public void onPublishTweetButtonPressed(){
+    public void onPublishTweetButtonPressed() {
         mPresenter.onPublishTweet(mEditTextTwitterMessage.getText().toString());
         mEditTextTwitterMessage.setText("");
     }
@@ -144,7 +153,7 @@ public class CommentsActivity extends ActionBarActivity implements CommentsView,
     }
 
     @Override
-    public void showProfileImage(String url){
+    public void showProfileImage(String url) {
         Picasso.with(this).load(url).into(mImageViewProfileImage);
     }
 
@@ -205,7 +214,7 @@ public class CommentsActivity extends ActionBarActivity implements CommentsView,
     }
 
     @OnClick(R.id.imagebutton_close_session)
-    public void onCloseSessionButtonPressed(){
+    public void onCloseSessionButtonPressed() {
         mPresenter.closeSession();
     }
 }

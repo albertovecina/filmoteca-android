@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presenter;
+package com.vsa.filmoteca.presenter.comments;
 
 import android.view.MenuItem;
 

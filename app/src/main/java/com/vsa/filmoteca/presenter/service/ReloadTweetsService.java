@@ -6,7 +6,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -15,17 +14,16 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.vsa.filmoteca.FilmotecaApplication;
+import com.vsa.filmoteca.model.event.BUS;
+import com.vsa.filmoteca.model.event.comments.EventOnTweetsLoaded;
 import com.vsa.filmoteca.presenter.utils.Constants;
 
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
-
 /**
  * Created by seldon on 31/03/15.
  */
-public class ReloadTweetsService extends Service implements Runnable{
+public class ReloadTweetsService extends Service implements Runnable {
 
     public static final String TAG = ReloadTweetsService.class.getSimpleName();
 
@@ -38,7 +36,7 @@ public class ReloadTweetsService extends Service implements Runnable{
         @Override
         public void success(Result<Search> result) {
             final List<Tweet> tweets = result.data.tweets;
-            EventBus.getDefault().post(tweets);
+            BUS.getInstance().post(new EventOnTweetsLoaded(tweets));
             Log.d(TAG, "REFRESH TWEETS!");
         }
 
@@ -52,7 +50,7 @@ public class ReloadTweetsService extends Service implements Runnable{
     public int onStartCommand(Intent intent, int flags, int startId) {
         mHashTag = intent.getStringExtra(EXTRA_HASHTAG);
         mUserSession = Twitter.getSessionManager().getActiveSession();
-        if(mUserSession == null || mUserSession.getAuthToken().isExpired()) {
+        if (mUserSession == null || mUserSession.getAuthToken().isExpired()) {
             stopSelf();
         } else {
             if (!mThreadTask.isAlive())
@@ -67,17 +65,16 @@ public class ReloadTweetsService extends Service implements Runnable{
     }
 
 
-
     @Override
     public void run() {
-        while(!mThreadTask.interrupted()) {
+        while (!mThreadTask.interrupted()) {
             try {
                 Thread.sleep(5500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 mThreadTask.interrupt();
             }
-            if(!mUserSession.getAuthToken().isExpired()) {
+            if (!mUserSession.getAuthToken().isExpired()) {
                 TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient(mUserSession);
                 twitterApiClient.getSearchService().tweets(
                         Constants.HASHTAG_FILMOTECA + " AND " + mHashTag,
@@ -96,7 +93,6 @@ public class ReloadTweetsService extends Service implements Runnable{
             }
         }
     }
-
 
 
     @Override

@@ -1,36 +1,31 @@
 package com.vsa.filmoteca.view.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.presenter.detail.DetailPresenter;
+import com.vsa.filmoteca.presenter.detail.DetailPresenterImpl;
+import com.vsa.filmoteca.view.DetailView;
 import com.vsa.filmoteca.view.dialog.DialogManager;
 import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
-import com.vsa.filmoteca.presenter.DetailPresenter;
-import com.vsa.filmoteca.presenter.DetailPresenterImpl;
-import com.vsa.filmoteca.presenter.utils.StringUtils;
-import com.vsa.filmoteca.view.DetailView;
 import com.vsa.filmoteca.view.webview.ObservableWebView;
-
-import org.apache.http.protocol.HTTP;
+import com.vsa.filmoteca.view.widget.EventsWidget;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DetailActivity extends ActionBarActivity implements DetailView, View.OnClickListener {
+public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener {
 
     public static final String EXTRA_DATE = "extra_date";
     public static final String EXTRA_TITLE = "extra_title";
@@ -48,7 +43,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
     private ProgressDialog mProgressDialog;
 
 
-    private DetailPresenter mPresenter;
+    private DetailPresenter mPresenter = new DetailPresenterImpl(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,18 +54,56 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-
-        mPresenter = new DetailPresenterImpl(this);
-
         initViews();
-        mPresenter.onNewIntent(getIntent());
+
+        mPresenter.onCreate(getIntent().getStringExtra(EXTRA_URL),
+                getIntent().getStringExtra(EXTRA_TITLE));
 
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mPresenter.onNewIntent(intent);
+        mPresenter.onCreate(intent.getStringExtra(EXTRA_URL),
+                intent.getStringExtra(EXTRA_TITLE));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_share:
+                mPresenter.onShareButtonClick();
+                return true;
+            case R.id.menu_item_browser:
+                mPresenter.onShowInBrowserButtonClick();
+                return true;
+            case R.id.menu_item_filmaffinity:
+                mPresenter.onFilmAffinitySearchButtonClick();
+                return true;
+            case R.id.menu_item_refresh:
+                mPresenter.onRefresh();
+                return true;
+            case R.id.menu_item_about_us:
+                mPresenter.onAboutUsButtonClick();
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return false;
+        }
     }
 
     public void initViews() {
@@ -115,23 +148,23 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
     }
 
     @Override
+    public void updateWidget() {
+        Intent intent = new Intent(this, EventsWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int[] ids = {R.xml.appwidget_info};
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
+    }
+
+    @Override
     public void stopRefreshing() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        return mPresenter.onCreateOptionsMenu(getMenuInflater(), menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return mPresenter.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void launchBrouser(String url) {
+    public void launchBrowser(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
     }
@@ -141,7 +174,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
         String fechaCmpBtn = getString(R.string.share_date) + ": " + getIntent().getStringExtra(EXTRA_DATE).substring(1);
         String infoCmpBtn = getString(R.string.share_message) + " " + tituloCmpBtn + "\n" + fechaCmpBtn;
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType(HTTP.PLAIN_TEXT_TYPE);
+        intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
         intent.putExtra(Intent.EXTRA_TEXT, infoCmpBtn);
 
@@ -169,12 +202,6 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
         Intent intent = new Intent(this, CommentsActivity.class);
         intent.putExtra(CommentsActivity.EXTRA_TITLE, title);
         startActivity(intent);
-    }
-
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 
     @Override

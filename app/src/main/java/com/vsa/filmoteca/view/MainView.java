@@ -14,20 +14,32 @@ import java.util.List;
  */
 public interface MainView<E extends EventsAdapter.Event> {
 
-    public void showChangeLog();
-    public void showProgressDialog();
-    public void hideProgressDialog();
-    public void stopRefreshing();
-    public void showTitle(int moviesCount);
-    public void showWifiRequestDialog(OkCancelDialogListener okCancelDialogListener);
-    public void showWifiSettings();
-    public void showTimeOutDialog();
-    public void showNoEventsDialog();
-    public void navigateToDetail(Movie movie);
-    public void showAboutUs();
-    public void setMovies(List<E> moviesList);
-    public boolean isListLoaded();
-    public Context getContext();
-    public void finish();
+    void showChangeLog();
+
+    void showProgressDialog();
+
+    void hideProgressDialog();
+
+    void stopRefreshing();
+
+    void showTitle(int moviesCount);
+
+    void showWifiRequestDialog(OkCancelDialogListener okCancelDialogListener);
+
+    void showWifiSettings();
+
+    void showTimeOutDialog();
+
+    void showNoEventsDialog();
+
+    void navigateToDetail(Movie movie);
+
+    void showAboutUs();
+
+    void setMovies(List<E> moviesList);
+
+    boolean isListLoaded();
+
+    void finish();
 
 }

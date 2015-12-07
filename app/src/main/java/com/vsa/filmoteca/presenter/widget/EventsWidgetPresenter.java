@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presenter;
+package com.vsa.filmoteca.presenter.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;

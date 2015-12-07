@@ -1,6 +1,7 @@
 package com.vsa.filmoteca;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.twitter.sdk.android.Twitter;
@@ -23,6 +24,8 @@ public class FilmotecaApplication extends Application {
 
     private AppSession mGuestSession;
 
+    private static Context sContext;
+
     private Callback<AppSession> mGuestLoginCallback = new Callback<AppSession>() {
         @Override
         public void success(Result<AppSession> appSessionResult) {
@@ -38,6 +41,7 @@ public class FilmotecaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        sContext = this;
         initTwitter();
         startGuestSession();
     }
@@ -58,7 +62,11 @@ public class FilmotecaApplication extends Application {
         mGuestSession = guestSession;
     }
 
-    public AppSession getGuestSession(){
+    public AppSession getGuestSession() {
         return mGuestSession;
+    }
+
+    public static Context getContext() {
+        return sContext;
     }
 }

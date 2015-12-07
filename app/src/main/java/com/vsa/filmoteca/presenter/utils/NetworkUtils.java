@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.vsa.filmoteca.FilmotecaApplication;
+
 public class NetworkUtils {
 
     public static boolean isNetworkAvailable(Context c) {
@@ -14,6 +16,10 @@ public class NetworkUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isNetworkAvailable() {
+        return isNetworkAvailable(FilmotecaApplication.getContext());
     }
 
 }

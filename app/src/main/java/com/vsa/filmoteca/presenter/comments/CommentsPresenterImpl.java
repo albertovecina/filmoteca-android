@@ -1,10 +1,10 @@
-package com.vsa.filmoteca.presenter;
+package com.vsa.filmoteca.presenter.comments;
 
 import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Callback;
@@ -19,6 +19,8 @@ import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
 import com.vsa.filmoteca.FilmotecaApplication;
+import com.vsa.filmoteca.model.event.BUS;
+import com.vsa.filmoteca.model.event.comments.EventOnTweetsLoaded;
 import com.vsa.filmoteca.model.sharedpreferences.SharedPreferencesManager;
 import com.vsa.filmoteca.model.twitter.FakeTweetsManager;
 import com.vsa.filmoteca.model.twitter.TweetComparator;
@@ -31,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import retrofit.client.Header;
 
 /**
@@ -55,7 +56,7 @@ public class CommentsPresenterImpl implements CommentsPresenter {
             showTweets(result.data.tweets);
             mView.hideProgressDialog();
             startRefreshingTweets();
-            for(Header header:result.response.getHeaders()) {
+            for (Header header : result.response.getHeaders()) {
                 Log.d(TAG, header.getName() + ": " + header.getValue());
             }
         }
@@ -133,12 +134,12 @@ public class CommentsPresenterImpl implements CommentsPresenter {
 
     @Override
     public void onResume(String movieTitle) {
-        EventBus.getDefault().register(this);
-        if(!movieTitle.isEmpty())
+        BUS.getInstance().register(this);
+        if (!movieTitle.isEmpty())
             mMovieHashTag = createMovieHashTag(movieTitle);
         restoreSession();
         loadTweets(mGuestSession, mMovieHashTag);
-        if(mUserSession != null && !mUserSession.getAuthToken().isExpired()) {
+        if (mUserSession != null && !mUserSession.getAuthToken().isExpired()) {
             loadUserInfo(mUserSession);
             mView.showTweetEditor();
             mView.setMaxTweetLength(getTweetLength());
@@ -150,13 +151,13 @@ public class CommentsPresenterImpl implements CommentsPresenter {
 
     @Override
     public void onPause() {
-        EventBus.getDefault().unregister(this);
+        BUS.getInstance().unregister(this);
         stopRefreshingTweets();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 mView.onBackPressed();
                 return true;
@@ -172,7 +173,7 @@ public class CommentsPresenterImpl implements CommentsPresenter {
 
     @Override
     public void onPublishTweet(String message) {
-        if(message == null || message.isEmpty()) {
+        if (message == null || message.isEmpty()) {
             mView.showErrorEmptyMessage();
         } else {
             TwitterApiClient apiClient = TwitterCore.getInstance().getApiClient(mUserSession);
@@ -196,7 +197,7 @@ public class CommentsPresenterImpl implements CommentsPresenter {
 
     @Override
     public void closeSession() {
-        if(mUserSession != null) {
+        if (mUserSession != null) {
             stopRefreshingTweets();
             Twitter.getSessionManager().clearActiveSession();
             SharedPreferencesManager.removeTwitterAccountInfo(mView.getContext());
@@ -206,7 +207,7 @@ public class CommentsPresenterImpl implements CommentsPresenter {
 
     public void loadTweets(Session session, String hashTag) {
         mView.showProgressDialog();
-        if(session != null)
+        if (session != null)
             requestTweets(session, hashTag);
         else if (session instanceof AppSession)
             requestGuestSessionAndGetTweets();
@@ -233,7 +234,7 @@ public class CommentsPresenterImpl implements CommentsPresenter {
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient(session);
         String profileImageUrl = SharedPreferencesManager.getTwitterProfileImageUrl(mView.getContext());
         String userDescription = SharedPreferencesManager.getTwitterUserDescription(mView.getContext());
-        if(profileImageUrl.isEmpty() || userDescription.isEmpty()) {
+        if (profileImageUrl.isEmpty() || userDescription.isEmpty()) {
             twitterApiClient.getAccountService().verifyCredentials(true, true, mCallbackUserInfo);
         } else {
             mView.showProfileImage(profileImageUrl);
@@ -250,10 +251,10 @@ public class CommentsPresenterImpl implements CommentsPresenter {
         List<Tweet> realTweets = new ArrayList<>(tweets);
         List<Tweet> fakeTweetsList = FakeTweetsManager.getFakeTweets(mMovieHashTag);
 
-        for(Tweet tweet:realTweets)
-            if(fakeTweetsList.contains(tweet))
+        for (Tweet tweet : realTweets)
+            if (fakeTweetsList.contains(tweet))
                 fakeTweetsList.remove(tweet);
-        
+
         realTweets.addAll(fakeTweetsList);
         Collections.sort(realTweets, mTweetComparator);
         mView.showTweets(realTweets);
@@ -265,15 +266,15 @@ public class CommentsPresenterImpl implements CommentsPresenter {
         mUserSession = Twitter.getSessionManager().getActiveSession();
     }
 
-    //Listen events for EventBus
-    public void onEvent(List<Tweet> tweetList){
-        showTweets(tweetList);
+    @Subscribe
+    public void onTweetsLoaded(EventOnTweetsLoaded event) {
+        showTweets(event.getTweets());
     }
 
     private String createMovieHashTag(String movieTitle) {
         String movieHashTag = movieTitle.toLowerCase();
         movieHashTag = movieHashTag.replaceAll("\\p{Punct}+", "");
-        return "#" + StringUtils.firstLetterUpperCase(movieHashTag).replace(" ", "");
+        return "#" + StringUtils.capitalizeFirstCharacter(movieHashTag).replace(" ", "");
     }
 
     private void startRefreshingTweets() {
@@ -288,7 +289,7 @@ public class CommentsPresenterImpl implements CommentsPresenter {
 
     private int getTweetLength() {
         int tweetLength = 140
-                - Constants.HASHTAG_FILMOTECA .length()
+                - Constants.HASHTAG_FILMOTECA.length()
                 - mMovieHashTag.length()
                 - 2;
         return tweetLength;

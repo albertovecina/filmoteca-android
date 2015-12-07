@@ -12,8 +12,8 @@ import android.widget.RemoteViews;
 
 import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.model.Movie;
-import com.vsa.filmoteca.presenter.EventsWidgetPresenter;
-import com.vsa.filmoteca.presenter.EventsWidgetPresenterImpl;
+import com.vsa.filmoteca.presenter.widget.EventsWidgetPresenter;
+import com.vsa.filmoteca.presenter.widget.EventsWidgetPresenterImpl;
 import com.vsa.filmoteca.presenter.utils.Constants;
 import com.vsa.filmoteca.view.EventsWidgetView;
 import com.vsa.filmoteca.view.activity.MainActivity;
