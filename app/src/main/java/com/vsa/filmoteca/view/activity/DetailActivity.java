@@ -32,25 +32,28 @@ import butterknife.InjectView;
 
 public class DetailActivity extends ActionBarActivity implements DetailView, View.OnClickListener {
 
-    public static final String EXTRA_DATE="extra_date";
-    public static final String EXTRA_TITLE="extra_title";
-    public static final String EXTRA_URL="extra_url";
+    public static final String EXTRA_DATE = "extra_date";
+    public static final String EXTRA_TITLE = "extra_title";
+    public static final String EXTRA_URL = "extra_url";
 
-    @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
-    @InjectView(R.id.webview) ObservableWebView mWebView;
-    @InjectView(R.id.detalleTitle) TextView mTitle;
-    @InjectView(R.id.fab_comments) FloatingActionButton mFabComments;
-
+    @InjectView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.webview)
+    ObservableWebView mWebView;
+    @InjectView(R.id.detalleTitle)
+    TextView mTitle;
+    @InjectView(R.id.fab_comments)
+    FloatingActionButton mFabComments;
 
     private ProgressDialog mProgressDialog;
 
 
     private DetailPresenter mPresenter;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-    	setContentView(R.layout.activity_detail);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,7 +83,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
             @Override
             public void onScroll(int l, int t, int oldl, int oldt) {
                 mSwipeRefreshLayout.setEnabled(t == 0);
-                if(t<oldt && !mFabComments.isVisible())
+                if (t < oldt && !mFabComments.isVisible())
                     mFabComments.show(true);
             }
         });
@@ -91,7 +94,7 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
             }
         });
         mProgressDialog = ProgressDialog.show(this, "",
-                getString(R.string.loading), true,false);
+                getString(R.string.loading), true, false);
         showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE));
 
     }
@@ -117,48 +120,36 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
     }
 
     @Override
-	public boolean onCreateOptionsMenu(Menu menu){
-		super.onCreateOptionsMenu(menu);
-		return mPresenter.onCreateOptionsMenu(getMenuInflater(), menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item){
-        return mPresenter.onOptionsItemSelected(item);
-	}
-
-	public void showInFilmAffinity(){
-		String url="";
-		String titulo=this.getIntent().getExtras().getString(EXTRA_TITLE);
-		titulo=titulo.replace(" ", "+");
-		
-		//Le quito los acentos
-		titulo=StringUtils.removeAccents(titulo);
-		url="http://m.filmaffinity.com/es/search.php?stext="+titulo;
-		Intent i_filmaffinity = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
-		startActivity(i_filmaffinity);
-	}
-
-    public void showInBrowser(){
-		String url=this.getIntent().getStringExtra(EXTRA_URL);
-		Intent i_navegar = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
-		startActivity(i_navegar);
-	}
-
-	public void showShareDialog(){
-		String tituloCmpBtn = getIntent().getStringExtra(EXTRA_TITLE);
-		String fechaCmpBtn = getString(R.string.share_date) + ": " + getIntent().getStringExtra(EXTRA_DATE).substring(1);
-		String infoCmpBtn = getString(R.string.share_message) + " " +tituloCmpBtn+"\n"+fechaCmpBtn;
-		Intent intent=new Intent(Intent.ACTION_SEND);
-		intent.setType(HTTP.PLAIN_TEXT_TYPE);
-		intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
-		intent.putExtra(Intent.EXTRA_TEXT, infoCmpBtn);
-		
-		startActivity(Intent.createChooser(intent, getString(R.string.share)));
-	}
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        return mPresenter.onCreateOptionsMenu(getMenuInflater(), menu);
+    }
 
     @Override
-    public void showTimeOutDialog(){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return mPresenter.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void launchBrouser(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
+    }
+
+    public void showShareDialog() {
+        String tituloCmpBtn = getIntent().getStringExtra(EXTRA_TITLE);
+        String fechaCmpBtn = getString(R.string.share_date) + ": " + getIntent().getStringExtra(EXTRA_DATE).substring(1);
+        String infoCmpBtn = getString(R.string.share_message) + " " + tituloCmpBtn + "\n" + fechaCmpBtn;
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType(HTTP.PLAIN_TEXT_TYPE);
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
+        intent.putExtra(Intent.EXTRA_TEXT, infoCmpBtn);
+
+        startActivity(Intent.createChooser(intent, getString(R.string.share)));
+    }
+
+    @Override
+    public void showTimeOutDialog() {
         DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message, new SimpleDialogListener() {
             @Override
             public void onAccept() {
@@ -188,13 +179,13 @@ public class DetailActivity extends ActionBarActivity implements DetailView, Vie
 
     @Override
     public void showAboutUs() {
-        Intent acercade=new Intent(this,AboutActivity.class);
+        Intent acercade = new Intent(this, AboutActivity.class);
         startActivity(acercade);
     }
 
     @Override
     public void onClick(View v) {
-        if(v == mFabComments)
+        if (v == mFabComments)
             mPresenter.onFabClick();
     }
 }

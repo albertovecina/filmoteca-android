@@ -12,8 +12,15 @@ import com.vsa.filmoteca.view.webview.ObservableWebView;
  * Created by seldon on 13/03/15.
  */
 public interface DetailPresenter extends SwipeRefreshLayout.OnRefreshListener {
-    public boolean onCreateOptionsMenu(MenuInflater inflater, Menu menu);
-    public boolean onOptionsItemSelected(MenuItem item);
-    public void onNewIntent(Intent intent);
-    public void onFabClick();
+
+    void onCreate(String title);
+
+    boolean onCreateOptionsMenu(MenuInflater inflater, Menu menu);
+
+    boolean onOptionsItemSelected(MenuItem item);
+
+    void onNewIntent(Intent intent);
+
+    void onFabClick();
+
 }

@@ -2,6 +2,7 @@ package com.vsa.filmoteca.presenter;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,32 +11,30 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.model.DetailInfoParser;
+import com.vsa.filmoteca.presenter.utils.StringUtils;
 import com.vsa.filmoteca.view.DetailView;
-import com.vsa.filmoteca.view.activity.CommentsActivity;
 import com.vsa.filmoteca.view.activity.DetailActivity;
 import com.vsa.filmoteca.view.widget.EventsWidget;
 
 import org.apache.http.Header;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by seldon on 13/03/15.
  */
-public class DetailPresenterImpl extends AsyncHttpResponseHandler implements DetailPresenter{
+public class DetailPresenterImpl extends AsyncHttpResponseHandler implements DetailPresenter {
 
-    private DetailView mView;
-    private String mCurrentUrl;
-
+    private String mContentUrl;
     private String mTitle;
 
-    public DetailPresenterImpl(DetailView detailView){
+    private DetailView mView;
+
+    public DetailPresenterImpl(DetailView detailView) {
         mView = detailView;
+    }
+
+    @Override
+    public void onCreate(String title) {
+        mTitle = title.trim();
     }
 
     @Override
@@ -46,15 +45,15 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_item_share:
                 mView.showShareDialog();
                 return true;
             case R.id.menu_item_browser:
-                mView.showInBrowser();
+                mView.launchBrouser(mContentUrl);
                 return true;
             case R.id.menu_item_filmaffinity:
-                mView.showInFilmAffinity();
+                launchFilmaffinitySearch();
                 return true;
             case R.id.menu_item_refresh:
                 onRefresh();
@@ -74,7 +73,7 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
     @Override
     public void onNewIntent(Intent intent) {
         String url = intent.getStringExtra(DetailActivity.EXTRA_URL);
-        if(url != null && !url.isEmpty()) {
+        if (url != null && !url.isEmpty()) {
             mTitle = intent.getStringExtra(DetailActivity.EXTRA_TITLE);
             mView.setWebViewContent("<html></html>", url);
             mView.showMovieTitle(mTitle);
@@ -87,11 +86,11 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
     }
 
     public void loadContent(String url) {
-        mCurrentUrl = url;
+        mContentUrl = url;
         mView.stopRefreshing();
         mView.showProgressDialog();
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(mCurrentUrl, this);
+        client.get(mContentUrl, this);
     }
 
 
@@ -104,10 +103,10 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
             e.printStackTrace();
             html = "";
         }
-        if(html == null)
+        if (html == null)
             mView.showTimeOutDialog();
         else
-            mView.setWebViewContent(html, mCurrentUrl);
+            mView.setWebViewContent(html, mContentUrl);
         mView.hideProgressDialog();
     }
 
@@ -121,18 +120,25 @@ public class DetailPresenterImpl extends AsyncHttpResponseHandler implements Det
 
     @Override
     public void onRefresh() {
-        if(mCurrentUrl != null && !mCurrentUrl.isEmpty())
-            loadContent(mCurrentUrl);
+        if (mContentUrl != null && !mContentUrl.isEmpty())
+            loadContent(mContentUrl);
     }
 
-    private void updateWidget(){
+    private void updateWidget() {
         Intent intent = new Intent(mView.getContext(), EventsWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
         // since it seems the onUpdate() is only fired on that:
         int[] ids = {R.xml.appwidget_info};
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         mView.getContext().sendBroadcast(intent);
+    }
+
+    private void launchFilmaffinitySearch() {
+        String searchString = mTitle.replace(" ", "+");
+        searchString = StringUtils.removeAccents(searchString);
+        String url = "http://m.filmaffinity.com/es/search.php?stext=" + searchString + "&stype=title";
+        mView.launchBrouser(url);
     }
 
 }
