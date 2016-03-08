@@ -22,6 +22,8 @@ import com.vsa.filmoteca.view.adapter.EventsAdapter;
 import com.vsa.filmoteca.view.dialog.DialogManager;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
+import com.vsa.paperknife.CellDataProvider;
+import com.vsa.paperknife.CellElement;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,7 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends AppCompatActivity implements MainView<EventsAdapter.Event>, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements MainView, AdapterView.OnItemClickListener {
     /**
      * Called when the activity is first created.
      */
@@ -198,8 +200,8 @@ public class MainActivity extends AppCompatActivity implements MainView<EventsAd
     }
 
     @Override
-    public void setMovies(List<EventsAdapter.Event> moviesList) {
-        EventsAdapter eventsAdapter = new EventsAdapter(this, moviesList);
+    public void setMovies(List<? extends CellElement> events, CellDataProvider cellDataProvider) {
+        EventsAdapter eventsAdapter = new EventsAdapter(this, events, cellDataProvider);
         mListView.setAdapter(eventsAdapter);
     }
 

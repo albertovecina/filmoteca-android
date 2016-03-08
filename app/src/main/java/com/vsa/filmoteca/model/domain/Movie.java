@@ -1,13 +1,13 @@
 package com.vsa.filmoteca.model.domain;
 
-import com.vsa.filmoteca.view.adapter.EventsAdapter;
+import com.vsa.paperknife.CellElement;
 
 import java.io.Serializable;
 
 /**
  * Created by seldon on 26/03/15.
  */
-public class Movie implements EventsAdapter.Event, Serializable {
+public class Movie implements CellElement, Serializable {
 
     private String mTitle;
     private String mSubtitle;
@@ -21,7 +21,6 @@ public class Movie implements EventsAdapter.Event, Serializable {
         mUrl = "";
     }
 
-    @Override
     public String getTitle() {
         return mTitle;
     }
@@ -38,7 +37,6 @@ public class Movie implements EventsAdapter.Event, Serializable {
         this.mSubtitle = mSubtitle;
     }
 
-    @Override
     public String getDate() {
         return mDate;
     }

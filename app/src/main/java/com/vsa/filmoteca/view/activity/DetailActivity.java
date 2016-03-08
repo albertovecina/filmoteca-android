@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -31,6 +32,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     public static final String EXTRA_TITLE = "extra_title";
     public static final String EXTRA_URL = "extra_url";
 
+    @InjectView(R.id.wrapper_detail_content)
+    ViewGroup mWrapperContent;
     @InjectView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.webview)
@@ -130,6 +133,16 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 getString(R.string.loading), true, false);
         showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE));
 
+    }
+
+    @Override
+    public void showContent() {
+        mWrapperContent.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideContent() {
+        mWrapperContent.setVisibility(View.GONE);
     }
 
     @Override

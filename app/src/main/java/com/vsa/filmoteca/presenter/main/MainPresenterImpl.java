@@ -3,6 +3,7 @@ package com.vsa.filmoteca.presenter.main;
 import com.vsa.filmoteca.interactor.FilmotecaInteractor;
 import com.vsa.filmoteca.interactor.FilmotecaInteractorImpl;
 import com.vsa.filmoteca.model.domain.Movie;
+import com.vsa.filmoteca.model.domain.dataprovider.MovieDataProvider;
 import com.vsa.filmoteca.model.event.BUS;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
@@ -103,8 +104,9 @@ public class MainPresenterImpl implements MainPresenter, OkCancelDialogListener,
         if (mMoviesList.size() < 1)
             mView.showNoEventsDialog();
         else
-            mView.setMovies(mMoviesList);
+            mView.setMovies(mMoviesList, new MovieDataProvider());
         mView.showChangeLog();
         mView.hideProgressDialog();
     }
+
 }

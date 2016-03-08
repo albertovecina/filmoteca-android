@@ -8,30 +8,40 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.vsa.filmoteca.R;
+import com.vsa.paperknife.CellDataProvider;
+import com.vsa.paperknife.CellElement;
+import com.vsa.paperknife.CellViewHolder;
+import com.vsa.paperknife.DataTarget;
+import com.vsa.paperknife.PaperKnife;
 
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by seldon on 27/03/15.
  */
-public class EventsAdapter extends BaseAdapter{
+public class EventsAdapter extends BaseAdapter {
 
-    LayoutInflater mInflater;
-    List<Event> mMoviesList;
+    private LayoutInflater mInflater;
+    private List<? extends CellElement> mEvents;
+    private PaperKnife mPaperKnife;
 
-    public EventsAdapter(Context context, List<Event> moviesList){
-        mMoviesList = moviesList;
+    public EventsAdapter(Context context, List<? extends CellElement> events, CellDataProvider dataProvider) {
+        mEvents = events;
         mInflater = LayoutInflater.from(context);
+        mPaperKnife = new PaperKnife(dataProvider);
     }
 
     @Override
     public int getCount() {
-        return mMoviesList.size();
+        return mEvents.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return mMoviesList.get(position);
+    public CellElement getItem(int position) {
+        return mEvents.get(position);
     }
 
     @Override
@@ -42,34 +52,41 @@ public class EventsAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null)
+        ViewHolder viewHolder;
+        if (convertView == null) {
             convertView = mInflater.inflate(R.layout.row_movie, null);
-        ViewHolder holder = (ViewHolder) convertView.getTag();
-        if(holder == null) {
-            holder = new ViewHolder();
-            holder.textViewTitle = (TextView) convertView
-                    .findViewById(R.id.textview_row_movie_title);
-            holder.textViewDate = (TextView) convertView
-                    .findViewById(R.id.textview_row_movie_date);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Event event = mMoviesList.get(position);
-
-        holder.textViewTitle.setText(event.getTitle());
-        holder.textViewDate.setText(event.getDate());
-        convertView.setTag(holder);
+        mPaperKnife.bind(mEvents.get(position), viewHolder);
 
         return convertView;
     }
 
-    private static class ViewHolder {
-        public TextView textViewTitle;
-        public TextView textViewDate;
-    }
+    public static class ViewHolder implements CellViewHolder {
 
-    public interface Event{
-        public String getTitle();
-        public String getDate();
+        @InjectView(R.id.textview_row_movie_title)
+        public TextView textViewTitle;
+        @InjectView(R.id.textview_row_movie_date)
+        public TextView textViewDate;
+
+        public ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
+
+        @DataTarget("Title")
+        public void setTitle(String title) {
+            textViewTitle.setText(title);
+        }
+
+        @DataTarget("Date")
+        public void setDate(String date) {
+            textViewDate.setText(date);
+        }
+
     }
 
 }

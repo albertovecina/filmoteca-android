@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/wrapper_detail_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-                <android.support.v4.widget.SwipeRefreshLayout
-                    android:id="@+id/swipe_refresh_layout"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/webViewLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/color_accent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/detalleTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:textColor="@color/texto_oscuro"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.vsa.filmoteca.view.webview.ObservableWebView
+                    android:id="@+id/webview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <LinearLayout
-                        android:id="@+id/webViewLayout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="vertical"
-                        android:background="@color/color_accent" >
-                        <TextView
-                            android:id="@+id/detalleTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="10dp"
-                            android:paddingRight="20dp"
-                            android:paddingBottom="10dp"
-                            android:gravity="center"
-                            android:textColor="@color/texto_oscuro"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" >
-                            <com.vsa.filmoteca.view.webview.ObservableWebView
-                                android:id="@+id/webview"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@color/white" />
-                            <com.melnykov.fab.FloatingActionButton
-                                android:id="@+id/fab_comments"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:layout_margin="16dp"
-                                android:src="@drawable/ic_comment"
-                                fab:fab_colorNormal="@color/color_primary"
-                                fab:fab_colorPressed="@color/color_primary_dark"
-                                fab:fab_colorRipple="@color/color_primary_dark" />
-                        </RelativeLayout>
-                    </LinearLayout>
-                </android.support.v4.widget.SwipeRefreshLayout>
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/fab_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_comment"
+                    fab:fab_colorNormal="@color/color_primary"
+                    fab:fab_colorPressed="@color/color_primary_dark"
+                    fab:fab_colorRipple="@color/color_primary_dark" />
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

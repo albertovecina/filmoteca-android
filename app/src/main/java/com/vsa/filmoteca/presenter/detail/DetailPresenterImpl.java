@@ -66,9 +66,9 @@ public class DetailPresenterImpl implements DetailPresenter, Observer<String> {
 
     public void loadContent(String url) {
         mView.stopRefreshing();
+        mView.hideContent();
         mView.showProgressDialog();
-        mInteractor.movieDetail(url).subscribe(this
-        );
+        mInteractor.movieDetail(url).subscribe(this);
     }
 
     @Override
@@ -107,6 +107,7 @@ public class DetailPresenterImpl implements DetailPresenter, Observer<String> {
             mView.showTimeOutDialog();
         else
             mView.setWebViewContent(html, mContentUrl);
+        mView.showContent();
         mView.hideProgressDialog();
     }
 }

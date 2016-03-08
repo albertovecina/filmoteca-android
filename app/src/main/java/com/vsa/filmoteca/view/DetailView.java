@@ -5,6 +5,10 @@ package com.vsa.filmoteca.view;
  */
 public interface DetailView {
 
+    void hideContent();
+
+    void showContent();
+
     void showProgressDialog();
 
     void hideProgressDialog();
