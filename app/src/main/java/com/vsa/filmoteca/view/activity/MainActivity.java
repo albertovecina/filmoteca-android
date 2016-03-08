@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.model.Movie;
+import com.vsa.filmoteca.model.domain.Movie;
 import com.vsa.filmoteca.presenter.main.MainPresenter;
 import com.vsa.filmoteca.presenter.main.MainPresenterImpl;
 import com.vsa.filmoteca.presenter.utils.ChangeLog;

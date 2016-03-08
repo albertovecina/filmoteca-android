@@ -1,25 +1,22 @@
 package com.vsa.filmoteca.presenter.main;
 
-import com.squareup.otto.Subscribe;
-import com.vsa.filmoteca.interactor.FilmotecaInteractorImpl;
 import com.vsa.filmoteca.interactor.FilmotecaInteractor;
-import com.vsa.filmoteca.model.Movie;
-import com.vsa.filmoteca.model.MoviesFactory;
+import com.vsa.filmoteca.interactor.FilmotecaInteractorImpl;
+import com.vsa.filmoteca.model.domain.Movie;
 import com.vsa.filmoteca.model.event.BUS;
-import com.vsa.filmoteca.model.event.main.EventGetHtmlError;
-import com.vsa.filmoteca.model.event.main.EventGetHtmlSuccess;
-import com.vsa.filmoteca.presenter.utils.Constants;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 
 import java.io.Serializable;
 import java.util.List;
 
+import rx.Observer;
+
 /**
  * Created by seldon on 10/03/15.
  */
 
-public class MainPresenterImpl implements MainPresenter, OkCancelDialogListener {
+public class MainPresenterImpl implements MainPresenter, OkCancelDialogListener, Observer<List<Movie>> {
 
     private List<Movie> mMoviesList;
 
@@ -71,24 +68,7 @@ public class MainPresenterImpl implements MainPresenter, OkCancelDialogListener 
     public void loadMovies() {
         mView.stopRefreshing();
         mView.showProgressDialog();
-        mInteractor.getHtml(Constants.URL_SOURCE);
-    }
-
-    @Subscribe
-    public void onGetHmltSuccess(EventGetHtmlSuccess event) {
-        mMoviesList = MoviesFactory.parseMoviesList(event.getHtml());
-        mView.showTitle(mMoviesList.size());
-        if (mMoviesList.size() < 1)
-            mView.showNoEventsDialog();
-        else
-            mView.setMovies(mMoviesList);
-        mView.showChangeLog();
-        mView.hideProgressDialog();
-    }
-
-    @Subscribe
-    public void onGetHtmlError(EventGetHtmlError event) {
-        mView.showTimeOutDialog();
+        mInteractor.moviesList().subscribe(this);
     }
 
     @Override
@@ -104,5 +84,27 @@ public class MainPresenterImpl implements MainPresenter, OkCancelDialogListener 
     @Override
     public void onRefresh() {
         loadMovies();
+    }
+
+    @Override
+    public void onCompleted() {
+
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        mView.showTimeOutDialog();
+    }
+
+    @Override
+    public void onNext(List<Movie> movies) {
+        mMoviesList = movies;
+        mView.showTitle(mMoviesList.size());
+        if (mMoviesList.size() < 1)
+            mView.showNoEventsDialog();
+        else
+            mView.setMovies(mMoviesList);
+        mView.showChangeLog();
+        mView.hideProgressDialog();
     }
 }

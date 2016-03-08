@@ -2,7 +2,7 @@ package com.vsa.filmoteca.view;
 
 import android.content.Context;
 
-import com.vsa.filmoteca.model.Movie;
+import com.vsa.filmoteca.model.domain.Movie;
 
 /**
  * Created by seldon on 15/03/15.

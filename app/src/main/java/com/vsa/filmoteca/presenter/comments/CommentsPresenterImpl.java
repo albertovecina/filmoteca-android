@@ -21,7 +21,7 @@ import com.twitter.sdk.android.core.models.User;
 import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.model.event.BUS;
 import com.vsa.filmoteca.model.event.comments.EventOnTweetsLoaded;
-import com.vsa.filmoteca.model.sharedpreferences.SharedPreferencesManager;
+import com.vsa.filmoteca.repository.sharedpreferences.SharedPreferencesManager;
 import com.vsa.filmoteca.model.twitter.FakeTweetsManager;
 import com.vsa.filmoteca.model.twitter.TweetComparator;
 import com.vsa.filmoteca.presenter.service.ReloadTweetsService;

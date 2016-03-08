@@ -1,4 +1,6 @@
-package com.vsa.filmoteca.model;
+package com.vsa.filmoteca.model.domain.mapper;
+
+import com.vsa.filmoteca.model.domain.Movie;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,12 +13,12 @@ import java.util.List;
 /**
  * Created by seldon on 26/03/15.
  */
-public class MoviesFactory {
+public class MovieHtmlMapper {
 
     private static final String CLASS_EVENT = "contenttype-evento";
     public static final String CLASS_DATE = "description";
 
-    public static List<Movie> parseMoviesList(String html) {
+    public static List<Movie> transformMovie(String html) {
         List<Movie> moviesList = new ArrayList<Movie>();
 
         if (html == null || html.isEmpty())

@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.model.database;
+package com.vsa.filmoteca.repository.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

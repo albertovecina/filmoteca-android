@@ -1,12 +1,9 @@
 package com.vsa.filmoteca.view;
 
-import android.content.Context;
-
-import com.vsa.filmoteca.model.Movie;
+import com.vsa.filmoteca.model.domain.Movie;
 import com.vsa.filmoteca.view.adapter.EventsAdapter;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**

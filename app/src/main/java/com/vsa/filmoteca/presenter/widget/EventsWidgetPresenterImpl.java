@@ -4,24 +4,24 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.vsa.filmoteca.model.Movie;
-import com.vsa.filmoteca.model.MoviesFactory;
-import com.vsa.filmoteca.model.database.WidgetDataSource;
-import com.vsa.filmoteca.model.sharedpreferences.SharedPreferencesManager;
+import com.vsa.filmoteca.interactor.FilmotecaInteractor;
+import com.vsa.filmoteca.interactor.FilmotecaInteractorImpl;
+import com.vsa.filmoteca.model.domain.Movie;
 import com.vsa.filmoteca.presenter.utils.Constants;
+import com.vsa.filmoteca.repository.database.WidgetDataSource;
+import com.vsa.filmoteca.repository.sharedpreferences.SharedPreferencesManager;
 import com.vsa.filmoteca.view.EventsWidgetView;
 
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
+import rx.Observer;
 
 /**
  * Created by seldon on 27/03/15.
  */
-public class EventsWidgetPresenterImpl extends AsyncHttpResponseHandler implements EventsWidgetPresenter {
+public class EventsWidgetPresenterImpl implements EventsWidgetPresenter, Observer<List<Movie>> {
 
+    private FilmotecaInteractor mInteractor = new FilmotecaInteractorImpl();
     private EventsWidgetView mView;
 
     private int mCurrentMovieIndex = 0;
@@ -35,53 +35,13 @@ public class EventsWidgetPresenterImpl extends AsyncHttpResponseHandler implemen
         mView = view;
     }
 
-    @Override
-    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        mMovies = MoviesFactory.parseMoviesList(new String(responseBody));
-        if (mMovies == null) {
-            mView.showRefreshButton(mContext);
-        } else {
-            if (mMovies.size() != 0) {
-                //Actualizando base de datos
-                WidgetDataSource widgetDataSource = new WidgetDataSource(mContext);
-                widgetDataSource.open();
-                widgetDataSource.clearMovies();
-                for (int x = 0; x < mMovies.size(); x++)
-                    widgetDataSource.insertMovie(x, mMovies.get(x));
-                widgetDataSource.close();
-
-                //Estableciendo elemento actual y tamaño de la base de datos
-                mCurrentMovieIndex = 0;
-                mMoviesListSize = mMovies.size();
-                SharedPreferencesManager.setCurrentMovieIndex(mContext, 0);
-                SharedPreferencesManager.setMoviesCount(mContext, mMoviesListSize);
-
-                //Configurando la vista
-                mView.setupLRButtons(mContext);
-                Movie movie = null;
-                if (mMovies != null && mMovies.size() > 0)
-                    movie = mMovies.get(mCurrentMovieIndex);
-                mView.hideProgress();
-                mView.setupMovieView(mContext, movie);
-                mView.setupIndexView(mContext, mCurrentMovieIndex + 1, mMoviesListSize);
-                mView.updateWidget();
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         mContext = context;
         mView.initWidget(context);
         mView.showProgress();
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.setTimeout(Constants.TIMEOUT_WIDGET);
-        client.get(Constants.URL_SOURCE, this);
+        mInteractor.moviesList().subscribe(this);
     }
 
     @Override
@@ -123,5 +83,49 @@ public class EventsWidgetPresenterImpl extends AsyncHttpResponseHandler implemen
     @Override
     public void loadMovies() {
 
+    }
+
+    @Override
+    public void onCompleted() {
+
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void onNext(List<Movie> movies) {
+        mMovies = movies;
+        if (mMovies == null) {
+            mView.showRefreshButton(mContext);
+        } else {
+            if (mMovies.size() != 0) {
+                //Actualizando base de datos
+                WidgetDataSource widgetDataSource = new WidgetDataSource(mContext);
+                widgetDataSource.open();
+                widgetDataSource.clearMovies();
+                for (int x = 0; x < mMovies.size(); x++)
+                    widgetDataSource.insertMovie(x, mMovies.get(x));
+                widgetDataSource.close();
+
+                //Estableciendo elemento actual y tamaño de la base de datos
+                mCurrentMovieIndex = 0;
+                mMoviesListSize = mMovies.size();
+                SharedPreferencesManager.setCurrentMovieIndex(mContext, 0);
+                SharedPreferencesManager.setMoviesCount(mContext, mMoviesListSize);
+
+                //Configurando la vista
+                mView.setupLRButtons(mContext);
+                Movie movie = null;
+                if (mMovies != null && mMovies.size() > 0)
+                    movie = mMovies.get(mCurrentMovieIndex);
+                mView.hideProgress();
+                mView.setupMovieView(mContext, movie);
+                mView.setupIndexView(mContext, mCurrentMovieIndex + 1, mMoviesListSize);
+                mView.updateWidget();
+            }
+        }
     }
 }

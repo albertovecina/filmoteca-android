@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.model.sharedpreferences;
+package com.vsa.filmoteca.repository.sharedpreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

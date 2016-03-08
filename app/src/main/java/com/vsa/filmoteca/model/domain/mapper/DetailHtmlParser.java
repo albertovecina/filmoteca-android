@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.model;
+package com.vsa.filmoteca.model.domain.mapper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by seldon on 9/04/15.
  */
-public class DetailInfoParser {
+public class DetailHtmlParser {
 
     private static final String CLASS_TABLAEVENTOS = "tablaeventos";
     private static final String CLASS_VEVENT = "vevent";

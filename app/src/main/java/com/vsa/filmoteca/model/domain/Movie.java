@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.model;
+package com.vsa.filmoteca.model.domain;
 
 import com.vsa.filmoteca.view.adapter.EventsAdapter;
 

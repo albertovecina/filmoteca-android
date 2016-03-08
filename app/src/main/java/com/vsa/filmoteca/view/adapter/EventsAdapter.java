@@ -8,9 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.model.Movie;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
