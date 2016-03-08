@@ -32,17 +32,10 @@ public class MainPresenterImpl implements MainPresenter, OkCancelDialogListener,
     public void onResume(Serializable movieInfo) {
         BUS.getInstance().register(this);
         Movie movie = (Movie) movieInfo;
-        if (movie != null) {
-            mView.navigateToDetail(movie);
-        } else {
-            if (!mView.isListLoaded()) {
-                if (!mInteractor.isNetworkAvailable()) {
-                    mView.showWifiRequestDialog(this);
-                } else {
-                    loadMovies();
-                }
-            }
-        }
+        if (movie != null)
+            mView.navigateToDetail(movie.getUrl(), movie.getTitle(), movie.getDate());
+        else
+            loadMovies();
     }
 
     @Override
@@ -62,7 +55,8 @@ public class MainPresenterImpl implements MainPresenter, OkCancelDialogListener,
 
     @Override
     public void onMovieRowClick(int position) {
-        mView.navigateToDetail(mMoviesList.get(position));
+        Movie movie = mMoviesList.get(position);
+        mView.navigateToDetail(movie.getUrl(), movie.getTitle(), movie.getDate());
     }
 
     @Override

@@ -29,7 +29,7 @@ public interface DetailView {
 
     void setWebViewContent(String html, String baseUrl);
 
-    void navitgateToComments(String title);
+    void navigateToComments(String title);
 
     void onBackPressed();
 

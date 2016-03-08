@@ -61,7 +61,7 @@ public class DetailPresenterImpl implements DetailPresenter, Observer<String> {
     }
 
     public void onFabClick() {
-        mView.navitgateToComments(mTitle);
+        mView.navigateToComments(mTitle);
     }
 
     public void loadContent(String url) {

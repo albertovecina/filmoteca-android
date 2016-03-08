@@ -3,7 +3,6 @@ package com.vsa.filmoteca.view.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.model.domain.Movie;
 import com.vsa.filmoteca.presenter.main.MainPresenter;
 import com.vsa.filmoteca.presenter.main.MainPresenterImpl;
 import com.vsa.filmoteca.presenter.utils.ChangeLog;
@@ -173,18 +171,12 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
     }
 
     @Override
-    public void navigateToDetail(Movie movie) {
-        String url = movie.getUrl();
-        String fecha = movie.getDate();
-        String titulo = movie.getTitle();
-        ActivityOptionsCompat activityOptionsCompat =
-                ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(this, mClickedRow, "transition_movie_title");
+    public void navigateToDetail(String url, String title, String date) {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra(DetailActivity.EXTRA_URL, url);
-        i.putExtra(DetailActivity.EXTRA_TITLE, titulo);
-        i.putExtra(DetailActivity.EXTRA_DATE, fecha);
-        startActivity(i, activityOptionsCompat.toBundle());
+        i.putExtra(DetailActivity.EXTRA_TITLE, title);
+        i.putExtra(DetailActivity.EXTRA_DATE, date);
+        startActivity(i);
     }
 
 

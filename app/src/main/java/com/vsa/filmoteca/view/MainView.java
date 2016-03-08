@@ -30,7 +30,7 @@ public interface MainView {
 
     void showNoEventsDialog();
 
-    void navigateToDetail(Movie movie);
+    void navigateToDetail(String url, String title, String date);
 
     void showAboutUs();
 

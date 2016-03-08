@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.interactor;
 
 import com.vsa.filmoteca.model.domain.Movie;
-import com.vsa.filmoteca.presenter.utils.NetworkUtils;
+import com.vsa.filmoteca.presenter.utils.ConnectivityUtils;
 import com.vsa.filmoteca.repository.DataRepository;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class FilmotecaInteractorImpl implements FilmotecaInteractor {
 
     @Override
     public boolean isNetworkAvailable() {
-        return NetworkUtils.isNetworkAvailable();
+        return ConnectivityUtils.isInternetAvailable();
     }
 
     @Override

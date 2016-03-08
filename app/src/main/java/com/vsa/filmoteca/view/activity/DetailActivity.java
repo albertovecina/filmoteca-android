@@ -211,7 +211,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     }
 
     @Override
-    public void navitgateToComments(String title) {
+    public void navigateToComments(String title) {
         Intent intent = new Intent(this, CommentsActivity.class);
         intent.putExtra(CommentsActivity.EXTRA_TITLE, title);
         startActivity(intent);
@@ -219,8 +219,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     @Override
     public void showAboutUs() {
-        Intent acercade = new Intent(this, AboutActivity.class);
-        startActivity(acercade);
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
     }
 
     @Override

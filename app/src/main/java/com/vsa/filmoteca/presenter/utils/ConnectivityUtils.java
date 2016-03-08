@@ -6,9 +6,9 @@ import android.net.NetworkInfo;
 
 import com.vsa.filmoteca.FilmotecaApplication;
 
-public class NetworkUtils {
+public class ConnectivityUtils {
 
-    public static boolean isNetworkAvailable(Context c) {
+    public static boolean isInternetAvailable(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         // if no network is available networkInfo will be null, otherwise check if we are connected
@@ -18,8 +18,8 @@ public class NetworkUtils {
         return false;
     }
 
-    public static boolean isNetworkAvailable() {
-        return isNetworkAvailable(FilmotecaApplication.getContext());
+    public static boolean isInternetAvailable() {
+        return isInternetAvailable(FilmotecaApplication.getContext());
     }
 
 }
