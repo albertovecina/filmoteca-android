@@ -1,6 +1,5 @@
 package com.vsa.filmoteca.view.activity;
 
-import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,14 +13,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.presenter.detail.DetailPresenter;
-import com.vsa.filmoteca.presenter.detail.DetailPresenterImpl;
+import com.vsa.filmoteca.presentation.detail.DetailPresenter;
 import com.vsa.filmoteca.view.DetailView;
 import com.vsa.filmoteca.view.dialog.DialogManager;
+import com.vsa.filmoteca.view.dialog.ProgressDialogManager;
 import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
 import com.vsa.filmoteca.view.webview.ObservableWebView;
 import com.vsa.filmoteca.view.widget.EventsWidget;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -43,10 +45,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     @InjectView(R.id.fab_comments)
     FloatingActionButton mFabComments;
 
-    private ProgressDialog mProgressDialog;
-
-
-    private DetailPresenter mPresenter = new DetailPresenterImpl(this);
+    @Inject
+    DetailPresenter mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +56,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-
         initViews();
-
+        initializeInjector();
+        initializePresenter();
         mPresenter.onCreate(getIntent().getStringExtra(EXTRA_URL),
                 getIntent().getStringExtra(EXTRA_TITLE));
 
@@ -115,22 +115,12 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary);
-        mWebView.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
-            @Override
-            public void onScroll(int l, int t, int oldl, int oldt) {
-                mSwipeRefreshLayout.setEnabled(t == 0);
-                if (t < oldt && !mFabComments.isVisible())
-                    mFabComments.show(true);
-            }
+        mWebView.setOnScrollChangedCallback((l, t, oldl, oldt) -> {
+            mSwipeRefreshLayout.setEnabled(t == 0);
+            if (t < oldt && !mFabComments.isVisible())
+                mFabComments.show(true);
         });
-        mWebView.setOnOverScollListener(new ObservableWebView.OnOverScrollListener() {
-            @Override
-            public void onOverScroll() {
-                mFabComments.hide(true);
-            }
-        });
-        mProgressDialog = ProgressDialog.show(this, "",
-                getString(R.string.loading), true, false);
+        mWebView.setOnOverScollListener(() -> mFabComments.hide(true));
         showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE));
 
     }
@@ -147,12 +137,12 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     @Override
     public void showProgressDialog() {
-        mProgressDialog.show();
+        ProgressDialogManager.showProgressDialog(this, R.string.loading);
     }
 
     @Override
     public void hideProgressDialog() {
-        mProgressDialog.dismiss();
+        ProgressDialogManager.hideProgressDialog();
     }
 
     @Override
@@ -227,5 +217,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     public void onClick(View v) {
         if (v == mFabComments)
             mPresenter.onFabClick();
+    }
+
+    private void initializeInjector() {
+        FilmotecaApplication.getInstance().getMainComponent().inject(this);
+    }
+
+    private void initializePresenter() {
+        mPresenter.setView(this);
     }
 }

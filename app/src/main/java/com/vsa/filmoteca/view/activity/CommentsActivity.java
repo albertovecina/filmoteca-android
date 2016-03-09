@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -19,21 +18,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.TweetView;
 import com.twitter.sdk.android.tweetui.TweetViewAdapter;
+import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.presenter.comments.CommentsPresenter;
-import com.vsa.filmoteca.presenter.comments.CommentsPresenterImpl;
+import com.vsa.filmoteca.presentation.comments.CommentsPresenter;
 import com.vsa.filmoteca.view.CommentsView;
+import com.vsa.filmoteca.view.component.TwitterRxLoginButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observable;
 
 public class CommentsActivity extends AppCompatActivity implements CommentsView, TextWatcher {
 
@@ -52,11 +55,12 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
     @InjectView(R.id.edittext_twitter_message)
     EditText mEditTextTwitterMessage;
     @InjectView(R.id.login_button)
-    TwitterLoginButton mLoginButton;
+    TwitterRxLoginButton mLoginButton;
     @InjectView(R.id.layout_tweet_editor)
     LinearLayout mLayoutTweetEditor;
 
-    private CommentsPresenter mPresenter = new CommentsPresenterImpl(this);
+    @Inject
+    CommentsPresenter mPresenter;
     private ProgressDialog mProgressDialog;
     private TweetViewAdapter<TweetView> mTweetViewAdapter;
 
@@ -65,21 +69,15 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
         ButterKnife.inject(this);
-
+        initializeInjector();
         initViews();
-
+        mPresenter.onCreate(getIntent().getStringExtra(EXTRA_TITLE));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.onResume(getIntent().getStringExtra(EXTRA_TITLE));
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        mPresenter.onResume(intent.getStringExtra(EXTRA_TITLE));
+        mPresenter.onResume();
     }
 
     @Override
@@ -89,12 +87,28 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mPresenter.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mPresenter.onHomeAsUpClick();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void initializeInjector() {
+        FilmotecaApplication.getInstance().getMainComponent().inject(this);
     }
 
     private void initViews() {
-        mPresenter.setLoginCallBack(mLoginButton);
+        mPresenter.setView(this);
         mProgressDialog = ProgressDialog.show(this, "",
                 getString(R.string.loading), true, false);
         mTweetViewAdapter = new TweetViewAdapter(this);
@@ -103,8 +117,8 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
     }
 
     @OnClick(R.id.button_publish_tweet)
-    public void onPublishTweetButtonPressed() {
-        mPresenter.onPublishTweet(mEditTextTwitterMessage.getText().toString());
+    public void onPublishButtonClick() {
+        mPresenter.onPublishButtonClick();
         mEditTextTwitterMessage.setText("");
     }
 
@@ -140,6 +154,11 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
     public void setMaxTweetLength(int length) {
         InputFilter[] filterArray = {new InputFilter.LengthFilter(length)};
         mEditTextTwitterMessage.setFilters(filterArray);
+    }
+
+    @Override
+    public String getMessage() {
+        return mEditTextTwitterMessage.getText().toString();
     }
 
     @Override
@@ -199,6 +218,11 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
     }
 
     @Override
+    public Observable<TwitterSession> twitterSession() {
+        return mLoginButton.twitterSession();
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
@@ -217,4 +241,5 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
     public void onCloseSessionButtonPressed() {
         mPresenter.closeSession();
     }
+
 }

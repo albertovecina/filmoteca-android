@@ -1,49 +1,45 @@
 package com.vsa.filmoteca;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
 
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.AppSession;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterCore;
-import com.twitter.sdk.android.core.TwitterException;
+import com.vsa.filmoteca.data.repository.TwitterRepository;
+import com.vsa.filmoteca.internal.di.component.DaggerMainComponent;
+import com.vsa.filmoteca.internal.di.component.MainComponent;
 
 import io.fabric.sdk.android.Fabric;
+import rx.functions.Action1;
 
 
 /**
  * Created by seldon on 31/03/15.
  */
-public class FilmotecaApplication extends Application {
+public class FilmotecaApplication extends Application implements Action1<AppSession> {
 
     private static final String TAG = FilmotecaApplication.class.getSimpleName();
 
+    private static FilmotecaApplication sApplication;
+
     private AppSession mGuestSession;
 
-    private static Context sContext;
+    private TwitterRepository mRepository = new TwitterRepository();
 
-    private Callback<AppSession> mGuestLoginCallback = new Callback<AppSession>() {
-        @Override
-        public void success(Result<AppSession> appSessionResult) {
-            mGuestSession = appSessionResult.data;
-        }
-
-        @Override
-        public void failure(TwitterException e) {
-            Log.i(TAG, "Can't create twitter guest session");
-        }
-    };
+    private MainComponent mMainComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sContext = this;
+        sApplication = this;
+        mMainComponent = DaggerMainComponent.create();
         initTwitter();
         startGuestSession();
+    }
+
+    @Override
+    public void call(AppSession appSession) {
+        mGuestSession = appSession;
     }
 
     private void initTwitter() {
@@ -55,18 +51,15 @@ public class FilmotecaApplication extends Application {
     }
 
     private void startGuestSession() {
-        TwitterCore.getInstance().logInGuest(mGuestLoginCallback);
+        mRepository.guestLogin().subscribe();
     }
 
-    public void setGuestSession(AppSession guestSession) {
-        mGuestSession = guestSession;
+    public MainComponent getMainComponent() {
+        return mMainComponent;
     }
 
-    public AppSession getGuestSession() {
-        return mGuestSession;
+    public static FilmotecaApplication getInstance() {
+        return sApplication;
     }
 
-    public static Context getContext() {
-        return sContext;
-    }
 }

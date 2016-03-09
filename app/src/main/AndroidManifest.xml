@@ -58,7 +58,7 @@
 		</receiver>
 
         <service
-            android:name=".presenter.service.ReloadTweetsService" />
+            android:name=".presentation.service.ReloadTweetsService" />
 
     </application>
 

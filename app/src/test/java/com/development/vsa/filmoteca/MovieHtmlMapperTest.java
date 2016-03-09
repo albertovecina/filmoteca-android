@@ -1,7 +1,7 @@
 package com.development.vsa.filmoteca;
 
-import com.vsa.filmoteca.model.domain.Movie;
-import com.vsa.filmoteca.model.domain.mapper.MovieHtmlMapper;
+import com.vsa.filmoteca.data.domain.Movie;
+import com.vsa.filmoteca.data.domain.mapper.MovieHtmlMapper;
 
 import org.junit.Test;
 

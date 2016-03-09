@@ -1,6 +1,5 @@
 package com.vsa.filmoteca.view.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,20 +10,22 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.presenter.main.MainPresenter;
-import com.vsa.filmoteca.presenter.main.MainPresenterImpl;
-import com.vsa.filmoteca.presenter.utils.ChangeLog;
+import com.vsa.filmoteca.presentation.main.MainPresenter;
+import com.vsa.filmoteca.presentation.utils.ChangeLog;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.view.adapter.EventsAdapter;
 import com.vsa.filmoteca.view.dialog.DialogManager;
+import com.vsa.filmoteca.view.dialog.ProgressDialogManager;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
-import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
 import com.vsa.paperknife.CellDataProvider;
 import com.vsa.paperknife.CellElement;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,14 +38,13 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
 
     public static final String EXTRA_MOVIE = "extra_movie";
 
-    private View mClickedRow;
-    private MainPresenter mPresenter = new MainPresenterImpl(this);
+    @Inject
+    MainPresenter mPresenter;
 
     @InjectView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.listview_movies)
     ListView mListView;
-    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         initViews();
-
+        initializeDagger();
+        initializePresenter();
+        onNewIntent(getIntent());
     }
 
     @Override
@@ -61,39 +63,16 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
         Serializable movieInfo = intent.getSerializableExtra(EXTRA_MOVIE);
         if (movieInfo != null) {
             getIntent().removeExtra(MainActivity.EXTRA_MOVIE);
-            mPresenter.onResume(movieInfo);
+            mPresenter.onCreate(movieInfo);
         } else {
-            mPresenter.onResume(null);
+            mPresenter.onCreate(null);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        onNewIntent(getIntent());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPresenter.onPause();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    public void initViews() {
-        showTitle(0);
-        mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
-                R.color.color_accent,
-                R.color.color_primary);
-        mListView.setOnItemClickListener(this);
-        mProgressDialog = ProgressDialog.show(this, "",
-                getString(R.string.loading), true, false);
     }
 
     @Override
@@ -108,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
         }
         return false;
     }
-
 
     @Override
     public void showTitle(int moviesCount) {
@@ -126,35 +104,23 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
     @Override
     public void showTimeOutDialog() {
         DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message,
-                new SimpleDialogListener() {
-
-                    public void onAccept() {
-                        MainActivity.this.finish();
-                    }
-
-                });
+                MainActivity.this::finish);
     }
 
     @Override
     public void showNoEventsDialog() {
         DialogManager.showSimpleDialog(this, R.string.warning_no_films_recived,
-                new SimpleDialogListener() {
-
-                    public void onAccept() {
-                        MainActivity.this.finish();
-                    }
-
-                });
+                MainActivity.this::finish);
     }
 
     @Override
     public void showProgressDialog() {
-        mProgressDialog.show();
+        ProgressDialogManager.showProgressDialog(this, R.string.loading);
     }
 
     @Override
     public void hideProgressDialog() {
-        mProgressDialog.dismiss();
+        ProgressDialogManager.hideProgressDialog();
     }
 
     @Override
@@ -204,7 +170,24 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mClickedRow = view;
         mPresenter.onMovieRowClick(position);
     }
+
+    private void initViews() {
+        showTitle(0);
+        mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
+                R.color.color_accent,
+                R.color.color_primary);
+        mListView.setOnItemClickListener(this);
+    }
+
+    private void initializeDagger() {
+        FilmotecaApplication.getInstance().getMainComponent().inject(this);
+    }
+
+    private void initializePresenter() {
+        mPresenter.setView(this);
+    }
+
 }

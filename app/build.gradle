@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.hugo'
 
@@ -33,7 +34,12 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:23.1.1"
 
-    // Unit testing dependencies
+    // DEPENDENCY INJECTION
+    compile 'com.google.dagger:dagger:2.0'
+    provided 'javax.annotation:jsr250-api:1.0'
+    apt 'com.google.dagger:dagger-compiler:2.0'
+
+    // UNIT TESTING
     testCompile 'junit:junit:4.12'
     // Set this dependency if you want to use Mockito
     testCompile 'org.mockito:mockito-core:1.10.19'

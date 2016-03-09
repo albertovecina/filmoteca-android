@@ -85,7 +85,7 @@
     </LinearLayout>
 
 
-    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+    <com.vsa.filmoteca.view.component.TwitterRxLoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

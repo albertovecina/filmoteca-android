@@ -1,6 +1,6 @@
 package com.vsa.filmoteca.view;
 
-import com.vsa.filmoteca.model.domain.Movie;
+import com.vsa.filmoteca.data.domain.Movie;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.paperknife.CellDataProvider;
 import com.vsa.paperknife.CellElement;

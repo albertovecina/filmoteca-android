@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.presenter.utils.ScreenUtils;
 
 /**
  * Created by seldon on 4/04/15.

@@ -1,15 +1,16 @@
 <resources>
+
     <style name="DetalleTitleTheme">
-  		<item name="android:textColor">#000000</item>
-  		<item name="android:background">#FFFFFF</item>
-  		<item name="android:textSize">30sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:textSize">30sp</item>
     </style>
-    
+
     <style name="MainTitleTextStyle">
         <item name="android:textColor">#FFFFFF</item>
     </style>
-    <style name="DetalleTitleTextStyle">
-	</style>
+
+    <style name="DetalleTitleTextStyle"></style>
 
     <style name="Theme.MainTheme" parent="Theme.AppCompat.Light">
         <!-- colorPrimary is used for the default action bar background -->
@@ -20,7 +21,7 @@
 
         <!-- colorAccent is used as the default value for colorControlActivated
              which is used to tint widgets -->
-        <item name="colorAccent">@android:color/transparent</item>
+        <item name="colorAccent">@color/color_primary</item>
 
         <item name="actionModeBackground">@color/color_primary_dark</item>
         <!-- You can also set colorControlNormal, colorControlActivated
@@ -39,16 +40,17 @@
 
     </style>
 
-    <style name="PopupOverflow" >
+    <style name="PopupOverflow">
         <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="Theme.DetailTheme" parent="Theme.MainTheme" >
-    </style>
+    <style name="Theme.DetailTheme" parent="Theme.MainTheme"></style>
+
     <style name="DetalleTheme" parent="android:Theme">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowTitleSize">142px</item>
     </style>
+
     <style name="Theme.Transparent" parent="android:Theme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
