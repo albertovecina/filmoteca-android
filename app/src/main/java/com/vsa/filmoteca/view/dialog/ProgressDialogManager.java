@@ -27,8 +27,11 @@ public class ProgressDialogManager {
     }
 
     public static void hideProgressDialog() {
-        if (sProgressDialog != null)
+        if (sProgressDialog != null) {
             sProgressDialog.dismiss();
+            sProgressDialog = null;
+        }
+
     }
 
 }

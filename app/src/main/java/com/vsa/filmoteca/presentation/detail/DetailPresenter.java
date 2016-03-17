@@ -2,9 +2,8 @@ package com.vsa.filmoteca.presentation.detail;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.vsa.filmoteca.data.model.event.BUS;
-import com.vsa.filmoteca.presentation.interactor.MainInteractor;
 import com.vsa.filmoteca.presentation.Presenter;
+import com.vsa.filmoteca.presentation.interactor.MainInteractor;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
 import com.vsa.filmoteca.view.DetailView;
 
@@ -29,7 +28,6 @@ public class DetailPresenter implements SwipeRefreshLayout.OnRefreshListener, Pr
     }
 
     public void onCreate(String url, String movieTitle) {
-        BUS.getInstance().register(this);
         if (!StringUtils.isEmpty(url)) {
             mTitle = movieTitle;
             mContentUrl = url;
@@ -40,7 +38,6 @@ public class DetailPresenter implements SwipeRefreshLayout.OnRefreshListener, Pr
     }
 
     public void onDestroy() {
-        BUS.getInstance().unregister(this);
     }
 
     @Override
@@ -96,6 +93,7 @@ public class DetailPresenter implements SwipeRefreshLayout.OnRefreshListener, Pr
     }
 
     public void onError(Throwable e) {
+        mView.hideProgressDialog();
         mView.showTimeOutDialog();
         //Probably this error comes from an inconsistent widget data. We must to update
         //the widget information to match the entries for the next time.

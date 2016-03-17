@@ -84,6 +84,7 @@ public class MainPresenter implements SwipeRefreshLayout.OnRefreshListener, OkCa
     @Override
     public void onError(Throwable e) {
         mView.showTimeOutDialog();
+        mView.hideProgressDialog();
     }
 
     @Override
