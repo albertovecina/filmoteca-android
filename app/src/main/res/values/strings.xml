@@ -11,7 +11,7 @@
     <string name="image_search">Imagen del título</string>
     <string name="image_share">Imagen del título</string>
     <string name="image_navigator">Imagen del título</string>
-	<string name="changelog_full_title">Change Log</string>
+    <string name="changelog_full_title">Change Log</string>
     <string name="changelog_title">What\'s New</string>
     <string name="changelog_ok_button">OK</string>
     <string name="changelog_show_full">more&#8230;</string>
@@ -23,6 +23,9 @@
 
     <!-- MainActivity -->
     <string name="title_activity_main">Programación</string>
+
+    <!-- DetailActivity -->
+    <string name="error_no_internet">Debe tener activa una conexión a internet.</string>
 
     <!-- Comments -->
     <string name="title_activity_comments">Comentarios</string>
@@ -47,9 +50,9 @@
     <string name="share_date">Fecha</string>
     <string name="share_subject">Filmoteca de Albacete</string>
     <string name="share_message">Voy a ir a la Filmoteca a ver:\nTítulo:</string>
-    
+
     <!-- Dialog -->
-    <string name = "dialog_title">Información</string>
+    <string name="dialog_title">Información</string>
     <string name="loading">Cargando…</string>
     <string name="timeout_dialog_message">No ha sido posible obtener la información, inténtelo de nuevo mas tarde.</string>
     <string name="dialog_accept">Aceptar</string>

@@ -109,13 +109,13 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     public void showTimeOutDialog() {
         DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message,
-                MainActivity.this::finish);
+                dialog -> finish());
     }
 
     @Override
     public void showNoEventsDialog() {
         DialogManager.showSimpleDialog(this, R.string.warning_no_films_recived,
-                MainActivity.this::finish);
+                dialog -> finish());
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.vsa.filmoteca.presentation.comments;
 
-import android.util.Log;
-
 import com.twitter.sdk.android.core.Session;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Search;

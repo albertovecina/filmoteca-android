@@ -23,6 +23,8 @@ public interface DetailView {
 
     void launchBrowser(String url);
 
+    void showErrorNoInternet();
+
     void showShareDialog();
 
     void showAboutUs();

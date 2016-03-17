@@ -2,6 +2,7 @@ package com.vsa.filmoteca.presentation.detail;
 
 import com.vsa.filmoteca.presentation.Presenter;
 import com.vsa.filmoteca.presentation.interactor.MainInteractor;
+import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
 import com.vsa.filmoteca.view.DetailView;
 
@@ -60,7 +61,10 @@ public class DetailPresenter implements Presenter<DetailView>, Observer<String> 
     }
 
     public void onFabClick() {
-        mView.navigateToComments(mTitle);
+        if (ConnectivityUtils.isInternetAvailable())
+            mView.navigateToComments(mTitle);
+        else
+            mView.showErrorNoInternet();
     }
 
     public void loadContent(String url) {

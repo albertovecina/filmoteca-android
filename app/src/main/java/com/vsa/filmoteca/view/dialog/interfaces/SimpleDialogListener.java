@@ -1,5 +1,7 @@
 package com.vsa.filmoteca.view.dialog.interfaces;
 
+import android.content.DialogInterface;
+
 public interface SimpleDialogListener {
-	public void onAccept();
+    void onAccept(DialogInterface dialog);
 }

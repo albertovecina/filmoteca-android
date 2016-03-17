@@ -1,6 +1,7 @@
 package com.vsa.filmoteca.view.activity;
 
 import android.appwidget.AppWidgetManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -177,6 +178,11 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Swi
         startActivity(intent);
     }
 
+    @Override
+    public void showErrorNoInternet() {
+        DialogManager.showSimpleDialog(this, R.string.error_no_internet, dialog -> dialog.dismiss());
+    }
+
     public void showShareDialog() {
         String tituloCmpBtn = getIntent().getStringExtra(EXTRA_TITLE);
         String fechaCmpBtn = getString(R.string.share_date) + ": " + getIntent().getStringExtra(EXTRA_DATE).substring(1);
@@ -193,7 +199,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Swi
     public void showTimeOutDialog() {
         DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message, new SimpleDialogListener() {
             @Override
-            public void onAccept() {
+            public void onAccept(DialogInterface dialog) {
                 finish();
             }
         });
