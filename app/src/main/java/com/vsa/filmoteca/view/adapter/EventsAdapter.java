@@ -16,8 +16,8 @@ import com.vsa.paperknife.PaperKnife;
 
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by seldon on 27/03/15.
@@ -68,13 +68,13 @@ public class EventsAdapter extends BaseAdapter {
 
     public static class ViewHolder implements CellViewHolder {
 
-        @InjectView(R.id.textview_row_movie_title)
+        @Bind(R.id.textview_row_movie_title)
         public TextView textViewTitle;
-        @InjectView(R.id.textview_row_movie_date)
+        @Bind(R.id.textview_row_movie_date)
         public TextView textViewDate;
 
         public ViewHolder(View view) {
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
 
         @DataTarget("Title")

@@ -27,8 +27,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 
 public class MainActivity extends AppCompatActivity implements MainView, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
@@ -41,16 +41,16 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Inject
     MainPresenter mPresenter;
 
-    @InjectView(R.id.swipe_refresh_layout)
+    @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @InjectView(R.id.listview_movies)
+    @Bind(R.id.listview_movies)
     ListView mListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initViews();
         initializeDagger();
         initializePresenter();

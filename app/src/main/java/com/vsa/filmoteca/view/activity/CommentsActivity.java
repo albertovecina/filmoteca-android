@@ -33,8 +33,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Observable;
 
@@ -42,21 +42,21 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
 
     public static final String EXTRA_TITLE = "extra_title";
 
-    @InjectView(R.id.imageview_profile_image)
+    @Bind(R.id.imageview_profile_image)
     ImageView mImageViewProfileImage;
-    @InjectView(R.id.textview_user_name)
+    @Bind(R.id.textview_user_name)
     TextView mTextViewUserName;
-    @InjectView(R.id.textview_user_description)
+    @Bind(R.id.textview_user_description)
     TextView mTextViewUserDescription;
-    @InjectView(R.id.textview_char_counter)
+    @Bind(R.id.textview_char_counter)
     TextView mTextViewCharCounter;
-    @InjectView(R.id.listview_tweets)
+    @Bind(R.id.listview_tweets)
     ListView mListViewTweets;
-    @InjectView(R.id.edittext_twitter_message)
+    @Bind(R.id.edittext_twitter_message)
     EditText mEditTextTwitterMessage;
-    @InjectView(R.id.login_button)
+    @Bind(R.id.login_button)
     TwitterRxLoginButton mLoginButton;
-    @InjectView(R.id.layout_tweet_editor)
+    @Bind(R.id.layout_tweet_editor)
     LinearLayout mLayoutTweetEditor;
 
     @Inject
@@ -68,7 +68,7 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initializeInjector();
         initViews();
         mPresenter.onCreate(getIntent().getStringExtra(EXTRA_TITLE));

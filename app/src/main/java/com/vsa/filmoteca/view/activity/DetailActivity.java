@@ -25,8 +25,8 @@ import com.vsa.filmoteca.view.widget.EventsWidget;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class DetailActivity extends AppCompatActivity implements DetailView, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
@@ -34,15 +34,15 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Swi
     public static final String EXTRA_TITLE = "extra_title";
     public static final String EXTRA_URL = "extra_url";
 
-    @InjectView(R.id.wrapper_detail_content)
+    @Bind(R.id.wrapper_detail_content)
     ViewGroup mWrapperContent;
-    @InjectView(R.id.swipe_refresh_layout)
+    @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @InjectView(R.id.webview)
+    @Bind(R.id.webview)
     ObservableWebView mWebView;
-    @InjectView(R.id.detalleTitle)
+    @Bind(R.id.detalleTitle)
     TextView mTitle;
-    @InjectView(R.id.fab_comments)
+    @Bind(R.id.fab_comments)
     FloatingActionButton mFabComments;
 
     @Inject
@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Swi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
