@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends AppCompatActivity implements MainView, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements MainView, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     /**
      * Called when the activity is first created.
      */
@@ -86,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.onRefresh();
     }
 
     @Override
@@ -175,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements MainView, Adapter
 
     private void initViews() {
         showTitle(0);
-        mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary);

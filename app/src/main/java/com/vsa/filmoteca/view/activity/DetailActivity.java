@@ -28,7 +28,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener {
+public class DetailActivity extends AppCompatActivity implements DetailView, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     public static final String EXTRA_DATE = "extra_date";
     public static final String EXTRA_TITLE = "extra_title";
@@ -109,9 +109,14 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         }
     }
 
+    @Override
+    public void onRefresh() {
+        mPresenter.onRefresh();
+    }
+
     public void initViews() {
         mFabComments.setOnClickListener(this);
-        mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary);
@@ -226,4 +231,5 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     private void initializePresenter() {
         mPresenter.setView(this);
     }
+
 }

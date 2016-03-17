@@ -1,7 +1,5 @@
 package com.vsa.filmoteca.presentation.detail;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import com.vsa.filmoteca.presentation.Presenter;
 import com.vsa.filmoteca.presentation.interactor.MainInteractor;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
@@ -14,7 +12,7 @@ import rx.Observer;
 /**
  * Created by seldon on 13/03/15.
  */
-public class DetailPresenter implements SwipeRefreshLayout.OnRefreshListener, Presenter<DetailView>, Observer<String> {
+public class DetailPresenter implements Presenter<DetailView>, Observer<String> {
 
     private String mContentUrl;
     private String mTitle;

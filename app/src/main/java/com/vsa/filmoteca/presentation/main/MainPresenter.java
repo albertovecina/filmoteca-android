@@ -1,11 +1,9 @@
 package com.vsa.filmoteca.presentation.main;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import com.vsa.filmoteca.data.domain.Movie;
 import com.vsa.filmoteca.data.domain.dataprovider.MovieDataProvider;
-import com.vsa.filmoteca.presentation.interactor.MainInteractor;
 import com.vsa.filmoteca.presentation.Presenter;
+import com.vsa.filmoteca.presentation.interactor.MainInteractor;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 
@@ -20,7 +18,7 @@ import rx.Observer;
  * Created by seldon on 10/03/15.
  */
 
-public class MainPresenter implements SwipeRefreshLayout.OnRefreshListener, OkCancelDialogListener, Presenter<MainView>, Observer<List<Movie>> {
+public class MainPresenter implements OkCancelDialogListener, Presenter<MainView>, Observer<List<Movie>> {
 
     private List<Movie> mMoviesList;
 
@@ -71,7 +69,6 @@ public class MainPresenter implements SwipeRefreshLayout.OnRefreshListener, OkCa
         mView.finish();
     }
 
-    @Override
     public void onRefresh() {
         loadMovies();
     }
