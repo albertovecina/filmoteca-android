@@ -8,6 +8,7 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.vsa.filmoteca.data.repository.TwitterRepository;
 import com.vsa.filmoteca.internal.di.component.DaggerMainComponent;
 import com.vsa.filmoteca.internal.di.component.MainComponent;
+import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 
 import io.fabric.sdk.android.Fabric;
 import rx.functions.Action1;
@@ -33,8 +34,10 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
         super.onCreate();
         sApplication = this;
         mMainComponent = DaggerMainComponent.create();
-        initTwitter();
-        startGuestSession();
+        if (ConnectivityUtils.isInternetAvailable(this)) {
+            initTwitter();
+            startGuestSession();
+        }
     }
 
     @Override

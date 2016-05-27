@@ -19,12 +19,6 @@ public class MoviesRepository {
 
     private static MoviesRepository sRepository;
 
-    public static MoviesRepository getInstance() {
-        if (sRepository == null)
-            sRepository = new MoviesRepository();
-        return sRepository;
-    }
-
     public Observable<List<Movie>> moviesList() {
         return WSClient.getClient(CacheRequestInterceptor.CachePolicy.PRIORITY_NETWORK).moviesListHtml().map(MovieHtmlMapper::transformMovie)
                 .subscribeOn(Schedulers.newThread())

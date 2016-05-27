@@ -197,12 +197,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Swi
 
     @Override
     public void showTimeOutDialog() {
-        DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message, new SimpleDialogListener() {
-            @Override
-            public void onAccept(DialogInterface dialog) {
-                finish();
-            }
-        });
+        DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message, dialog -> finish());
     }
 
     @Override

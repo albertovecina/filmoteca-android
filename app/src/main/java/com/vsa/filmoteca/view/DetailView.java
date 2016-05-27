@@ -33,6 +33,4 @@ public interface DetailView {
 
     void navigateToComments(String title);
 
-    void onBackPressed();
-
 }

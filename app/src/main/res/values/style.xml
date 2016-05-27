@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="DetalleTitleTheme">
+    <style name="DetailTitleTheme">
         <item name="android:textColor">#000000</item>
         <item name="android:background">#FFFFFF</item>
         <item name="android:textSize">30sp</item>
@@ -10,7 +10,7 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
-    <style name="DetalleTitleTextStyle"></style>
+    <style name="DetailTitleTextStyle"></style>
 
     <style name="Theme.MainTheme" parent="Theme.AppCompat.Light">
         <!-- colorPrimary is used for the default action bar background -->
@@ -32,15 +32,17 @@
 
     <style name="PopupTextStyleLarge" parent="Base.TextAppearance.AppCompat.Widget.PopupMenu.Large">
         <item name="android:textColor">@android:color/black</item>
-
     </style>
 
     <style name="PopupTextStyleSmall" parent="Base.TextAppearance.AppCompat.Widget.PopupMenu.Small">
         <item name="android:textColor">@android:color/black</item>
-
     </style>
 
     <style name="PopupOverflow">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="DialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">@android:color/black</item>
     </style>
 
