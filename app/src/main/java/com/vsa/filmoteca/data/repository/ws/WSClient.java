@@ -17,8 +17,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class WSClient {
 
     private static final long TIMEOUT = 60000;
-    private static final String CACHE_DIRECTORY = "HttpCache";
-
+    public static final String CACHE_DIRECTORY = "HttpCache";
 
     private static WSInterface sRetrofitClient;
     private static CacheRequestInterceptor sCacheRequestInterceptor = new CacheRequestInterceptor();

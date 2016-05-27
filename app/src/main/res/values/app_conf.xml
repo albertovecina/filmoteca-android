@@ -2,4 +2,5 @@
 <resources>
     <string name="twitter_api_key">rxJK8PSL1aIbLFKegXrB9LxMA</string>
     <string name="twitter_api_secret">Leczb5BRKeLOZhqCGi3Ju7GX9FaCgAPhVpLNWIHMXNUx0Rx5Lf</string>
+    <integer name="cache_file_expiration_days">3</integer>
 </resources>

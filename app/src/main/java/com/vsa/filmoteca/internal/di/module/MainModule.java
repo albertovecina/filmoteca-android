@@ -1,5 +1,6 @@
 package com.vsa.filmoteca.internal.di.module;
 
+import com.vsa.filmoteca.data.repository.CacheRepository;
 import com.vsa.filmoteca.data.repository.MoviesRepository;
 import com.vsa.filmoteca.data.repository.TwitterRepository;
 import com.vsa.filmoteca.data.repository.ws.CommentsTwitterClient;
@@ -14,6 +15,12 @@ import dagger.Provides;
  */
 @Module
 public class MainModule {
+
+    @Provides
+    @Singleton
+    CacheRepository provideCacheRepository() {
+        return new CacheRepository();
+    }
 
     @Provides
     @Singleton

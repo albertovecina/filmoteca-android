@@ -31,6 +31,7 @@ public class MainPresenter implements OkCancelDialogListener, Presenter<MainView
     }
 
     public void onCreate(Serializable movieInfo) {
+        mInteractor.clearExpiredCacheFiles();
         Movie movie = (Movie) movieInfo;
         loadMovies();
         if (movie != null)
