@@ -21,7 +21,7 @@
     <string name="filmaffinity">Buscar en FilmAffinity</string>
     <string name="browser">Ver en el navegador</string>
 
-    <!-- MainActivity -->
+    <!-- MoviesListActivity -->
     <string name="title_activity_main">Programación</string>
 
     <!-- DetailActivity -->

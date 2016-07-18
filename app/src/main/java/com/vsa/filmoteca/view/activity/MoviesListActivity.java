@@ -3,16 +3,17 @@ package com.vsa.filmoteca.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.presentation.main.MainPresenter;
+import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
+import com.vsa.filmoteca.internal.di.component.DaggerMoviesListComponent;
+import com.vsa.filmoteca.internal.di.module.MoviesListModule;
+import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter;
 import com.vsa.filmoteca.presentation.utils.ChangeLog;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.view.adapter.EventsAdapter;
@@ -31,7 +32,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements MainView, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class MoviesListActivity extends BaseActivity implements MainView, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     /**
      * Called when the activity is first created.
      */
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     public static final String EXTRA_MOVIE = "extra_movie";
 
     @Inject
-    MainPresenter mPresenter;
+    MoviesListPresenter mPresenter;
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -52,9 +53,16 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initViews();
-        initializeDagger();
         initializePresenter();
         onNewIntent(getIntent());
+    }
+
+    @Override
+    protected void initializeInjector(ApplicationComponent applicationComponent) {
+        DaggerMoviesListComponent.builder()
+                .applicationComponent(applicationComponent)
+                .moviesListModule(new MoviesListModule())
+                .build().inject(this);
     }
 
     @Override
@@ -62,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         super.onNewIntent(intent);
         Serializable movieInfo = intent.getSerializableExtra(EXTRA_MOVIE);
         if (movieInfo != null) {
-            getIntent().removeExtra(MainActivity.EXTRA_MOVIE);
+            getIntent().removeExtra(MoviesListActivity.EXTRA_MOVIE);
             mPresenter.onCreate(movieInfo);
         } else {
             mPresenter.onCreate(null);
@@ -185,10 +193,6 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
                 R.color.color_accent,
                 R.color.color_primary);
         mListView.setOnItemClickListener(this);
-    }
-
-    private void initializeDagger() {
-        FilmotecaApplication.getInstance().getMainComponent().inject(this);
     }
 
     private void initializePresenter() {

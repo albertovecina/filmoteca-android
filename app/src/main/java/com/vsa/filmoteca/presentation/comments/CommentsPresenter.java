@@ -8,7 +8,7 @@ import com.twitter.sdk.android.core.models.User;
 import com.vsa.filmoteca.data.model.twitter.FakeTweetsManager;
 import com.vsa.filmoteca.data.model.twitter.TweetComparator;
 import com.vsa.filmoteca.presentation.Presenter;
-import com.vsa.filmoteca.presentation.interactor.CommentsInteractor;
+import com.vsa.filmoteca.presentation.usecase.CommentsUseCase;
 import com.vsa.filmoteca.presentation.utils.Constants;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
 import com.vsa.filmoteca.view.CommentsView;
@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Observer;
@@ -32,7 +30,7 @@ public class CommentsPresenter implements Presenter<CommentsView> {
     private CommentsView mView;
     private String mMovieHashTag;
 
-    private CommentsInteractor mInteractor;
+    private CommentsUseCase mCommentsUseCase;
 
     private TweetComparator mTweetComparator = new TweetComparator();
 
@@ -94,9 +92,8 @@ public class CommentsPresenter implements Presenter<CommentsView> {
         }
     };
 
-    @Inject
-    public CommentsPresenter(CommentsInteractor interactor) {
-        mInteractor = interactor;
+    public CommentsPresenter(CommentsUseCase commentsUseCase) {
+        mCommentsUseCase = commentsUseCase;
     }
 
     public void onCreate(String movieTitle) {
@@ -105,9 +102,9 @@ public class CommentsPresenter implements Presenter<CommentsView> {
     }
 
     public void onResume() {
-        Session session = mInteractor.getActiveSession();
+        Session session = mCommentsUseCase.getActiveSession();
         if (session == null) {
-            mInteractor.guestLogin().subscribe(appSession -> {
+            mCommentsUseCase.guestLogin().subscribe(appSession -> {
                 startRefreshingTweets();
             });
             mView.showLoginButton();
@@ -140,7 +137,7 @@ public class CommentsPresenter implements Presenter<CommentsView> {
         if (message == null || message.isEmpty())
             mView.showErrorEmptyMessage();
         else
-            mInteractor.update(mInteractor.getActiveSession(), mMovieHashTag, message).subscribe(mTweetObserver);
+            mCommentsUseCase.update(mCommentsUseCase.getActiveSession(), mMovieHashTag, message).subscribe(mTweetObserver);
     }
 
     public void onTweetTextChanged(CharSequence message) {
@@ -148,12 +145,12 @@ public class CommentsPresenter implements Presenter<CommentsView> {
     }
 
     public void closeSession() {
-        mInteractor.closeActiveSession();
+        mCommentsUseCase.closeActiveSession();
         mView.showLoginButton();
     }
 
     private void requestUserInfo(TwitterSession session) {
-        mInteractor.verifyCredentials(session).subscribe(user -> {
+        mCommentsUseCase.verifyCredentials(session).subscribe(user -> {
             showUserInfo(user);
         });
     }
@@ -186,9 +183,9 @@ public class CommentsPresenter implements Presenter<CommentsView> {
     private void startRefreshingTweets() {
         Observable.interval(0, 5500, TimeUnit.MILLISECONDS)
                 .flatMap(n -> {
-                    Session session = mInteractor.getActiveSession();
+                    Session session = mCommentsUseCase.getActiveSession();
                     if (session != null)
-                        return mInteractor.tweets(session, mMovieHashTag);
+                        return mCommentsUseCase.tweets(session, mMovieHashTag);
                     else
                         return Observable.just(null);
                 }).subscribe(mSearchSubscriber);

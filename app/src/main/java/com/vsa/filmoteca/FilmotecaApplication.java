@@ -6,8 +6,9 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.vsa.filmoteca.data.repository.TwitterRepository;
-import com.vsa.filmoteca.internal.di.component.DaggerMainComponent;
-import com.vsa.filmoteca.internal.di.component.MainComponent;
+import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
+import com.vsa.filmoteca.internal.di.component.DaggerApplicationComponent;
+import com.vsa.filmoteca.internal.di.module.ApplicationModule;
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 
 import io.fabric.sdk.android.Fabric;
@@ -27,13 +28,13 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
 
     private TwitterRepository mRepository = new TwitterRepository();
 
-    private MainComponent mMainComponent;
+    private ApplicationComponent mApplicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         sApplication = this;
-        mMainComponent = DaggerMainComponent.create();
+        initializeApplicationComponent();
         if (ConnectivityUtils.isInternetAvailable(this)) {
             initTwitter();
             startGuestSession();
@@ -53,12 +54,18 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
         Fabric.with(this, new Twitter(authConfig));
     }
 
+    private void initializeApplicationComponent() {
+        mApplicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
+    }
+
     private void startGuestSession() {
         mRepository.guestLogin().subscribe();
     }
 
-    public MainComponent getMainComponent() {
-        return mMainComponent;
+    public ApplicationComponent getApplicationComponent() {
+        return mApplicationComponent;
     }
 
     public static FilmotecaApplication getInstance() {

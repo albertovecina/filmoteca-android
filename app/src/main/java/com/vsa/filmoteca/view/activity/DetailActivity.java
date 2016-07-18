@@ -1,12 +1,10 @@
 package com.vsa.filmoteca.view.activity;
 
 import android.appwidget.AppWidgetManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,13 +12,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
+import com.vsa.filmoteca.internal.di.component.DaggerMovieDetailComponent;
+import com.vsa.filmoteca.internal.di.module.MovieDetailModule;
 import com.vsa.filmoteca.presentation.detail.DetailPresenter;
 import com.vsa.filmoteca.view.DetailView;
 import com.vsa.filmoteca.view.dialog.DialogManager;
 import com.vsa.filmoteca.view.dialog.ProgressDialogManager;
-import com.vsa.filmoteca.view.dialog.interfaces.SimpleDialogListener;
 import com.vsa.filmoteca.view.webview.ObservableWebView;
 import com.vsa.filmoteca.view.widget.EventsWidget;
 
@@ -29,7 +28,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements DetailView, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class DetailActivity extends BaseActivity implements DetailView, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     public static final String EXTRA_DATE = "extra_date";
     public static final String EXTRA_TITLE = "extra_title";
@@ -58,11 +57,19 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Swi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         initViews();
-        initializeInjector();
         initializePresenter();
         mPresenter.onCreate(getIntent().getStringExtra(EXTRA_URL),
                 getIntent().getStringExtra(EXTRA_TITLE));
 
+    }
+
+    @Override
+    protected void initializeInjector(ApplicationComponent applicationComponent) {
+        DaggerMovieDetailComponent.builder()
+                .applicationComponent(applicationComponent)
+                .movieDetailModule(new MovieDetailModule())
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -223,10 +230,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Swi
     public void onClick(View v) {
         if (v == mFabComments)
             mPresenter.onFabClick();
-    }
-
-    private void initializeInjector() {
-        FilmotecaApplication.getInstance().getMainComponent().inject(this);
     }
 
     private void initializePresenter() {

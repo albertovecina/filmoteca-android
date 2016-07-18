@@ -1,9 +1,9 @@
 package com.vsa.filmoteca.internal.di.module;
 
-import com.vsa.filmoteca.data.repository.CacheRepository;
+import android.app.Application;
+
 import com.vsa.filmoteca.data.repository.MoviesRepository;
 import com.vsa.filmoteca.data.repository.TwitterRepository;
-import com.vsa.filmoteca.data.repository.ws.CommentsTwitterClient;
 
 import javax.inject.Singleton;
 
@@ -11,26 +11,34 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by albertovecinasanchez on 8/3/16.
+ * Created by albertovecinasanchez on 18/7/16.
  */
-@Module
-public class MainModule {
 
-    @Provides
-    @Singleton
-    CacheRepository provideCacheRepository() {
-        return new CacheRepository();
+
+@Module
+public class ApplicationModule {
+
+    private Application mApplication;
+
+    public ApplicationModule(Application application) {
+        mApplication = application;
     }
 
     @Provides
     @Singleton
-    MoviesRepository provideMoviesRepository() {
+    public Application provideApplication() {
+        return mApplication;
+    }
+
+    @Provides
+    @Singleton
+    public MoviesRepository provideMoviesRepository() {
         return new MoviesRepository();
     }
 
     @Provides
     @Singleton
-    TwitterRepository provideTwitterRepository() {
+    public TwitterRepository provideTwitterRepository() {
         return new TwitterRepository();
     }
 

@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.interactor;
+package com.vsa.filmoteca.presentation.usecase;
 
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Session;
@@ -14,13 +14,12 @@ import rx.Observable;
 /**
  * Created by albertovecinasanchez on 14/3/16.
  */
-public class CommentsInteractor {
-
+public class CommentsUseCase {
 
     private TwitterRepository mRepository;
 
     @Inject
-    public CommentsInteractor(TwitterRepository repository) {
+    public CommentsUseCase(TwitterRepository repository) {
         this.mRepository = repository;
     }
 
@@ -47,4 +46,5 @@ public class CommentsInteractor {
     public Observable<User> verifyCredentials(Session session) {
         return mRepository.verifyCredentials(session);
     }
+
 }

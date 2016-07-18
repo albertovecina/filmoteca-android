@@ -1,6 +1,5 @@
 package com.vsa.filmoteca.data.repository;
 
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;

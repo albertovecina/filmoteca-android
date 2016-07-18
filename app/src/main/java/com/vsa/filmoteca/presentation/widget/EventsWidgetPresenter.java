@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.vsa.filmoteca.data.domain.Movie;
-import com.vsa.filmoteca.presentation.interactor.MainInteractor;
-import com.vsa.filmoteca.presentation.utils.Constants;
 import com.vsa.filmoteca.data.repository.database.WidgetDataSource;
 import com.vsa.filmoteca.data.repository.sharedpreferences.SharedPreferencesManager;
+import com.vsa.filmoteca.presentation.usecase.GetMoviesListUseCase;
+import com.vsa.filmoteca.presentation.utils.Constants;
 import com.vsa.filmoteca.view.EventsWidgetView;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import rx.Observer;
  */
 public class EventsWidgetPresenter implements Observer<List<Movie>> {
 
-    private MainInteractor mInteractor;
+    private GetMoviesListUseCase mGetMoviesListUseCase;
     private EventsWidgetView mView;
 
     private int mCurrentMovieIndex = 0;
@@ -33,8 +33,8 @@ public class EventsWidgetPresenter implements Observer<List<Movie>> {
     private Context mContext;
 
     @Inject
-    public EventsWidgetPresenter(MainInteractor mainInteractor) {
-        mInteractor = mainInteractor;
+    public EventsWidgetPresenter(GetMoviesListUseCase moviesListInteractor) {
+        mGetMoviesListUseCase = moviesListInteractor;
     }
 
     public void setView(EventsWidgetView view) {
@@ -45,7 +45,7 @@ public class EventsWidgetPresenter implements Observer<List<Movie>> {
         mContext = context;
         mView.initWidget(context);
         mView.showProgress();
-        mInteractor.moviesList().subscribe(this);
+        mGetMoviesListUseCase.moviesList().subscribe(this);
     }
 
     public void onReceive(Context context, Intent intent) {

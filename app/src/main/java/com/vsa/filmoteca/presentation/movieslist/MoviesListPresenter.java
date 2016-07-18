@@ -1,16 +1,15 @@
-package com.vsa.filmoteca.presentation.main;
+package com.vsa.filmoteca.presentation.movieslist;
 
 import com.vsa.filmoteca.data.domain.Movie;
 import com.vsa.filmoteca.data.domain.dataprovider.MovieDataProvider;
 import com.vsa.filmoteca.presentation.Presenter;
-import com.vsa.filmoteca.presentation.interactor.MainInteractor;
+import com.vsa.filmoteca.presentation.usecase.ClearCacheUseCase;
+import com.vsa.filmoteca.presentation.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 
 import java.io.Serializable;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import rx.Observer;
 
@@ -18,20 +17,21 @@ import rx.Observer;
  * Created by seldon on 10/03/15.
  */
 
-public class MainPresenter implements OkCancelDialogListener, Presenter<MainView>, Observer<List<Movie>> {
+public class MoviesListPresenter implements OkCancelDialogListener, Presenter<MainView>, Observer<List<Movie>> {
 
     private List<Movie> mMoviesList;
 
-    private MainInteractor mInteractor;
+    private ClearCacheUseCase mClearCacheUseCase;
+    private GetMoviesListUseCase mGetMoviesListUseCase;
     private MainView mView;
 
-    @Inject
-    public MainPresenter(MainInteractor mainInteractor) {
-        mInteractor = mainInteractor;
+    public MoviesListPresenter(ClearCacheUseCase clearCacheUseCase, GetMoviesListUseCase getMoviesListUseCase) {
+        mClearCacheUseCase = clearCacheUseCase;
+        mGetMoviesListUseCase = getMoviesListUseCase;
     }
 
     public void onCreate(Serializable movieInfo) {
-        mInteractor.clearExpiredCacheFiles();
+        mClearCacheUseCase.clearExpiredCacheFiles();
         Movie movie = (Movie) movieInfo;
         loadMovies();
         if (movie != null)
@@ -59,7 +59,7 @@ public class MainPresenter implements OkCancelDialogListener, Presenter<MainView
     public void loadMovies() {
         mView.stopRefreshing();
         mView.showProgressDialog();
-        mInteractor.moviesList().subscribe(this);
+        mGetMoviesListUseCase.moviesList().subscribe(this);
     }
 
     public void onAcceptButtonPressed() {

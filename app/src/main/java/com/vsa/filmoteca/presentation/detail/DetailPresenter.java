@@ -1,12 +1,10 @@
 package com.vsa.filmoteca.presentation.detail;
 
 import com.vsa.filmoteca.presentation.Presenter;
-import com.vsa.filmoteca.presentation.interactor.MainInteractor;
+import com.vsa.filmoteca.presentation.usecase.GetMovieDetailUseCase;
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
 import com.vsa.filmoteca.view.DetailView;
-
-import javax.inject.Inject;
 
 import rx.Observer;
 
@@ -18,12 +16,11 @@ public class DetailPresenter implements Presenter<DetailView>, Observer<String> 
     private String mContentUrl;
     private String mTitle;
 
-    private MainInteractor mInteractor;
+    private GetMovieDetailUseCase mGetMovieDetailUseCase;
     private DetailView mView;
 
-    @Inject
-    public DetailPresenter(MainInteractor mainInteractor) {
-        mInteractor = mainInteractor;
+    public DetailPresenter(GetMovieDetailUseCase getMovieDetailUseCase) {
+        mGetMovieDetailUseCase = getMovieDetailUseCase;
     }
 
     public void onCreate(String url, String movieTitle) {
@@ -71,7 +68,7 @@ public class DetailPresenter implements Presenter<DetailView>, Observer<String> 
         mView.stopRefreshing();
         mView.hideContent();
         mView.showProgressDialog();
-        mInteractor.movieDetail(url).subscribe(this);
+        mGetMovieDetailUseCase.movieDetail(url).subscribe(this);
     }
 
     public void onRefresh() {

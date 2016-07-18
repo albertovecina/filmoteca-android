@@ -1,5 +1,7 @@
 package com.vsa.filmoteca.data.repository.util;
 
+import android.content.Context;
+
 import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.data.repository.ws.WSClient;
 
@@ -16,10 +18,10 @@ public class CacheManager {
      *
      * @param millis Deprecation time
      */
-    public static void removeCacheFilesOlderThan(long millis) {
+    public static void removeCacheFilesOlderThan(Context context, long millis) {
         new Thread(() -> {
             long currentTime = System.currentTimeMillis();
-            File cacheDir = new File(FilmotecaApplication.getInstance().getCacheDir(), WSClient.CACHE_DIRECTORY);
+            File cacheDir = new File(context.getCacheDir(), WSClient.CACHE_DIRECTORY);
             boolean isExpired;
             for (File file : cacheDir.listFiles()) {
                 isExpired = (file.lastModified() + millis) < currentTime;

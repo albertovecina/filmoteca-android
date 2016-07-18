@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -22,8 +21,10 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.TweetView;
 import com.twitter.sdk.android.tweetui.TweetViewAdapter;
-import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.R;
+import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
+import com.vsa.filmoteca.internal.di.component.DaggerCommentsComponent;
+import com.vsa.filmoteca.internal.di.module.CommentsModule;
 import com.vsa.filmoteca.presentation.comments.CommentsPresenter;
 import com.vsa.filmoteca.view.CommentsView;
 import com.vsa.filmoteca.view.component.TwitterRxLoginButton;
@@ -38,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
-public class CommentsActivity extends AppCompatActivity implements CommentsView, TextWatcher {
+public class CommentsActivity extends BaseActivity implements CommentsView, TextWatcher {
 
     public static final String EXTRA_TITLE = "extra_title";
 
@@ -69,9 +70,17 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
         ButterKnife.bind(this);
-        initializeInjector();
         initViews();
         mPresenter.onCreate(getIntent().getStringExtra(EXTRA_TITLE));
+    }
+
+    @Override
+    protected void initializeInjector(ApplicationComponent applicationComponent) {
+        DaggerCommentsComponent.builder()
+                .applicationComponent(applicationComponent)
+                .commentsModule(new CommentsModule())
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -101,10 +110,6 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView,
             default:
                 return false;
         }
-    }
-
-    private void initializeInjector() {
-        FilmotecaApplication.getInstance().getMainComponent().inject(this);
     }
 
     private void initViews() {

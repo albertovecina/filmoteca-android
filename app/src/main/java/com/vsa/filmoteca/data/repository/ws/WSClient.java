@@ -34,7 +34,7 @@ public class WSClient {
                     .build();
             Retrofit retrofit = new Retrofit.Builder()
                     .client(client)
-                    .baseUrl("http://www.albacete.es/")
+                    .baseUrl(Environment.BASE_URL)
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .build();

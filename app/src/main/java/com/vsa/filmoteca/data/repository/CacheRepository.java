@@ -1,6 +1,7 @@
 package com.vsa.filmoteca.data.repository;
 
-import com.vsa.filmoteca.FilmotecaApplication;
+import android.content.Context;
+
 import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.data.repository.util.CacheManager;
 
@@ -9,10 +10,16 @@ import com.vsa.filmoteca.data.repository.util.CacheManager;
  */
 public class CacheRepository {
 
+    private Context mContext;
+
+    public CacheRepository(Context context) {
+        mContext = context;
+    }
+
     public void clearExpiredCacheFiles() {
-        int expirationDays = FilmotecaApplication.getInstance().getResources().getInteger(R.integer.cache_file_expiration_days);
+        int expirationDays = mContext.getResources().getInteger(R.integer.cache_file_expiration_days);
         int expirationTime = expirationDays * 24 * 60 * 60 * 1000;
-        CacheManager.removeCacheFilesOlderThan(expirationTime);
+        CacheManager.removeCacheFilesOlderThan(mContext, expirationTime);
     }
 
 }
