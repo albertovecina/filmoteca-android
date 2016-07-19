@@ -7,14 +7,14 @@ import android.widget.LinearLayout;
 
 import com.vsa.filmoteca.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AboutActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @Bind(R.id.layout_about_us_container)
+    @BindView(R.id.layout_about_us_container)
     LinearLayout mLayoutAboutUsContainer;
-    @Bind(R.id.layout_about_us_dialog)
+    @BindView(R.id.layout_about_us_dialog)
     LinearLayout mLayoutAboutUsDialog;
 
     public void onCreate(Bundle savedInstanceState) {

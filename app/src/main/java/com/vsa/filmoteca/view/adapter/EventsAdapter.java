@@ -16,7 +16,7 @@ import com.vsa.paperknife.PaperKnife;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -68,9 +68,9 @@ public class EventsAdapter extends BaseAdapter {
 
     public static class ViewHolder implements CellViewHolder {
 
-        @Bind(R.id.textview_row_movie_title)
+        @BindView(R.id.textview_row_movie_title)
         public TextView textViewTitle;
-        @Bind(R.id.textview_row_movie_date)
+        @BindView(R.id.textview_row_movie_date)
         public TextView textViewDate;
 
         public ViewHolder(View view) {

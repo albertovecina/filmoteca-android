@@ -28,7 +28,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -42,9 +42,9 @@ public class MoviesListActivity extends BaseActivity implements MainView, SwipeR
     @Inject
     MoviesListPresenter mPresenter;
 
-    @Bind(R.id.swipe_refresh_layout)
+    @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.listview_movies)
+    @BindView(R.id.listview_movies)
     ListView mListView;
 
     @Override
