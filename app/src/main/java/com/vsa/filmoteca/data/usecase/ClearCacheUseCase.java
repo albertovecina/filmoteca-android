@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.usecase;
+package com.vsa.filmoteca.data.usecase;
 
 import com.vsa.filmoteca.data.repository.CacheRepository;
 

@@ -3,8 +3,8 @@ package com.vsa.filmoteca.presentation.movieslist;
 import com.vsa.filmoteca.data.domain.Movie;
 import com.vsa.filmoteca.data.domain.dataprovider.MovieDataProvider;
 import com.vsa.filmoteca.presentation.Presenter;
-import com.vsa.filmoteca.presentation.usecase.ClearCacheUseCase;
-import com.vsa.filmoteca.presentation.usecase.GetMoviesListUseCase;
+import com.vsa.filmoteca.data.usecase.ClearCacheUseCase;
+import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 

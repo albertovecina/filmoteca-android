@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.usecase;
+package com.vsa.filmoteca.data.usecase;
 
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Session;

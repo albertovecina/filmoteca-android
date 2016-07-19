@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.presentation.detail;
 
 import com.vsa.filmoteca.presentation.Presenter;
-import com.vsa.filmoteca.presentation.usecase.GetMovieDetailUseCase;
+import com.vsa.filmoteca.data.usecase.GetMovieDetailUseCase;
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
 import com.vsa.filmoteca.view.DetailView;

@@ -2,7 +2,7 @@ package com.vsa.filmoteca.internal.di.module;
 
 import com.vsa.filmoteca.data.repository.MoviesRepository;
 import com.vsa.filmoteca.internal.di.PerWidget;
-import com.vsa.filmoteca.presentation.usecase.GetMoviesListUseCase;
+import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenter;
 
 import dagger.Module;

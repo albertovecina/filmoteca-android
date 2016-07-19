@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.usecase;
+package com.vsa.filmoteca.data.usecase;
 
 import com.vsa.filmoteca.data.domain.Movie;
 import com.vsa.filmoteca.data.repository.MoviesRepository;

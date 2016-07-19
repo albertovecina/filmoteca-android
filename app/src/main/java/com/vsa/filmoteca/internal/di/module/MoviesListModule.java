@@ -5,8 +5,8 @@ import android.app.Application;
 import com.vsa.filmoteca.data.repository.CacheRepository;
 import com.vsa.filmoteca.data.repository.MoviesRepository;
 import com.vsa.filmoteca.internal.di.PerActivity;
-import com.vsa.filmoteca.presentation.usecase.ClearCacheUseCase;
-import com.vsa.filmoteca.presentation.usecase.GetMoviesListUseCase;
+import com.vsa.filmoteca.data.usecase.ClearCacheUseCase;
+import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter;
 
 import dagger.Module;

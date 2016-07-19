@@ -7,7 +7,7 @@ import android.content.Intent;
 import com.vsa.filmoteca.data.domain.Movie;
 import com.vsa.filmoteca.data.repository.database.WidgetDataSource;
 import com.vsa.filmoteca.data.repository.sharedpreferences.SharedPreferencesManager;
-import com.vsa.filmoteca.presentation.usecase.GetMoviesListUseCase;
+import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.presentation.utils.Constants;
 import com.vsa.filmoteca.view.EventsWidgetView;
 
