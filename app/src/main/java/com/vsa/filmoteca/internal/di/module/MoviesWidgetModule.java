@@ -1,8 +1,10 @@
 package com.vsa.filmoteca.internal.di.module;
 
-import com.vsa.filmoteca.data.repository.MoviesRepository;
-import com.vsa.filmoteca.internal.di.PerWidget;
+import com.vsa.filmoteca.data.repository.MoviesDataRepository;
+import com.vsa.filmoteca.data.repository.MoviesPersistanceRepository;
 import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase;
+import com.vsa.filmoteca.data.usecase.MoviesPersistanceUseCase;
+import com.vsa.filmoteca.internal.di.PerWidget;
 import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenter;
 
 import dagger.Module;
@@ -17,13 +19,19 @@ public class MoviesWidgetModule {
 
     @Provides
     @PerWidget
-    public GetMoviesListUseCase provideEventsListUseCase(MoviesRepository moviesRepository) {
-        return new GetMoviesListUseCase(moviesRepository);
+    public GetMoviesListUseCase provideGetMoviesListUseCase(MoviesDataRepository moviesDataRepository) {
+        return new GetMoviesListUseCase(moviesDataRepository);
     }
 
     @Provides
     @PerWidget
-    public EventsWidgetPresenter provideEventsWidgetPresenter(GetMoviesListUseCase getMoviesListUseCase) {
-        return new EventsWidgetPresenter(getMoviesListUseCase);
+    public MoviesPersistanceUseCase provideMoviesPersistanceUseCase(MoviesPersistanceRepository moviesPersistanceRepository) {
+        return new MoviesPersistanceUseCase(moviesPersistanceRepository);
+    }
+
+    @Provides
+    @PerWidget
+    public EventsWidgetPresenter provideEventsWidgetPresenter(GetMoviesListUseCase getMoviesListUseCase, MoviesPersistanceUseCase moviesPersistanceUseCase) {
+        return new EventsWidgetPresenter(getMoviesListUseCase, moviesPersistanceUseCase);
     }
 }

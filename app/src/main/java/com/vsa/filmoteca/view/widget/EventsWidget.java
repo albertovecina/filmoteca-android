@@ -12,7 +12,6 @@ import android.widget.RemoteViews;
 
 import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.data.domain.Movie;
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
 import com.vsa.filmoteca.internal.di.component.DaggerMoviesWidgetComponent;
 import com.vsa.filmoteca.internal.di.module.MoviesWidgetModule;
@@ -29,6 +28,7 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView 
     private PendingIntent mPendingIntent;
     private AppWidgetManager mAppWidgetManager;
     private int[] mAppWidgetIds;
+    private Context mContext;
 
     @Inject
     EventsWidgetPresenter mPresenter;
@@ -39,56 +39,60 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView 
 
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        initializeInjector(context);
-        initializePresenter();
-        mPresenter.onUpdate(context, appWidgetManager, appWidgetIds);
+        initializeContext(context);
+        if (mPresenter == null) {
+            initializeInjector(context);
+            initializePresenter();
+        }
+        mPresenter.onUpdate();
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        initializeInjector(context);
-        initializePresenter();
-        mPresenter.onReceive(context, intent);
+        initializeContext(context);
+        if (mPresenter == null) {
+            initializeInjector(context);
+            initializePresenter();
+        }
+        mPresenter.onButtonClick(intent.getAction());
     }
 
     @Override
-    public void initWidget(Context context) {
-        mViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-        mAppWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName thisAppWidget = new ComponentName(context.getPackageName(), EventsWidget.class.getName());
+    public void initWidget() {
+        initializeContext(mContext);
+        mViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout);
+        mAppWidgetManager = AppWidgetManager.getInstance(mContext);
+        ComponentName thisAppWidget = new ComponentName(mContext.getPackageName(), EventsWidget.class.getName());
         mAppWidgetIds = mAppWidgetManager.getAppWidgetIds(thisAppWidget);
     }
 
     @Override
-    public void setupLRButtons(Context context) {
+    public void setupLRButtons() {
         //Configurando los botones
-        Intent intent = new Intent(context, EventsWidget.class);
+        Intent intent = new Intent(mContext, EventsWidget.class);
         intent.setAction(Constants.ACTION_WIDGET_LEFT);
-        mPendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mViews.setOnClickPendingIntent(R.id.left, mPendingIntent);
 
-        intent = new Intent(context, EventsWidget.class);
+        intent = new Intent(mContext, EventsWidget.class);
         intent.setAction(Constants.ACTION_WIDGET_RIGHT);
-        mPendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mViews.setOnClickPendingIntent(R.id.right, mPendingIntent);
     }
 
     @Override
-    public void setupMovieView(Context context, Movie movie) {
-        Intent intent = new Intent(context, MoviesListActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        if (movie != null)
-            intent.putExtra(MoviesListActivity.EXTRA_MOVIE, movie);
-        PendingIntent actionPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    public void setupMovieView(String url, String title, String date) {
+        Intent intent = MoviesListActivity.newIntent(mContext, Intent.FLAG_ACTIVITY_CLEAR_TOP, url, title, date);
+        PendingIntent actionPendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mViews.setOnClickPendingIntent(R.id.widgetInfoLayout, actionPendingIntent);
-        mViews.setTextViewText(R.id.widgetTitleText, movie.getTitle());
-        mViews.setTextViewText(R.id.widgetDateText, movie.getDate());
+        mViews.setTextViewText(R.id.widgetTitleText, title);
+        mViews.setTextViewText(R.id.widgetDateText, date);
 
     }
 
     @Override
-    public void setupIndexView(Context context, int current, int size) {
+    public void setupIndexView(int current, int size) {
         mViews.setTextViewText(R.id.widgetPageText, Integer.toString(current) + " / " + size);
     }
 
@@ -114,17 +118,21 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView 
     }
 
     @Override
-    public void showRefreshButton(Context context) {
+    public void showRefreshButton() {
         mViews.setViewVisibility(R.id.widgetInfoLayout, View.GONE);
         mViews.setViewVisibility(R.id.widgetProgressBar, View.GONE);
         mViews.setViewVisibility(R.id.widgetUpdateButton, View.VISIBLE);
-        Intent intent = new Intent(context, EventsWidget.class);
+        Intent intent = new Intent(mContext, EventsWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int[] ids = {R.xml.appwidget_info};
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        mPendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        mPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
         mViews.setOnClickPendingIntent(R.id.widgetUpdateButton, mPendingIntent);
         updateWidget();
+    }
+
+    private void initializeContext(Context context) {
+        mContext = context;
     }
 
     private void initializeInjector(Context context) {

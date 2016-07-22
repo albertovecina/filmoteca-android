@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.data.usecase;
 
 import com.vsa.filmoteca.data.domain.Movie;
-import com.vsa.filmoteca.data.repository.MoviesRepository;
+import com.vsa.filmoteca.data.repository.MoviesDataRepository;
 
 import java.util.List;
 
@@ -13,14 +13,14 @@ import rx.Observable;
 
 public class GetMoviesListUseCase {
 
-    private MoviesRepository mMoviesRepository;
+    private MoviesDataRepository mMoviesDataRepository;
 
-    public GetMoviesListUseCase(MoviesRepository moviesRepository) {
-        mMoviesRepository = moviesRepository;
+    public GetMoviesListUseCase(MoviesDataRepository moviesDataRepository) {
+        mMoviesDataRepository = moviesDataRepository;
     }
 
     public Observable<List<Movie>> moviesList() {
-        return mMoviesRepository.moviesList();
+        return mMoviesDataRepository.moviesList();
     }
 
 }

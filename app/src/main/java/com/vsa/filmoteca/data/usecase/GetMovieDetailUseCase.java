@@ -1,6 +1,6 @@
 package com.vsa.filmoteca.data.usecase;
 
-import com.vsa.filmoteca.data.repository.MoviesRepository;
+import com.vsa.filmoteca.data.repository.MoviesDataRepository;
 
 import rx.Observable;
 
@@ -10,14 +10,14 @@ import rx.Observable;
 
 public class GetMovieDetailUseCase {
 
-    private MoviesRepository mMoviesRepository;
+    private MoviesDataRepository mMoviesDataRepository;
 
-    public GetMovieDetailUseCase(MoviesRepository mMoviesRepository) {
-        this.mMoviesRepository = mMoviesRepository;
+    public GetMovieDetailUseCase(MoviesDataRepository mMoviesDataRepository) {
+        this.mMoviesDataRepository = mMoviesDataRepository;
     }
 
     public Observable<String> movieDetail(String url) {
-        return mMoviesRepository.movieDetail(url);
+        return mMoviesDataRepository.movieDetail(url);
     }
 
 }

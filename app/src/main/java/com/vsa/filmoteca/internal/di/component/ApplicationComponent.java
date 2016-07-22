@@ -2,8 +2,9 @@ package com.vsa.filmoteca.internal.di.component;
 
 import android.app.Application;
 
-import com.vsa.filmoteca.data.repository.MoviesRepository;
-import com.vsa.filmoteca.data.repository.TwitterRepository;
+import com.vsa.filmoteca.data.repository.MoviesDataRepository;
+import com.vsa.filmoteca.data.repository.TwitterDataRepository;
+import com.vsa.filmoteca.data.repository.MoviesPersistanceRepository;
 import com.vsa.filmoteca.internal.di.module.ApplicationModule;
 import com.vsa.filmoteca.view.activity.BaseActivity;
 
@@ -23,8 +24,10 @@ public interface ApplicationComponent {
 
     Application getApplication();
 
-    MoviesRepository getMoviesRepository();
+    MoviesPersistanceRepository getMoviesPersistanceRepository();
 
-    TwitterRepository getTwitterRepository();
+    MoviesDataRepository getMoviesDataRepository();
+
+    TwitterDataRepository getTwitterDataRepository();
 
 }

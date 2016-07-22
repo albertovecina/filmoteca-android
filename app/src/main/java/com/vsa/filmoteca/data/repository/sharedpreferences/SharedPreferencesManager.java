@@ -16,66 +16,57 @@ public class SharedPreferencesManager {
     private static final String SHAREDPREFERENCES_TWITTER_USER_DESCRIPTION = "TwitterUserDescription";
 
 
-    private static SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferences;
 
-    private static void initSharedPreferences(Context context) {
-        if(mSharedPreferences == null)
-            mSharedPreferences = context.getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
+    public SharedPreferencesManager(Context context) {
+        mSharedPreferences = context.getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    public static int getCurrentMovieIndex(Context context) {
-        initSharedPreferences(context);
+    public int getCurrentMovieIndex() {
         return mSharedPreferences.getInt(SHAREDPREFERENCES_CURRENT, 0);
     }
 
-    public static void setCurrentMovieIndex(Context context, int index) {
-        initSharedPreferences(context);
+    public void setCurrentMovieIndex(int index) {
         mSharedPreferences
                 .edit()
                 .putInt(SHAREDPREFERENCES_CURRENT, index)
                 .commit();
     }
 
-    public static int getMoviesCount(Context context) {
-        initSharedPreferences(context);
+    public int getMoviesCount() {
         return mSharedPreferences.getInt(SHAREDPREFERENCES_SIZE, 0);
     }
 
-    public static void setMoviesCount(Context context, int index) {
-        initSharedPreferences(context);
+    public void setMoviesCount(int index) {
         mSharedPreferences
                 .edit()
                 .putInt(SHAREDPREFERENCES_SIZE, index)
                 .commit();
     }
 
-    public static String getTwitterProfileImageUrl(Context context) {
-        initSharedPreferences(context);
+    public String getTwitterProfileImageUrl() {
         return mSharedPreferences.getString(SHAREDPREFERENCES_TWITTER_PROFILE_IMAGE_URL, "");
     }
 
-    public static void setTwitterProfileImageUrl(Context context, String url) {
-        initSharedPreferences(context);
+    public void setTwitterProfileImageUrl(String url) {
         mSharedPreferences
                 .edit()
                 .putString(SHAREDPREFERENCES_TWITTER_PROFILE_IMAGE_URL, url)
                 .commit();
     }
 
-    public static String getTwitterUserDescription(Context context) {
-        initSharedPreferences(context);
+    public String getTwitterUserDescription() {
         return mSharedPreferences.getString(SHAREDPREFERENCES_TWITTER_USER_DESCRIPTION, "");
     }
 
-    public static void setTwitterUserDescription(Context context, String userDescription) {
-        initSharedPreferences(context);
+    public void setTwitterUserDescription(String userDescription) {
         mSharedPreferences
                 .edit()
                 .putString(SHAREDPREFERENCES_TWITTER_USER_DESCRIPTION, userDescription)
                 .commit();
     }
 
-    public static void removeTwitterAccountInfo(Context context) {
+    public void removeTwitterAccountInfo() {
         mSharedPreferences
                 .edit()
                 .remove(SHAREDPREFERENCES_TWITTER_PROFILE_IMAGE_URL)

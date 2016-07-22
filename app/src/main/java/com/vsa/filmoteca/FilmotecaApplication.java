@@ -5,7 +5,7 @@ import android.app.Application;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.vsa.filmoteca.data.repository.TwitterRepository;
+import com.vsa.filmoteca.data.repository.TwitterDataRepository;
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
 import com.vsa.filmoteca.internal.di.component.DaggerApplicationComponent;
 import com.vsa.filmoteca.internal.di.module.ApplicationModule;
@@ -26,7 +26,7 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
 
     private AppSession mGuestSession;
 
-    private TwitterRepository mRepository = new TwitterRepository();
+    private TwitterDataRepository mRepository = new TwitterDataRepository();
 
     private ApplicationComponent mApplicationComponent;
 

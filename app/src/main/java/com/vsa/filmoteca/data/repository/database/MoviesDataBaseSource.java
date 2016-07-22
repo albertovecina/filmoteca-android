@@ -9,13 +9,13 @@ import com.vsa.filmoteca.data.domain.Movie;
 /**
  * Created by seldon on 16/03/15.
  */
-public class WidgetDataSource {
+public class MoviesDataBaseSource {
 
     private SQLiteDatabase mDatabase;
     private WidgetDataBaseHelper mDatabaseHelper;
 
 
-    public WidgetDataSource(Context context) {
+    public MoviesDataBaseSource(Context context) {
         mDatabaseHelper = new WidgetDataBaseHelper(context);
     }
 

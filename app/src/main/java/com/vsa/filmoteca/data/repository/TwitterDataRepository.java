@@ -20,7 +20,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by albertovecinasanchez on 14/3/16.
  */
-public class TwitterRepository {
+public class TwitterDataRepository {
 
     public Session getActiveSession() {
         Session session = TwitterCore.getInstance().getSessionManager().getActiveSession();

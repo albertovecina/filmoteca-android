@@ -5,7 +5,7 @@ import com.twitter.sdk.android.core.Session;
 import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
-import com.vsa.filmoteca.data.repository.TwitterRepository;
+import com.vsa.filmoteca.data.repository.TwitterDataRepository;
 
 import javax.inject.Inject;
 
@@ -16,10 +16,10 @@ import rx.Observable;
  */
 public class CommentsUseCase {
 
-    private TwitterRepository mRepository;
+    private TwitterDataRepository mRepository;
 
     @Inject
-    public CommentsUseCase(TwitterRepository repository) {
+    public CommentsUseCase(TwitterDataRepository repository) {
         this.mRepository = repository;
     }
 

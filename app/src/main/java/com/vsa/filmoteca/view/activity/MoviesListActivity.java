@@ -1,5 +1,6 @@
 package com.vsa.filmoteca.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,7 +24,6 @@ import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 import com.vsa.paperknife.CellDataProvider;
 import com.vsa.paperknife.CellElement;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,7 +37,9 @@ public class MoviesListActivity extends BaseActivity implements MainView, SwipeR
      * Called when the activity is first created.
      */
 
-    public static final String EXTRA_MOVIE = "extra_movie";
+    private static final String EXTRA_URL = "extra_url";
+    private static final String EXTRA_TITLE = "extra_title";
+    private static final String EXTRA_DATE = "extra_date";
 
     @Inject
     MoviesListPresenter mPresenter;
@@ -46,6 +48,20 @@ public class MoviesListActivity extends BaseActivity implements MainView, SwipeR
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.listview_movies)
     ListView mListView;
+
+    public static void open(Context context, int flags, String url, String title, String date) {
+        Intent intent = newIntent(context, flags, url, title, date);
+        context.startActivity(intent);
+    }
+
+    public static Intent newIntent(Context context, int flags, String url, String title, String date) {
+        Intent intent = new Intent(context, MoviesListActivity.class);
+        intent.putExtra(EXTRA_URL, url);
+        intent.putExtra(EXTRA_TITLE, title);
+        intent.putExtra(EXTRA_DATE, date);
+        intent.setFlags(flags);
+        return intent;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,12 +84,12 @@ public class MoviesListActivity extends BaseActivity implements MainView, SwipeR
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Serializable movieInfo = intent.getSerializableExtra(EXTRA_MOVIE);
-        if (movieInfo != null) {
-            getIntent().removeExtra(MoviesListActivity.EXTRA_MOVIE);
-            mPresenter.onCreate(movieInfo);
+        if (intent.getExtras() != null) {
+            mPresenter.onCreate(intent.getStringExtra(EXTRA_URL),
+                    intent.getStringExtra(EXTRA_TITLE),
+                    intent.getStringExtra(EXTRA_DATE));
         } else {
-            mPresenter.onCreate(null);
+            mPresenter.onCreate();
         }
     }
 

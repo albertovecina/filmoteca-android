@@ -15,9 +15,9 @@ import rx.schedulers.Schedulers;
 /**
  * Created by albertovecinasanchez on 7/12/15.
  */
-public class MoviesRepository {
+public class MoviesDataRepository {
 
-    private static MoviesRepository sRepository;
+    private static MoviesDataRepository sRepository;
 
     public Observable<List<Movie>> moviesList() {
         return WSClient.getClient(CacheRequestInterceptor.CachePolicy.PRIORITY_NETWORK).moviesListHtml().map(MovieHtmlMapper::transformMovie)
