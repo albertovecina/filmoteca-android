@@ -15,7 +15,7 @@ public class ClearCacheUseCase {
     }
 
     public void clearExpiredCacheFiles() {
-        mCacheRepository.clearExpiredCacheFiles();
+        mCacheRepository.clearExpiredCacheFilesAsync();
     }
 
 }
