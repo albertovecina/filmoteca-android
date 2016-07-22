@@ -12,7 +12,10 @@ import java.io.File;
 public class HttpCacheManager {
 
     public static File getHttpCacheDir(Context context) {
-        return new File(context.getCacheDir(), WSClient.CACHE_DIRECTORY);
+        File cacheDir = new File(context.getCacheDir(), WSClient.CACHE_DIRECTORY);
+        if (!cacheDir.exists())
+            cacheDir.mkdirs();
+        return cacheDir;
     }
 
     /**

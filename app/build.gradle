@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.github.triplet.play'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.jakewharton.hugo'
 
 repositories {
@@ -15,14 +16,31 @@ android {
         applicationId "com.albandroid.filmoteca"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 22
+        versionCode 27
         versionName "1.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        initPlayStoreApiKeys()
+    }
+    lintOptions {
+        abortOnError false
+    }
+    signingConfigs {
+        release {
+            storeFile file("../release.keystore")
+            storePassword loadStorePassword()
+            keyAlias loadKeyAlias()
+            keyPassword loadKeyPassword()
+        }
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -35,6 +53,62 @@ android {
         mock {
         }
     }
+    play {
+        track = 'production'
+        jsonFile = file('../keys.json')
+    }
+
+}
+
+def initPlayStoreApiKeys() {
+    File keysJsonFile = file('../keys.json')
+    if (keysJsonFile.exists()) {
+        println "PLAY STORE KEYS JSON IS IN THE ROOT PROJECT DIR"
+    } else {
+        println "PLAY STORE KEYS JSON IS IN THE ENVIRONMENT"
+        String playStoreKeysJsonEncoded = System.getenv('PLAY_STORE_KEYS_JSON')
+        String playStoreKeysJsonDecoded = new String(playStoreKeysJsonEncoded.decodeBase64())
+        keysJsonFile.write(playStoreKeysJsonDecoded)
+    }
+}
+
+def loadStorePassword() {
+    String storePassword = System.getenv("STORE_PASSWORD");
+    if (storePassword == null) {
+        println "STORE_PASSWORD ENVIRONMENT VARIABLE NOT FOUND"
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        storePassword = properties.getProperty("store.password");
+    } else {
+        println "STORE_PASSWORD ENVIRONMENT VARIABLE FOUND"
+    }
+    return storePassword;
+}
+
+def loadKeyAlias() {
+    String keyAlias = System.getenv("KEY_ALIAS");
+    if (keyAlias == null) {
+        println "KEY_ALIAS ENVIRONMENT VARIABLE NOT FOUND"
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        keyAlias = properties.getProperty("key.alias");
+    } else {
+        println "KEY_ALIAS ENVIRONMENT VARIABLE FOUND"
+    }
+    return keyAlias;
+}
+
+def loadKeyPassword() {
+    String keyPassword = System.getenv("KEY_PASSWORD");
+    if (keyPassword == null) {
+        println "KEY_PASSWORD ENVIRONMENT VARIABLE NOT FOUND"
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        keyPassword = properties.getProperty("key.password");
+    } else {
+        println "KEY_PASSWORD ENVIRONMENT VARIABLE FOUND"
+    }
+    return keyPassword;
 }
 
 dependencies {
