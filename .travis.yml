@@ -32,6 +32,6 @@ before_script:
   - ./ci/wait-for-emulator
   - adb shell input keyevent 82 &
 script:
-  - ./gradlew build connectedCheck
+  - ./gradlew clean build connectedCheck
 after_success:
   - ./gradlew publishApkRealRelease
