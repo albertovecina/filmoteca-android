@@ -34,7 +34,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
@@ -43,21 +43,21 @@ public class CommentsActivity extends BaseActivity implements CommentsView, Text
 
     public static final String EXTRA_TITLE = "extra_title";
 
-    @Bind(R.id.imageview_profile_image)
+    @BindView(R.id.imageview_profile_image)
     ImageView mImageViewProfileImage;
-    @Bind(R.id.textview_user_name)
+    @BindView(R.id.textview_user_name)
     TextView mTextViewUserName;
-    @Bind(R.id.textview_user_description)
+    @BindView(R.id.textview_user_description)
     TextView mTextViewUserDescription;
-    @Bind(R.id.textview_char_counter)
+    @BindView(R.id.textview_char_counter)
     TextView mTextViewCharCounter;
-    @Bind(R.id.listview_tweets)
+    @BindView(R.id.listview_tweets)
     ListView mListViewTweets;
-    @Bind(R.id.edittext_twitter_message)
+    @BindView(R.id.edittext_twitter_message)
     EditText mEditTextTwitterMessage;
-    @Bind(R.id.login_button)
+    @BindView(R.id.login_button)
     TwitterRxLoginButton mLoginButton;
-    @Bind(R.id.layout_tweet_editor)
+    @BindView(R.id.layout_tweet_editor)
     LinearLayout mLayoutTweetEditor;
 
     @Inject

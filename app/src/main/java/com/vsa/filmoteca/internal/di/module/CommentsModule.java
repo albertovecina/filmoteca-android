@@ -1,9 +1,9 @@
 package com.vsa.filmoteca.internal.di.module;
 
-import com.vsa.filmoteca.data.repository.TwitterRepository;
+import com.vsa.filmoteca.data.repository.TwitterDataRepository;
 import com.vsa.filmoteca.internal.di.PerActivity;
 import com.vsa.filmoteca.presentation.comments.CommentsPresenter;
-import com.vsa.filmoteca.presentation.usecase.CommentsUseCase;
+import com.vsa.filmoteca.data.usecase.CommentsUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,8 +17,8 @@ public class CommentsModule {
 
     @Provides
     @PerActivity
-    public CommentsUseCase provideCommentsUseCase(TwitterRepository twitterRepository) {
-        return new CommentsUseCase(twitterRepository);
+    public CommentsUseCase provideCommentsUseCase(TwitterDataRepository twitterDataRepository) {
+        return new CommentsUseCase(twitterDataRepository);
     }
 
     @Provides

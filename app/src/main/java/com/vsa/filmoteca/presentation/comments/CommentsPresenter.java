@@ -8,7 +8,7 @@ import com.twitter.sdk.android.core.models.User;
 import com.vsa.filmoteca.data.model.twitter.FakeTweetsManager;
 import com.vsa.filmoteca.data.model.twitter.TweetComparator;
 import com.vsa.filmoteca.presentation.Presenter;
-import com.vsa.filmoteca.presentation.usecase.CommentsUseCase;
+import com.vsa.filmoteca.data.usecase.CommentsUseCase;
 import com.vsa.filmoteca.presentation.utils.Constants;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
 import com.vsa.filmoteca.view.CommentsView;

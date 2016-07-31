@@ -1,11 +1,16 @@
 package com.vsa.filmoteca;
 
 import android.app.Application;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.vsa.filmoteca.data.repository.TwitterRepository;
+import com.vsa.filmoteca.data.repository.TwitterDataRepository;
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
 import com.vsa.filmoteca.internal.di.component.DaggerApplicationComponent;
 import com.vsa.filmoteca.internal.di.module.ApplicationModule;
@@ -26,7 +31,7 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
 
     private AppSession mGuestSession;
 
-    private TwitterRepository mRepository = new TwitterRepository();
+    private TwitterDataRepository mRepository = new TwitterDataRepository();
 
     private ApplicationComponent mApplicationComponent;
 
@@ -47,11 +52,22 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
     }
 
     private void initTwitter() {
-        TwitterAuthConfig authConfig =
-                new TwitterAuthConfig(getString(R.string.twitter_api_key),
-                        getString(R.string.twitter_api_secret));
+        try {
+            ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = applicationInfo.metaData;
+            String apiKey = bundle.getString("io.twitter.ApiKey");
+            String apiSecret = bundle.getString("io.twitter.ApiSecret");
+            TwitterAuthConfig authConfig =
+                    new TwitterAuthConfig(apiKey,
+                            apiSecret);
 
-        Fabric.with(this, new Twitter(authConfig));
+            Fabric.with(this, new Twitter(authConfig), new Crashlytics());
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Failed to load meta-data, NullPointer: " + e.getMessage());
+        }
+
     }
 
     private void initializeApplicationComponent() {

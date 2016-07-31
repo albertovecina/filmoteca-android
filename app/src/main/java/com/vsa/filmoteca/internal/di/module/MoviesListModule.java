@@ -3,10 +3,10 @@ package com.vsa.filmoteca.internal.di.module;
 import android.app.Application;
 
 import com.vsa.filmoteca.data.repository.CacheRepository;
-import com.vsa.filmoteca.data.repository.MoviesRepository;
+import com.vsa.filmoteca.data.repository.MoviesDataRepository;
 import com.vsa.filmoteca.internal.di.PerActivity;
-import com.vsa.filmoteca.presentation.usecase.ClearCacheUseCase;
-import com.vsa.filmoteca.presentation.usecase.GetMoviesListUseCase;
+import com.vsa.filmoteca.data.usecase.ClearCacheUseCase;
+import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter;
 
 import dagger.Module;
@@ -33,8 +33,8 @@ public class MoviesListModule {
 
     @Provides
     @PerActivity
-    GetMoviesListUseCase provideMoviesUseCase(MoviesRepository moviesRepository) {
-        return new GetMoviesListUseCase(moviesRepository);
+    GetMoviesListUseCase provideMoviesUseCase(MoviesDataRepository moviesDataRepository) {
+        return new GetMoviesListUseCase(moviesDataRepository);
     }
 
     @Provides

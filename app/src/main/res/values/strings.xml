@@ -45,6 +45,7 @@
     <string name="web">http://www.albandroid.es</string>
     <string name="email">albaceteandroid@gmail.com</string>
     <string name="findus">Escuela de Ingenieros Industriales - Aula 1.6</string>
+    <string name="version_code">version %d</string>
 
     <!-- Share -->
     <string name="share_date">Fecha</string>

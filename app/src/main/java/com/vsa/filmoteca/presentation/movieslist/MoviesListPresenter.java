@@ -2,13 +2,12 @@ package com.vsa.filmoteca.presentation.movieslist;
 
 import com.vsa.filmoteca.data.domain.Movie;
 import com.vsa.filmoteca.data.domain.dataprovider.MovieDataProvider;
+import com.vsa.filmoteca.data.usecase.ClearCacheUseCase;
+import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.presentation.Presenter;
-import com.vsa.filmoteca.presentation.usecase.ClearCacheUseCase;
-import com.vsa.filmoteca.presentation.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.view.MainView;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
 
-import java.io.Serializable;
 import java.util.List;
 
 import rx.Observer;
@@ -30,12 +29,15 @@ public class MoviesListPresenter implements OkCancelDialogListener, Presenter<Ma
         mGetMoviesListUseCase = getMoviesListUseCase;
     }
 
-    public void onCreate(Serializable movieInfo) {
+    public void onCreate(String url, String title, String date) {
+        onCreate();
+        if (url != null)
+            mView.navigateToDetail(url, title, date);
+    }
+
+    public void onCreate() {
         mClearCacheUseCase.clearExpiredCacheFiles();
-        Movie movie = (Movie) movieInfo;
         loadMovies();
-        if (movie != null)
-            mView.navigateToDetail(movie.getUrl(), movie.getTitle(), movie.getDate());
     }
 
     @Override

@@ -2,8 +2,11 @@ package com.vsa.filmoteca.internal.di.module;
 
 import android.app.Application;
 
-import com.vsa.filmoteca.data.repository.MoviesRepository;
-import com.vsa.filmoteca.data.repository.TwitterRepository;
+import com.vsa.filmoteca.data.repository.MoviesDataRepository;
+import com.vsa.filmoteca.data.repository.TwitterDataRepository;
+import com.vsa.filmoteca.data.repository.MoviesPersistanceRepository;
+import com.vsa.filmoteca.data.repository.database.MoviesDataBaseSource;
+import com.vsa.filmoteca.data.repository.sharedpreferences.SharedPreferencesManager;
 
 import javax.inject.Singleton;
 
@@ -32,14 +35,32 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public MoviesRepository provideMoviesRepository() {
-        return new MoviesRepository();
+    public SharedPreferencesManager provideSharedPreferencesManager() {
+        return new SharedPreferencesManager(mApplication);
     }
 
     @Provides
     @Singleton
-    public TwitterRepository provideTwitterRepository() {
-        return new TwitterRepository();
+    public MoviesDataBaseSource provideMoviesDataBaseSource() {
+        return new MoviesDataBaseSource(mApplication);
+    }
+
+    @Provides
+    @Singleton
+    public MoviesDataRepository provideMoviesRepository() {
+        return new MoviesDataRepository();
+    }
+
+    @Provides
+    @Singleton
+    public TwitterDataRepository provideTwitterRepository() {
+        return new TwitterDataRepository();
+    }
+
+    @Provides
+    @Singleton
+    public MoviesPersistanceRepository provideMoviesPersistanceRepository(MoviesDataBaseSource moviesDataBaseSource, SharedPreferencesManager sharedPreferencesManager) {
+        return new MoviesPersistanceRepository(moviesDataBaseSource, sharedPreferencesManager);
     }
 
 }

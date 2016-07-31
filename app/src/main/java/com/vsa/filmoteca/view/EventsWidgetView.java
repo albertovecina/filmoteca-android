@@ -1,20 +1,16 @@
 package com.vsa.filmoteca.view;
 
-import android.content.Context;
-
-import com.vsa.filmoteca.data.domain.Movie;
-
 /**
  * Created by seldon on 15/03/15.
  */
 public interface EventsWidgetView {
-    void initWidget(Context context);
+    void initWidget();
 
-    void setupLRButtons(Context context);
+    void setupLRButtons();
 
-    void setupMovieView(Context context, Movie movie);
+    void setupMovieView(String url, String title, String date);
 
-    void setupIndexView(Context context, int current, int size);
+    void setupIndexView(int current, int size);
 
     void updateWidget();
 
@@ -22,5 +18,5 @@ public interface EventsWidgetView {
 
     void hideProgress();
 
-    void showRefreshButton(Context context);
+    void showRefreshButton();
 }

@@ -25,7 +25,7 @@ import com.vsa.filmoteca.view.widget.EventsWidget;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailActivity extends BaseActivity implements DetailView, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
@@ -34,15 +34,15 @@ public class DetailActivity extends BaseActivity implements DetailView, SwipeRef
     public static final String EXTRA_TITLE = "extra_title";
     public static final String EXTRA_URL = "extra_url";
 
-    @Bind(R.id.wrapper_detail_content)
+    @BindView(R.id.wrapper_detail_content)
     ViewGroup mWrapperContent;
-    @Bind(R.id.swipe_refresh_layout)
+    @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.webview)
+    @BindView(R.id.webview)
     ObservableWebView mWebView;
-    @Bind(R.id.detalleTitle)
+    @BindView(R.id.detalleTitle)
     TextView mTitle;
-    @Bind(R.id.fab_comments)
+    @BindView(R.id.fab_comments)
     FloatingActionButton mFabComments;
 
     @Inject

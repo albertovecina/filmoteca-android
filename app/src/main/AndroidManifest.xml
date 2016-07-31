@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vsa.filmoteca">
-
-    <uses-sdk android:minSdkVersion="4" />
-
+    
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -12,9 +10,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.MainTheme">
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="@string/twitter_api_key" />
 
         <activity
             android:name=".view.activity.MoviesListActivity"
@@ -63,6 +58,15 @@
                 android:resource="@xml/appwidget_info" />
         </receiver>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="${fabricApiKey}" />
+        <meta-data
+            android:name="io.twitter.ApiKey"
+            android:value="${twitterApiKey}" />
+        <meta-data
+            android:name="io.twitter.ApiSecret"
+            android:value="${twitterApiSecret}" />
     </application>
 
 </manifest>
