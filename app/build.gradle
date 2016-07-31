@@ -73,14 +73,17 @@ def initFabricKeys(Map<String, Object> manifestPlaceholders) {
     String fabricApiKey = System.getenv("FABRIC_API_KEY")
     String twitterApiKey = System.getenv("TWITTER_API_KEY")
     String twitterApiSecret = System.getenv("TWITTER_API_SECRET")
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file("local.properties").newDataInputStream())
-    if (fabricApiKey == null)
+    if (fabricApiKey == null || twitterApiKey == null || twitterApiSecret == null) {
+        println "LOADING FABRIC KEYS FROM LOCAL"
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
         fabricApiKey = properties.getProperty("fabric.api.key");
-    if (twitterApiKey == null)
         twitterApiKey = properties.getProperty("twitter.api.key");
-    if (twitterApiSecret == null)
         twitterApiSecret = properties.getProperty("twitter.api.secret");
+    } else {
+        println "LOADING FABRIC KEYS FROM ENVIRONMENT"
+    }
+
     manifestPlaceholders.put("fabricApiKey", fabricApiKey)
     manifestPlaceholders.put("twitterApiKey", twitterApiKey)
     manifestPlaceholders.put("twitterApiSecret", twitterApiSecret)
