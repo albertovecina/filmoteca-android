@@ -19,6 +19,14 @@
     </style>
   </head>
   <body>
+$ 1.2.4
+  % v1.2.4
+  _ 2016-07-31
+    * Correcciones de carácter general
+$ 1.2.3
+  % v1.2.3
+  _ 2016-03-05
+    * Implementado modo offline
 $ 1.2.2
   % v1.2.2
   _ 2015-04-07

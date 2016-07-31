@@ -1,5 +1,6 @@
 package com.vsa.filmoteca.presentation.comments;
 
+import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Session;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Search;
@@ -7,8 +8,8 @@ import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
 import com.vsa.filmoteca.data.model.twitter.FakeTweetsManager;
 import com.vsa.filmoteca.data.model.twitter.TweetComparator;
-import com.vsa.filmoteca.presentation.Presenter;
 import com.vsa.filmoteca.data.usecase.CommentsUseCase;
+import com.vsa.filmoteca.presentation.Presenter;
 import com.vsa.filmoteca.presentation.utils.Constants;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
 import com.vsa.filmoteca.view.CommentsView;
@@ -104,9 +105,7 @@ public class CommentsPresenter implements Presenter<CommentsView> {
     public void onResume() {
         Session session = mCommentsUseCase.getActiveSession();
         if (session == null) {
-            mCommentsUseCase.guestLogin().subscribe(appSession -> {
-                startRefreshingTweets();
-            });
+            startGuestSessionAndRefreshTweets();
             mView.showLoginButton();
         } else if (session instanceof TwitterSession) {
             TwitterSession twitterSession = (TwitterSession) session;
@@ -178,6 +177,25 @@ public class CommentsPresenter implements Presenter<CommentsView> {
         String movieHashTag = movieTitle.toLowerCase();
         movieHashTag = movieHashTag.replaceAll("\\p{Punct}+", "");
         return "#" + StringUtils.capitalizeFirstCharacter(movieHashTag).replace(" ", "");
+    }
+
+    private void startGuestSessionAndRefreshTweets() {
+        mCommentsUseCase.guestLogin().subscribe(new Observer<AppSession>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.showErrorGuestSession();
+            }
+
+            @Override
+            public void onNext(AppSession appSession) {
+                startRefreshingTweets();
+            }
+        });
     }
 
     private void startRefreshingTweets() {

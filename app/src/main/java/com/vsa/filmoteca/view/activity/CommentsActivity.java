@@ -206,15 +206,20 @@ public class CommentsActivity extends BaseActivity implements CommentsView, Text
     }
 
     public void showErrorCantLoadTweets() {
-        Toast.makeText(this, getString(R.string.error_cant_load_tweets), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.error_cant_load_tweets, Toast.LENGTH_LONG).show();
     }
 
     public void showErrorCantLogin() {
-        Toast.makeText(this, getString(R.string.error_cant_login), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.error_cant_login, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showErrorGuestSession() {
+        Toast.makeText(this, R.string.error_cant_get_twitter_guest_session, Toast.LENGTH_LONG).show();
     }
 
     public void showErrorCantPostTweet() {
-        Toast.makeText(this, getString(R.string.error_cant_post_tweet), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.error_cant_post_tweet, Toast.LENGTH_LONG).show();
     }
 
     @Override
