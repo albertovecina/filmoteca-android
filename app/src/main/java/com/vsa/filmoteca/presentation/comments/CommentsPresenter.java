@@ -149,8 +149,22 @@ public class CommentsPresenter implements Presenter<CommentsView> {
     }
 
     private void requestUserInfo(TwitterSession session) {
-        mCommentsUseCase.verifyCredentials(session).subscribe(user -> {
-            showUserInfo(user);
+        mCommentsUseCase.verifyCredentials(session).subscribe(new Observer<User>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.showErrorVerifyCredentials();
+                closeSession();
+            }
+
+            @Override
+            public void onNext(User user) {
+                showUserInfo(user);
+            }
         });
     }
 

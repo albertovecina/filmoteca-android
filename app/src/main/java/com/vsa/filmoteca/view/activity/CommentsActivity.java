@@ -218,6 +218,11 @@ public class CommentsActivity extends BaseActivity implements CommentsView, Text
         Toast.makeText(this, R.string.error_cant_get_twitter_guest_session, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void showErrorVerifyCredentials() {
+        Toast.makeText(this, R.string.error_cant_verify_credentials, Toast.LENGTH_LONG).show();
+    }
+
     public void showErrorCantPostTweet() {
         Toast.makeText(this, R.string.error_cant_post_tweet, Toast.LENGTH_LONG).show();
     }

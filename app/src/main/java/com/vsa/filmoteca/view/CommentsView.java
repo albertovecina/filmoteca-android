@@ -44,6 +44,8 @@ public interface CommentsView {
 
     void showErrorGuestSession();
 
+    void showErrorVerifyCredentials();
+
     void showErrorCantPostTweet();
 
     void addTweet(Tweet tweet);
