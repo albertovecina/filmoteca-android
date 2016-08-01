@@ -32,7 +32,8 @@
     <string name="error_empty_message">Escribe tu mensaje</string>
     <string name="hint_message">¿Que tal la peli?</string>
     <string name="error_cant_get_twitter_guest_session">No se han podido iniciar la sesión de invitado. Inicie sesión con su cuenta de twitter.</string>
-    <string name="error_cant_load_tweets">No se han podido cargar los tweets, inténtalo de nuevo más tarde</string>
+    <string name="error_cant_verify_credentials">No se ha podido obtener la información de usuario, por favor, inicie de nuevo la sesión.</string>
+    <string name="error_cant_load_tweets">No se han podido cargar los tweets, inténtelo de nuevo más tarde o inicie sesión con su cuenta de twitter.</string>
     <string name="error_cant_login">No se han podido iniciar la sesión</string>
     <string name="error_cant_post_tweet">No se ha podido enviar el mensaje</string>
 
