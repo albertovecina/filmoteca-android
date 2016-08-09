@@ -17,6 +17,7 @@ import com.vsa.filmoteca.internal.di.module.ApplicationModule;
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 
 import io.fabric.sdk.android.Fabric;
+import rx.Observer;
 import rx.functions.Action1;
 
 
@@ -77,7 +78,22 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
     }
 
     private void startGuestSession() {
-        mRepository.guestLogin().subscribe();
+        mRepository.guestLogin().subscribe(new Observer<AppSession>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(AppSession appSession) {
+
+            }
+        });
     }
 
     public ApplicationComponent getApplicationComponent() {
