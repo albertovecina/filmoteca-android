@@ -38,7 +38,7 @@ public class MoviesPersistanceUseCase {
     }
 
     public void setMovies(List<Movie> movies) {
-
+        mMoviesPersistanceRepository.setMovies(movies);
     }
 
 }
