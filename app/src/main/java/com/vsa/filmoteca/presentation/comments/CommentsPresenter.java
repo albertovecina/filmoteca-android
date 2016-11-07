@@ -189,8 +189,10 @@ public class CommentsPresenter implements Presenter<CommentsView> {
 
     private String createMovieHashTag(String movieTitle) {
         String movieHashTag = movieTitle.toLowerCase();
-        movieHashTag = movieHashTag.replaceAll("\\p{Punct}+", "");
-        return "#" + StringUtils.capitalizeFirstCharacter(movieHashTag).replace(" ", "");
+        movieHashTag = StringUtils.removePunctuationSymbols(movieHashTag);
+        movieHashTag = StringUtils.capitalizeFirstCharacter(movieHashTag);
+        movieHashTag = "#" + StringUtils.removeBlankSpaces(movieHashTag);
+        return movieHashTag;
     }
 
     private void startGuestSessionAndRefreshTweets() {

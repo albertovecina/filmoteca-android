@@ -1,6 +1,6 @@
 package com.vsa.filmoteca.presentation.utils;
 
-import java.util.*;
+import java.util.HashMap;
 
 public class StringUtils {
 //http://www.rgagnon.com/javadetails/java-0307.html
@@ -105,16 +105,29 @@ public class StringUtils {
             String[] strArr = source.split(" ");
             for (String str : strArr) {
                 char[] stringArray = str.trim().toCharArray();
-                stringArray[0] = Character.toUpperCase(stringArray[0]);
-                str = new String(stringArray);
-
-                res.append(str).append(" ");
+                if (stringArray.length > 0) {
+                    stringArray[0] = Character.toUpperCase(stringArray[0]);
+                    str = new String(stringArray);
+                    res.append(str).append(" ");
+                }
             }
 
             return res.toString().trim();
         } else {
             return "";
         }
+    }
+
+    public static String removePunctuationSymbols(String source) {
+        if (source == null || source.isEmpty())
+            return "";
+        return source.replaceAll("\\p{Punct}+", "");
+    }
+
+    public static String removeBlankSpaces(String source) {
+        if (source == null || source.isEmpty())
+            return "";
+        return source.replace(" ", "");
     }
 
     public static boolean isEmpty(String string) {
