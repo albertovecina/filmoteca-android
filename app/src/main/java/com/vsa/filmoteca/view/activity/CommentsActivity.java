@@ -178,7 +178,7 @@ public class CommentsActivity extends BaseActivity implements CommentsView, Text
 
     @Override
     public void showProfileImage(String url) {
-        Picasso.with(this).load(url).into(mImageViewProfileImage);
+        Picasso.get().load(url).into(mImageViewProfileImage);
     }
 
     @Override

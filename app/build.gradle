@@ -4,12 +4,12 @@ apply plugin: 'com.github.triplet.play'
 apply plugin: 'com.jakewharton.hugo'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 28
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.albandroid.filmoteca"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 34
         versionName "1.2.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -65,10 +65,14 @@ def initPlayStoreApiKeys() {
     if (keysJsonFile.exists()) {
         println "PLAY STORE KEYS JSON IS IN THE ROOT PROJECT DIR"
     } else {
-        println "PLAY STORE KEYS JSON IS IN THE ENVIRONMENT"
         String playStoreKeysJsonEncoded = System.getenv('PLAY_STORE_KEYS_JSON')
-        String playStoreKeysJsonDecoded = new String(playStoreKeysJsonEncoded.decodeBase64())
-        keysJsonFile.write(playStoreKeysJsonDecoded)
+        if (playStoreKeysJsonEncoded != null) {
+            println "PLAY STORE KEYS JSON IS IN THE ENVIRONMENT"
+            String playStoreKeysJsonDecoded = new String(playStoreKeysJsonEncoded.decodeBase64())
+            keysJsonFile.write(playStoreKeysJsonDecoded)
+        } else {
+            println "CANT FIND PLAYSTORE KEYS"
+        }
     }
 }
 
@@ -80,9 +84,9 @@ def initFabricKeys(Map<String, Object> manifestPlaceholders) {
         println "LOADING FABRIC KEYS FROM LOCAL"
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        fabricApiKey = properties.getProperty("fabric.api.key");
-        twitterApiKey = properties.getProperty("twitter.api.key");
-        twitterApiSecret = properties.getProperty("twitter.api.secret");
+        fabricApiKey = properties.getProperty("fabric.api.key")
+        twitterApiKey = properties.getProperty("twitter.api.key")
+        twitterApiSecret = properties.getProperty("twitter.api.secret")
     } else {
         println "LOADING FABRIC KEYS FROM ENVIRONMENT"
     }
@@ -93,69 +97,71 @@ def initFabricKeys(Map<String, Object> manifestPlaceholders) {
 }
 
 def loadStorePassword() {
-    String storePassword = System.getenv("STORE_PASSWORD");
+    String storePassword = System.getenv("STORE_PASSWORD")
     if (storePassword == null) {
         println "STORE_PASSWORD ENVIRONMENT VARIABLE NOT FOUND"
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        storePassword = properties.getProperty("store.password");
+        storePassword = properties.getProperty("store.password")
     } else {
         println "STORE_PASSWORD ENVIRONMENT VARIABLE FOUND"
     }
-    return storePassword;
+    return storePassword
 }
 
 def loadKeyAlias() {
-    String keyAlias = System.getenv("KEY_ALIAS");
+    String keyAlias = System.getenv("KEY_ALIAS")
     if (keyAlias == null) {
         println "KEY_ALIAS ENVIRONMENT VARIABLE NOT FOUND"
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        keyAlias = properties.getProperty("key.alias");
+        keyAlias = properties.getProperty("key.alias")
     } else {
         println "KEY_ALIAS ENVIRONMENT VARIABLE FOUND"
     }
-    return keyAlias;
+    return keyAlias
 }
 
 def loadKeyPassword() {
-    String keyPassword = System.getenv("KEY_PASSWORD");
+    String keyPassword = System.getenv("KEY_PASSWORD")
     if (keyPassword == null) {
         println "KEY_PASSWORD ENVIRONMENT VARIABLE NOT FOUND"
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        keyPassword = properties.getProperty("key.password");
+        keyPassword = properties.getProperty("key.password")
     } else {
         println "KEY_PASSWORD ENVIRONMENT VARIABLE FOUND"
     }
-    return keyPassword;
+    return keyPassword
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //ANDROID SUPPORT LIBRARIES
-    implementation 'com.android.support:appcompat-v7:25.2.0'
-    implementation 'com.android.support:recyclerview-v7:25.2.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
+    implementation 'com.android.support:recyclerview-v7:28.0.0-alpha3'
+    implementation 'com.android.support:exifinterface:28.0.0-alpha3'
+    implementation 'com.android.support:support-v4:28.0.0-alpha3'
 
     // UNIT TESTING
     testImplementation 'junit:junit:4.12'
     // Set this dependency if you want to use Mockito
-    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'org.mockito:mockito-core:2.18.0'
     // Set this dependency if you want to use Hamcrest matching
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
     androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
 
-    androidTestImplementation 'com.android.support:support-annotations:25.2.0'
-    androidTestImplementation 'com.android.support.test:runner:0.5'
-    androidTestImplementation 'com.android.support.test:rules:0.5'
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0-alpha3'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
 
     // DEPENDENCY INJECTION
     implementation 'com.google.dagger:dagger:2.16'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     // VIEW INJECTION
-    implementation 'com.jakewharton:butterknife:8.2.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.2.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.vsa:paperknife:1.1'
 
     // RX JAVA
@@ -164,19 +170,19 @@ dependencies {
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     implementation 'io.reactivex:rxjava:1.1.6'
 
-    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
 
     implementation 'org.jsoup:jsoup:1.9.2'
     implementation 'com.melnykov:floatingactionbutton:1.3.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation('com.twitter.sdk.android:twitter:1.14.1@aar') {
-        transitive = true;
+        transitive = true
     }
     implementation('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
-        transitive = true;
+        transitive = true
     }
 
 }
