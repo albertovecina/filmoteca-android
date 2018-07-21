@@ -19,6 +19,11 @@
     </style>
   </head>
   <body>
+$ 1.2.7
+  % v1.2.7
+  _ 2018-07-21
+    * Añadido nuevo icono
+    * Actualización de librerías requerida por google play
 $ 1.2.6
   % v1.2.6
   _ 2016-11-07
