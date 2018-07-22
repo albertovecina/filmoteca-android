@@ -36,7 +36,8 @@ android:
 script:
   - echo no | android create avd --force -n test -t "android-"$ANDROID_EMULATOR_LEVEL --abi $ANDROID_ABI
   - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
+  - chmod +x ./ci/wait-for-emulator
+  - ./ci/wait-for-emulator
   - ./gradlew connectedMockDebugAndroidTest -PdisablePreDex --continue --stacktrace
 #Builds and publish the apk to the play store
 after_success:
