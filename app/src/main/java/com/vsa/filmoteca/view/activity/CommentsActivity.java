@@ -19,14 +19,13 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.tweetui.TweetView;
-import com.twitter.sdk.android.tweetui.TweetViewAdapter;
 import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
 import com.vsa.filmoteca.internal.di.component.DaggerCommentsComponent;
 import com.vsa.filmoteca.internal.di.module.CommentsModule;
 import com.vsa.filmoteca.presentation.comments.CommentsPresenter;
 import com.vsa.filmoteca.view.CommentsView;
+import com.vsa.filmoteca.view.adapter.TweetAdapter;
 import com.vsa.filmoteca.view.component.TwitterRxLoginButton;
 
 import java.util.ArrayList;
@@ -63,7 +62,7 @@ public class CommentsActivity extends BaseActivity implements CommentsView, Text
     @Inject
     CommentsPresenter mPresenter;
     private ProgressDialog mProgressDialog;
-    private TweetViewAdapter<TweetView> mTweetViewAdapter;
+    private TweetAdapter mTweetViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +115,6 @@ public class CommentsActivity extends BaseActivity implements CommentsView, Text
         mPresenter.setView(this);
         mProgressDialog = ProgressDialog.show(this, "",
                 getString(R.string.loading), true, false);
-        mTweetViewAdapter = new TweetViewAdapter(this);
-        mListViewTweets.setAdapter(mTweetViewAdapter);
         mEditTextTwitterMessage.addTextChangedListener(this);
     }
 
@@ -173,7 +170,8 @@ public class CommentsActivity extends BaseActivity implements CommentsView, Text
 
     @Override
     public void showTweets(List<Tweet> tweetList) {
-        mTweetViewAdapter.setTweets(tweetList);
+        mTweetViewAdapter = new TweetAdapter(this, tweetList);
+        mListViewTweets.setAdapter(mTweetViewAdapter);
     }
 
     @Override
