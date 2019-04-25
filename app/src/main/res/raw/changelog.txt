@@ -19,6 +19,11 @@
     </style>
   </head>
   <body>
+$ 1.2.8
+  % v1.2.8
+  _ 2019-04-25
+    * Añadida compatibilidad con Android 9
+    * Sistema de comentarios deshabilitado temporalmente
 $ 1.2.7
   % v1.2.7
   _ 2018-07-21
