@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.vsa.filmoteca.R;
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
 import com.vsa.filmoteca.internal.di.component.DaggerMovieDetailComponent;
@@ -28,7 +27,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends BaseActivity implements DetailView, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class DetailActivity extends BaseActivity implements DetailView, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String EXTRA_DATE = "extra_date";
     public static final String EXTRA_TITLE = "extra_title";
@@ -42,8 +41,6 @@ public class DetailActivity extends BaseActivity implements DetailView, SwipeRef
     ObservableWebView mWebView;
     @BindView(R.id.detalleTitle)
     TextView mTitle;
-    @BindView(R.id.fab_comments)
-    FloatingActionButton mFabComments;
 
     @Inject
     DetailPresenter mPresenter;
@@ -55,7 +52,6 @@ public class DetailActivity extends BaseActivity implements DetailView, SwipeRef
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         initViews();
         initializePresenter();
         mPresenter.onCreate(getIntent().getStringExtra(EXTRA_URL),
@@ -123,17 +119,23 @@ public class DetailActivity extends BaseActivity implements DetailView, SwipeRef
     }
 
     public void initViews() {
-        mFabComments.setOnClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary);
+        /*
+        mFabComments.setOnClickListener(this);
         mWebView.setOnScrollChangedCallback((l, t, oldl, oldt) -> {
             mSwipeRefreshLayout.setEnabled(t == 0);
             if (t < oldt && !mFabComments.isVisible())
                 mFabComments.show(true);
         });
         mWebView.setOnOverScollListener(() -> mFabComments.hide(true));
+        */
+        //TODO FIX COMMENTS SYSTEM
+        mWebView.setOnScrollChangedCallback((l, t, oldl, oldt) -> {
+            mSwipeRefreshLayout.setEnabled(t == 0);
+        });
         showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE));
 
     }
@@ -224,12 +226,6 @@ public class DetailActivity extends BaseActivity implements DetailView, SwipeRef
     public void showAboutUs() {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == mFabComments)
-            mPresenter.onFabClick();
     }
 
     private void initializePresenter() {

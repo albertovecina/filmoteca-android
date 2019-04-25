@@ -1,6 +1,5 @@
 package com.vsa.filmoteca.presentation.comments;
 
-import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Session;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Search;
@@ -88,7 +87,7 @@ public class CommentsPresenter implements Presenter<CommentsView> {
 
         @Override
         public void onNext(TwitterSession twitterSession) {
-            requestUserInfo(twitterSession);
+            //requestUserInfo(twitterSession);
             mView.showTweetEditor();
         }
     };
@@ -109,7 +108,7 @@ public class CommentsPresenter implements Presenter<CommentsView> {
             mView.showLoginButton();
         } else if (session instanceof TwitterSession) {
             TwitterSession twitterSession = (TwitterSession) session;
-            requestUserInfo(twitterSession);
+            //requestUserInfo(twitterSession);
             mView.showTweetEditor();
             mView.setMaxTweetLength(getTweetLength());
             mView.showCharactersLeft(Integer.toString(getTweetLength()));
@@ -196,32 +195,14 @@ public class CommentsPresenter implements Presenter<CommentsView> {
     }
 
     private void startGuestSessionAndRefreshTweets() {
-        mCommentsUseCase.guestLogin().subscribe(new Observer<AppSession>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mView.showErrorGuestSession();
-            }
-
-            @Override
-            public void onNext(AppSession appSession) {
-                startRefreshingTweets();
-            }
-        });
+        startRefreshingTweets();
     }
 
     private void startRefreshingTweets() {
         Observable.interval(0, 5500, TimeUnit.MILLISECONDS)
                 .flatMap(n -> {
                     Session session = mCommentsUseCase.getActiveSession();
-                    if (session != null)
-                        return mCommentsUseCase.tweets(session, mMovieHashTag);
-                    else
-                        return Observable.just(null);
+                    return mCommentsUseCase.tweets((TwitterSession) session, mMovieHashTag);
                 }).subscribe(mSearchSubscriber);
     }
 

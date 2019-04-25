@@ -6,33 +6,24 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.AppSession;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.vsa.filmoteca.data.repository.TwitterDataRepository;
+import com.twitter.sdk.android.core.TwitterConfig;
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
 import com.vsa.filmoteca.internal.di.component.DaggerApplicationComponent;
 import com.vsa.filmoteca.internal.di.module.ApplicationModule;
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 
-import io.fabric.sdk.android.Fabric;
-import rx.Observer;
-import rx.functions.Action1;
-
 
 /**
  * Created by seldon on 31/03/15.
  */
-public class FilmotecaApplication extends Application implements Action1<AppSession> {
+public class FilmotecaApplication extends Application {
 
     private static final String TAG = FilmotecaApplication.class.getSimpleName();
 
     private static FilmotecaApplication sApplication;
-
-    private AppSession mGuestSession;
-
-    private TwitterDataRepository mRepository = new TwitterDataRepository();
 
     private ApplicationComponent mApplicationComponent;
 
@@ -43,13 +34,7 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
         initializeApplicationComponent();
         if (ConnectivityUtils.isInternetAvailable(this)) {
             initTwitter();
-            startGuestSession();
         }
-    }
-
-    @Override
-    public void call(AppSession appSession) {
-        mGuestSession = appSession;
     }
 
     private void initTwitter() {
@@ -61,8 +46,11 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
             TwitterAuthConfig authConfig =
                     new TwitterAuthConfig(apiKey,
                             apiSecret);
-
-            Fabric.with(this, new Twitter(authConfig), new Crashlytics());
+            TwitterConfig twitterConfig = new TwitterConfig.Builder(this)
+                    .twitterAuthConfig(authConfig)
+                    .debug(true)
+                    .build();
+            Twitter.initialize(twitterConfig);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
         } catch (NullPointerException e) {
@@ -75,25 +63,6 @@ public class FilmotecaApplication extends Application implements Action1<AppSess
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
-    }
-
-    private void startGuestSession() {
-        mRepository.guestLogin().subscribe(new Observer<AppSession>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(AppSession appSession) {
-
-            }
-        });
     }
 
     public ApplicationComponent getApplicationComponent() {

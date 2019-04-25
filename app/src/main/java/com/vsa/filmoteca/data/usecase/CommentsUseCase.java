@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.data.usecase;
 
-import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Session;
+import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
@@ -31,11 +31,7 @@ public class CommentsUseCase {
         mRepository.closeActiveSession();
     }
 
-    public Observable<AppSession> guestLogin() {
-        return mRepository.guestLogin();
-    }
-
-    public Observable<Search> tweets(Session session, String hashTag) {
+    public Observable<Search> tweets(TwitterSession session, String hashTag) {
         return mRepository.tweets(session, hashTag);
     }
 
