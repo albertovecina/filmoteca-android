@@ -1,11 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.github.triplet.play'
-apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.albandroid.filmoteca"
         minSdkVersion 14
