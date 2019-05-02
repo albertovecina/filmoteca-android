@@ -8,13 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.vsa.filmoteca.R;
-import com.vsa.paperknife.CellDataProvider;
-import com.vsa.paperknife.CellElement;
-import com.vsa.paperknife.CellViewHolder;
-import com.vsa.paperknife.DataTarget;
-import com.vsa.paperknife.PaperKnife;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,23 +18,21 @@ import butterknife.ButterKnife;
 public class EventsAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
-    private List<? extends CellElement> mEvents;
-    private PaperKnife mPaperKnife;
+    private EventDataProvider mDataProvider;
 
-    public EventsAdapter(Context context, List<? extends CellElement> events, CellDataProvider dataProvider) {
-        mEvents = events;
+    public EventsAdapter(Context context, EventDataProvider dataProvider) {
+        mDataProvider = dataProvider;
         mInflater = LayoutInflater.from(context);
-        mPaperKnife = new PaperKnife(dataProvider);
     }
 
     @Override
     public int getCount() {
-        return mEvents.size();
+        return mDataProvider.getSize();
     }
 
     @Override
-    public CellElement getItem(int position) {
-        return mEvents.get(position);
+    public Object getItem(int position) {
+        return position;
     }
 
     @Override
@@ -61,28 +52,26 @@ public class EventsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        mPaperKnife.bind(mEvents.get(position), viewHolder);
-
+        viewHolder.textViewDate.setText(mDataProvider.getDate(position));
+        viewHolder.textViewTitle.setText(mDataProvider.getTitle(position));
         return convertView;
     }
 
-    public static class ViewHolder implements CellViewHolder {
+    public static class ViewHolder {
 
         @BindView(R.id.textview_row_movie_title)
         public TextView textViewTitle;
         @BindView(R.id.textview_row_movie_date)
         public TextView textViewDate;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
 
-        @DataTarget("Title")
         public void setTitle(String title) {
             textViewTitle.setText(title);
         }
 
-        @DataTarget("Date")
         public void setDate(String date) {
             textViewDate.setText(date);
         }

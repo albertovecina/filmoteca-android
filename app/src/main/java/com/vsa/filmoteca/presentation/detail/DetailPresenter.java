@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.presentation.detail;
 
-import com.vsa.filmoteca.presentation.Presenter;
 import com.vsa.filmoteca.data.usecase.GetMovieDetailUseCase;
+import com.vsa.filmoteca.presentation.Presenter;
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 import com.vsa.filmoteca.presentation.utils.StringUtils;
 import com.vsa.filmoteca.view.DetailView;
@@ -88,11 +88,10 @@ public class DetailPresenter implements Presenter<DetailView>, Observer<String> 
     }
 
     public void onCompleted() {
-
+        mView.hideProgressDialog();
     }
 
     public void onError(Throwable e) {
-        mView.hideProgressDialog();
         mView.showTimeOutDialog();
         //Probably this error comes from an inconsistent widget data. We must to update
         //the widget information to match the entries for the next time.
@@ -105,7 +104,6 @@ public class DetailPresenter implements Presenter<DetailView>, Observer<String> 
         else
             mView.setWebViewContent(html, mContentUrl);
         mView.showContent();
-        mView.hideProgressDialog();
     }
 
 }

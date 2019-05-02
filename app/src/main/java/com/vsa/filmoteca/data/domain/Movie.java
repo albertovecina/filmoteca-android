@@ -1,13 +1,11 @@
 package com.vsa.filmoteca.data.domain;
 
-import com.vsa.paperknife.CellElement;
-
 import java.io.Serializable;
 
 /**
  * Created by seldon on 26/03/15.
  */
-public class Movie implements CellElement, Serializable {
+public class Movie implements Serializable {
 
     private String mTitle;
     private String mSubtitle;
