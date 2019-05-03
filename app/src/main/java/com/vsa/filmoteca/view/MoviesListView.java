@@ -1,15 +1,12 @@
 package com.vsa.filmoteca.view;
 
+import com.vsa.filmoteca.view.adapter.EventDataProvider;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
-import com.vsa.paperknife.CellDataProvider;
-import com.vsa.paperknife.CellElement;
-
-import java.util.List;
 
 /**
  * Created by seldon on 10/03/15.
  */
-public interface MainView {
+public interface MoviesListView {
 
     void showChangeLog();
 
@@ -33,7 +30,7 @@ public interface MainView {
 
     void showAboutUs();
 
-    void setMovies(List<? extends CellElement> events, CellDataProvider cellDataProvider);
+    void setMovies(EventDataProvider dataProvider);
 
     boolean isListLoaded();
 

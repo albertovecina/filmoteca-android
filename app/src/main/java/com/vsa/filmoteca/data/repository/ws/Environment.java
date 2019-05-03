@@ -6,6 +6,6 @@ package com.vsa.filmoteca.data.repository.ws;
 
 public class Environment {
 
-    public static final String BASE_URL = "http://www.albacete.es/";
+    public static final String BASE_URL_FILMOTECA = "http://www.albacete.es/";
 
 }

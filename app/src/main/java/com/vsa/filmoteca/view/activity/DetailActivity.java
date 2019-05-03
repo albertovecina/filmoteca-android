@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,9 +34,11 @@ public class DetailActivity extends BaseActivity implements DetailView, SwipeRef
     public static final String EXTRA_TITLE = "extra_title";
     public static final String EXTRA_URL = "extra_url";
 
+    @BindView(R.id.fabComments)
+    FloatingActionButton mFabComments;
     @BindView(R.id.wrapper_detail_content)
     ViewGroup mWrapperContent;
-    @BindView(R.id.swipe_refresh_layout)
+    @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.webview)
     ObservableWebView mWebView;
@@ -123,19 +126,13 @@ public class DetailActivity extends BaseActivity implements DetailView, SwipeRef
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary);
-        /*
-        mFabComments.setOnClickListener(this);
+        mFabComments.setOnClickListener(v -> mPresenter.onFabClick());
         mWebView.setOnScrollChangedCallback((l, t, oldl, oldt) -> {
             mSwipeRefreshLayout.setEnabled(t == 0);
-            if (t < oldt && !mFabComments.isVisible())
-                mFabComments.show(true);
+            if (t < oldt && mFabComments.getVisibility() != View.VISIBLE)
+                mFabComments.show();
         });
-        mWebView.setOnOverScollListener(() -> mFabComments.hide(true));
-        */
-        //TODO FIX COMMENTS SYSTEM
-        mWebView.setOnScrollChangedCallback((l, t, oldl, oldt) -> {
-            mSwipeRefreshLayout.setEnabled(t == 0);
-        });
+        mWebView.setOnOverScollListener(() -> mFabComments.hide());
         showMovieTitle(getIntent().getStringExtra(EXTRA_TITLE));
 
     }
@@ -217,9 +214,7 @@ public class DetailActivity extends BaseActivity implements DetailView, SwipeRef
 
     @Override
     public void navigateToComments(String title) {
-        Intent intent = new Intent(this, CommentsActivity.class);
-        intent.putExtra(CommentsActivity.EXTRA_TITLE, title);
-        startActivity(intent);
+        CommentsActivity.Companion.open(this, title);
     }
 
     @Override

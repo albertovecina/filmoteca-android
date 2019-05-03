@@ -1,12 +1,14 @@
 package com.vsa.filmoteca.presentation.movieslist;
 
 import com.vsa.filmoteca.data.domain.Movie;
-import com.vsa.filmoteca.data.domain.dataprovider.MovieDataProvider;
 import com.vsa.filmoteca.data.usecase.ClearCacheUseCase;
 import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase;
 import com.vsa.filmoteca.presentation.Presenter;
-import com.vsa.filmoteca.view.MainView;
+import com.vsa.filmoteca.view.MoviesListView;
+import com.vsa.filmoteca.view.adapter.EventDataProvider;
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -16,13 +18,13 @@ import rx.Observer;
  * Created by seldon on 10/03/15.
  */
 
-public class MoviesListPresenter implements OkCancelDialogListener, Presenter<MainView>, Observer<List<Movie>> {
+public class MoviesListPresenter implements OkCancelDialogListener, Presenter<MoviesListView>, EventDataProvider, Observer<List<Movie>> {
 
     private List<Movie> mMoviesList;
 
     private ClearCacheUseCase mClearCacheUseCase;
     private GetMoviesListUseCase mGetMoviesListUseCase;
-    private MainView mView;
+    private MoviesListView mView;
 
     public MoviesListPresenter(ClearCacheUseCase clearCacheUseCase, GetMoviesListUseCase getMoviesListUseCase) {
         mClearCacheUseCase = clearCacheUseCase;
@@ -41,7 +43,7 @@ public class MoviesListPresenter implements OkCancelDialogListener, Presenter<Ma
     }
 
     @Override
-    public void setView(MainView view) {
+    public void setView(MoviesListView view) {
         mView = view;
     }
 
@@ -94,9 +96,25 @@ public class MoviesListPresenter implements OkCancelDialogListener, Presenter<Ma
         if (mMoviesList.size() < 1)
             mView.showNoEventsDialog();
         else
-            mView.setMovies(mMoviesList, new MovieDataProvider());
+            mView.setMovies(this);
         mView.showChangeLog();
         mView.hideProgressDialog();
     }
 
+    @NotNull
+    @Override
+    public String getTitle(int index) {
+        return mMoviesList.get(index).getTitle();
+    }
+
+    @NotNull
+    @Override
+    public String getDate(int index) {
+        return mMoviesList.get(index).getDate();
+    }
+
+    @Override
+    public int getSize() {
+        return mMoviesList.size();
+    }
 }

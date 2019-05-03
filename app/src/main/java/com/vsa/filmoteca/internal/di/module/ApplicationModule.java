@@ -2,7 +2,6 @@ package com.vsa.filmoteca.internal.di.module;
 
 import android.app.Application;
 
-import com.vsa.filmoteca.data.repository.MoviesDataRepository;
 import com.vsa.filmoteca.data.repository.TwitterDataRepository;
 import com.vsa.filmoteca.data.repository.MoviesPersistanceRepository;
 import com.vsa.filmoteca.data.repository.database.MoviesDataBaseSource;
@@ -43,12 +42,6 @@ public class ApplicationModule {
     @Singleton
     public MoviesDataBaseSource provideMoviesDataBaseSource() {
         return new MoviesDataBaseSource(mApplication);
-    }
-
-    @Provides
-    @Singleton
-    public MoviesDataRepository provideMoviesRepository() {
-        return new MoviesDataRepository();
     }
 
     @Provides

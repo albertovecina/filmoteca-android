@@ -31,24 +31,19 @@ public class TwitterRxLoginButton extends TwitterLoginButton {
     }
 
     public Observable<TwitterSession> twitterSession() {
-        return Observable.create(new Observable.OnSubscribe<TwitterSession>() {
+        return Observable.create((Observable.OnSubscribe<TwitterSession>) subscriber -> setCallback(new Callback<TwitterSession>() {
             @Override
-            public void call(Subscriber<? super TwitterSession> subscriber) {
-                setCallback(new Callback<TwitterSession>() {
-                    @Override
-                    public void success(Result<TwitterSession> result) {
-                        subscriber.onNext(result.data);
-                        subscriber.onCompleted();
-                    }
-
-                    @Override
-                    public void failure(TwitterException e) {
-                        subscriber.onError(e);
-                        subscriber.onCompleted();
-                    }
-                });
+            public void success(Result<TwitterSession> result) {
+                subscriber.onNext(result.data);
+                subscriber.onCompleted();
             }
-        }).subscribeOn(Schedulers.newThread())
+
+            @Override
+            public void failure(TwitterException e) {
+                subscriber.onError(e);
+                subscriber.onCompleted();
+            }
+        })).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

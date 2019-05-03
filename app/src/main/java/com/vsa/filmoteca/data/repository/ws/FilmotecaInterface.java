@@ -8,7 +8,7 @@ import rx.Observable;
 /**
  * Created by albertovecinasanchez on 8/3/16.
  */
-public interface WSInterface {
+public interface FilmotecaInterface {
 
     @GET("/es/webs-municipales/filmoteca/agenda/folder_listing")
     Observable<String> moviesListHtml();

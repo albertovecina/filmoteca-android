@@ -83,7 +83,7 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView 
 
     @Override
     public void setupMovieView(String url, String title, String date) {
-        Intent intent = MoviesListActivity.newIntent(mContext, Intent.FLAG_ACTIVITY_CLEAR_TOP, url, title, date);
+        Intent intent = MoviesListActivity.Companion.newIntent(mContext, Intent.FLAG_ACTIVITY_CLEAR_TOP, url, title, date);
         PendingIntent actionPendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mViews.setOnClickPendingIntent(R.id.widgetInfoLayout, actionPendingIntent);
         mViews.setTextViewText(R.id.widgetTitleText, title);

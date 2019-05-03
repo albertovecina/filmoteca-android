@@ -1,6 +1,8 @@
 package com.vsa.filmoteca.presentation.comments;
 
 import com.twitter.sdk.android.core.Session;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
@@ -43,14 +45,12 @@ public class CommentsPresenter implements Presenter<CommentsView> {
         @Override
         public void onError(Throwable e) {
             mView.showErrorCantLoadTweets();
-            mView.hideProgressDialog();
         }
 
         @Override
         public void onNext(Search search) {
             if (search != null)
                 showTweets(search.tweets);
-            mView.hideProgressDialog();
         }
     };
 
@@ -63,7 +63,6 @@ public class CommentsPresenter implements Presenter<CommentsView> {
         @Override
         public void onError(Throwable e) {
             mView.showErrorCantPostTweet();
-            mView.hideProgressDialog();
         }
 
         @Override
@@ -82,7 +81,6 @@ public class CommentsPresenter implements Presenter<CommentsView> {
         @Override
         public void onError(Throwable e) {
             mView.showErrorCantLogin();
-            mView.hideProgressDialog();
         }
 
         @Override
@@ -102,7 +100,7 @@ public class CommentsPresenter implements Presenter<CommentsView> {
     }
 
     public void onResume() {
-        Session session = mCommentsUseCase.getActiveSession();
+       /* Session session = mCommentsUseCase.getActiveSession();
         if (session == null) {
             startGuestSessionAndRefreshTweets();
             mView.showLoginButton();
@@ -116,7 +114,7 @@ public class CommentsPresenter implements Presenter<CommentsView> {
         } else {
             mView.showLoginButton();
             startRefreshingTweets();
-        }
+        }*/
     }
 
     public void onPause() {
