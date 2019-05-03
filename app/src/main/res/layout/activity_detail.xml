@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/wrapper_detail_content"
+    android:id="@+id/wrapperContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/detalleTitle"
+                android:id="@+id/textViewTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -35,7 +35,7 @@
                 android:layout_height="match_parent">
 
                 <com.vsa.filmoteca.view.webview.ObservableWebView
-                    android:id="@+id/webview"
+                    android:id="@+id/webviewMoviePage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white" />

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="ws_timeout">60000</string>
+    <string name="ws_cache_directory_name">HttpCache</string>
+    <string name="ws_cache_size">10485760</string>
     <integer name="cache_file_expiration_days">3</integer>
 </resources>

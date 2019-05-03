@@ -10,8 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent
-import com.vsa.filmoteca.internal.di.component.DaggerMoviesListComponent
-import com.vsa.filmoteca.internal.di.module.MoviesListModule
+import com.vsa.filmoteca.internal.di.module.ActivityModule
 import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
 import com.vsa.filmoteca.view.MoviesListView
@@ -38,10 +37,9 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun initializeInjector(applicationComponent: ApplicationComponent) {
-        DaggerMoviesListComponent.builder()
-                .applicationComponent(applicationComponent)
-                .moviesListModule(MoviesListModule())
-                .build().inject(this)
+        applicationComponent
+                .plusActivityComponent(ActivityModule(this))
+                .inject(this)
     }
 
     override fun onNewIntent(intent: Intent) {
