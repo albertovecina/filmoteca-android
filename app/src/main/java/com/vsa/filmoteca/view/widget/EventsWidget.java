@@ -10,11 +10,10 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.vsa.filmoteca.FilmotecaApplication;
 import com.vsa.filmoteca.R;
-import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
-import com.vsa.filmoteca.internal.di.component.DaggerMoviesWidgetComponent;
-import com.vsa.filmoteca.internal.di.module.MoviesWidgetModule;
+import com.vsa.filmoteca.internal.di.component.DaggerWidgetComponent;
+import com.vsa.filmoteca.internal.di.module.NetworkingModule;
+import com.vsa.filmoteca.internal.di.module.WidgetModule;
 import com.vsa.filmoteca.presentation.utils.Constants;
 import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenter;
 import com.vsa.filmoteca.view.EventsWidgetView;
@@ -93,7 +92,7 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView 
 
     @Override
     public void setupIndexView(int current, int size) {
-        mViews.setTextViewText(R.id.widgetPageText, Integer.toString(current) + " / " + size);
+        mViews.setTextViewText(R.id.widgetPageText, current + " / " + size);
     }
 
     public void updateWidget() {
@@ -136,10 +135,9 @@ public class EventsWidget extends AppWidgetProvider implements EventsWidgetView 
     }
 
     private void initializeInjector(Context context) {
-        ApplicationComponent applicationComponent = ((FilmotecaApplication) context.getApplicationContext()).getApplicationComponent();
-        DaggerMoviesWidgetComponent.builder()
-                .applicationComponent(applicationComponent)
-                .moviesWidgetModule(new MoviesWidgetModule())
+        DaggerWidgetComponent.builder()
+                .widgetModule(new WidgetModule(context))
+                .networkingModule(new NetworkingModule(context))
                 .build()
                 .inject(this);
     }

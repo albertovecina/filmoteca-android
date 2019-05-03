@@ -15,6 +15,9 @@ import dagger.Provides
 class ActivityModule(private val context: Context) {
 
     @Provides
+    fun providesContext(): Context = context
+
+    @Provides
     @PerActivity
     fun provideCommentsUseCase(twitterDataRepository: TwitterDataRepository): CommentsUseCase {
         return CommentsUseCase(twitterDataRepository)

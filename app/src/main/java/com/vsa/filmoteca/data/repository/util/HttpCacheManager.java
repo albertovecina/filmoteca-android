@@ -2,7 +2,7 @@ package com.vsa.filmoteca.data.repository.util;
 
 import android.content.Context;
 
-import com.vsa.filmoteca.data.repository.ws.WSClient;
+import com.vsa.filmoteca.R;
 
 import java.io.File;
 
@@ -12,7 +12,7 @@ import java.io.File;
 public class HttpCacheManager {
 
     public static File getHttpCacheDir(Context context) {
-        File cacheDir = new File(context.getCacheDir(), WSClient.CACHE_DIRECTORY);
+        File cacheDir = new File(context.getCacheDir(), context.getString(R.string.ws_cache_directory_name));
         if (!cacheDir.exists())
             cacheDir.mkdirs();
         return cacheDir;

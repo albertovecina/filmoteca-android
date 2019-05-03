@@ -3,6 +3,8 @@ package com.vsa.filmoteca.internal.di.component
 import com.vsa.filmoteca.internal.di.PerActivity
 import com.vsa.filmoteca.internal.di.module.ActivityModule
 import com.vsa.filmoteca.view.activity.CommentsActivity
+import com.vsa.filmoteca.view.activity.DetailActivity
+import com.vsa.filmoteca.view.activity.MoviesListActivity
 import dagger.Subcomponent
 
 /**
@@ -13,5 +15,9 @@ import dagger.Subcomponent
 interface ActivityComponent {
 
     fun inject(commentsActivity: CommentsActivity)
+
+    fun inject(moviesListActivity: MoviesListActivity)
+
+    fun inject(movieDetailActivity: DetailActivity)
 
 }

@@ -3,6 +3,8 @@ package com.vsa.filmoteca.data.repository.sharedpreferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import javax.inject.Inject;
+
 /**
  * Created by seldon on 27/03/15.
  */
@@ -18,6 +20,7 @@ public class SharedPreferencesManager {
 
     private SharedPreferences mSharedPreferences;
 
+    @Inject
     public SharedPreferencesManager(Context context) {
         mSharedPreferences = context.getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
     }

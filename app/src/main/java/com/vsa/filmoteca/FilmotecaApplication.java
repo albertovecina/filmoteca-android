@@ -13,6 +13,7 @@ import com.twitter.sdk.android.core.TwitterConfig;
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent;
 import com.vsa.filmoteca.internal.di.component.DaggerApplicationComponent;
 import com.vsa.filmoteca.internal.di.module.ApplicationModule;
+import com.vsa.filmoteca.internal.di.module.NetworkingModule;
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils;
 
 
@@ -62,6 +63,7 @@ public class FilmotecaApplication extends Application {
     private void initializeApplicationComponent() {
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
+                .networkingModule(new NetworkingModule(this))
                 .build();
     }
 

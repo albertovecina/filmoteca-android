@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observer;
 
 /**
@@ -26,6 +28,7 @@ public class MoviesListPresenter implements OkCancelDialogListener, Presenter<Mo
     private GetMoviesListUseCase mGetMoviesListUseCase;
     private MoviesListView mView;
 
+    @Inject
     public MoviesListPresenter(ClearCacheUseCase clearCacheUseCase, GetMoviesListUseCase getMoviesListUseCase) {
         mClearCacheUseCase = clearCacheUseCase;
         mGetMoviesListUseCase = getMoviesListUseCase;
