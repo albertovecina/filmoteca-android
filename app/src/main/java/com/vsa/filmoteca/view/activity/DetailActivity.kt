@@ -11,7 +11,7 @@ import android.view.View
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent
 import com.vsa.filmoteca.internal.di.module.ActivityModule
-import com.vsa.filmoteca.presentation.detail.DetailPresenterImpl
+import com.vsa.filmoteca.presentation.detail.DetailPresenter
 import com.vsa.filmoteca.view.DetailView
 import com.vsa.filmoteca.view.dialog.DialogManager
 import com.vsa.filmoteca.view.dialog.ProgressDialogManager
@@ -28,7 +28,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     @Inject
-    lateinit var presenter: DetailPresenterImpl
+    lateinit var presenter: DetailPresenter
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,13 +158,13 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     override fun showShareDialog() {
-        val tituloCmpBtn = intent.getStringExtra(EXTRA_TITLE)
-        val fechaCmpBtn = getString(R.string.share_date) + ": " + intent.getStringExtra(EXTRA_DATE).substring(1)
-        val infoCmpBtn = getString(R.string.share_message) + " " + tituloCmpBtn + "\n" + fechaCmpBtn
+        val titleShareButton = intent.getStringExtra(EXTRA_TITLE)
+        val dateShareButton = getString(R.string.share_date) + ": " + intent.getStringExtra(EXTRA_DATE).substring(1)
+        val infoShareButton = getString(R.string.share_message) + " " + titleShareButton + "\n" + dateShareButton
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject))
-        intent.putExtra(Intent.EXTRA_TEXT, infoCmpBtn)
+        intent.putExtra(Intent.EXTRA_TEXT, infoShareButton)
 
         startActivity(Intent.createChooser(intent, getString(R.string.share)))
     }

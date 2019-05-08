@@ -1,75 +1,68 @@
 package com.vsa.filmoteca.presentation.detail
 
 import com.vsa.filmoteca.data.usecase.GetMovieDetailUseCase
-import com.vsa.filmoteca.presentation.Presenter
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils
 import com.vsa.filmoteca.presentation.utils.StringUtils
-import com.vsa.filmoteca.view.DetailView
-
 import rx.Observer
 import javax.inject.Inject
 
 /**
  * Created by seldon on 13/03/15.
  */
-class DetailPresenterImpl @Inject constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) : Presenter<DetailView>(), Observer<String> {
+class DetailPresenterImpl @Inject constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) : DetailPresenter(), Observer<String> {
 
-    private var mContentUrl: String? = null
-    private var mTitle: String? = null
+    private var contentUrl: String? = null
+    private var title: String? = null
 
-    fun onCreate(url: String, movieTitle: String) {
+    override fun onCreate(url: String, movieTitle: String) {
         if (!StringUtils.isEmpty(url)) {
-            mTitle = movieTitle
-            mContentUrl = url
+            title = movieTitle
+            contentUrl = url
             view.setWebViewContent("<html></html>", url)
-            view.showMovieTitle(mTitle)
+            view.showMovieTitle(title)
             loadContent(url)
         }
     }
 
-    fun onDestroy() {}
+    override fun onDestroy() {}
 
-    fun onShareButtonClick() {
+    override fun onShareButtonClick() {
         view.showShareDialog()
     }
 
-    fun onShowInBrowserButtonClick() {
-        view.launchBrowser(mContentUrl)
+    override fun onShowInBrowserButtonClick() {
+        view.launchBrowser(contentUrl)
     }
 
-    fun onFilmAffinitySearchButtonClick() {
-        launchFilmaffinitySearch()
+    override fun onFilmAffinitySearchButtonClick() {
+        launchFilmAffinitySearch()
     }
 
-    fun onAboutUsButtonClick() {
+    override fun onAboutUsButtonClick() {
         view.showAboutUs()
     }
 
-    fun onFabClick() {
+    override fun onFabClick() {
         if (ConnectivityUtils.isInternetAvailable())
-            view.navigateToComments(mTitle)
+            view.navigateToComments(title)
         else
             view.showErrorNoInternet()
     }
 
-    fun loadContent(url: String) {
+    override fun onRefresh() {
+        if (contentUrl != null && !contentUrl!!.isEmpty())
+            loadContent(contentUrl!!)
+    }
+
+    private fun loadContent(url: String) {
         view.stopRefreshing()
         view.hideContent()
         view.showProgressDialog()
         getMovieDetailUseCase.movieDetail(url).subscribe(this)
     }
 
-    fun onRefresh() {
-        if (mContentUrl != null && !mContentUrl!!.isEmpty())
-            loadContent(mContentUrl!!)
-    }
-
-    private fun clearContent() {
-
-    }
-
-    private fun launchFilmaffinitySearch() {
-        var searchString = mTitle!!.replace(" ", "+")
+    private fun launchFilmAffinitySearch() {
+        var searchString = title!!.replace(" ", "+")
         searchString = StringUtils.removeAccents(searchString)
         val url = "http://m.filmaffinity.com/es/search.php?stext=$searchString&stype=title"
         view.launchBrowser(url)
@@ -90,7 +83,7 @@ class DetailPresenterImpl @Inject constructor(private val getMovieDetailUseCase:
         if (StringUtils.isEmpty(html))
             view.showTimeOutDialog()
         else
-            view.setWebViewContent(html, mContentUrl)
+            view.setWebViewContent(html, contentUrl)
         view.showContent()
     }
 
