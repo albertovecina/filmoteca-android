@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent
 import com.vsa.filmoteca.internal.di.module.ActivityModule
@@ -15,15 +15,38 @@ import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
 import com.vsa.filmoteca.view.MoviesListView
 import com.vsa.filmoteca.view.adapter.EventDataProvider
-import com.vsa.filmoteca.view.adapter.EventsAdapter
+import com.vsa.filmoteca.view.adapter.MoviesAdapter
 import com.vsa.filmoteca.view.dialog.DialogManager
 import com.vsa.filmoteca.view.dialog.ProgressDialogManager
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
+class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.OnRefreshListener, MoviesAdapter.Callback {
 
-class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+    companion object {
+        /**
+         * Called when the activity is first created.
+         */
+        private const val EXTRA_URL = "extra_url"
+        private const val EXTRA_TITLE = "extra_title"
+        private const val EXTRA_DATE = "extra_date"
+
+        fun open(context: Context, flags: Int, url: String, title: String, date: String) {
+            val intent = newIntent(context, flags, url, title, date)
+            context.startActivity(intent)
+        }
+
+        fun newIntent(context: Context, flags: Int, url: String, title: String, date: String): Intent {
+            val intent = Intent(context, MoviesListActivity::class.java)
+            intent.putExtra(EXTRA_URL, url)
+            intent.putExtra(EXTRA_TITLE, title)
+            intent.putExtra(EXTRA_DATE, date)
+            intent.flags = flags
+            return intent
+        }
+
+    }
 
     @Inject
     lateinit var presenter: MoviesListPresenter
@@ -36,10 +59,27 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
         onNewIntent(intent)
     }
 
+    private fun initViews() {
+        showTitle(0)
+        swipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
+                R.color.color_accent,
+                R.color.color_primary)
+        val layoutManager = LinearLayoutManager(this)
+        val itemDecoration = DividerItemDecoration(this,
+                layoutManager.orientation)
+        recyclerViewMovies.layoutManager = layoutManager
+        recyclerViewMovies.addItemDecoration(itemDecoration)
+    }
+
     override fun initializeInjector(applicationComponent: ApplicationComponent) {
         applicationComponent
                 .plusActivityComponent(ActivityModule(this))
                 .inject(this)
+    }
+
+    private fun initializePresenter() {
+        presenter.view = this
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -59,17 +99,18 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.menu_item_refresh -> {
                 presenter.onRefreshMenuButtonClick()
-                return true
+                true
             }
             R.id.menu_item_about_us -> {
                 presenter.onAboutUsButtonClick()
-                return true
+                true
             }
+            else ->
+                false
         }
-        return false
     }
 
     override fun onRefresh() {
@@ -135,53 +176,15 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun setMovies(dataProvider: EventDataProvider) {
-        val eventsAdapter = EventsAdapter(this, dataProvider)
-        listViewMovies.adapter = eventsAdapter
+        recyclerViewMovies.adapter = MoviesAdapter(this, dataProvider, this)
     }
 
     override fun isListLoaded(): Boolean {
-        return listViewMovies.adapter != null
+        return recyclerViewMovies.adapter != null
     }
 
-    override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+    override fun onMovieClick(position: Int) {
         presenter.onMovieRowClick(position)
-    }
-
-    private fun initViews() {
-        showTitle(0)
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
-                R.color.color_accent,
-                R.color.color_primary)
-        listViewMovies.onItemClickListener = this
-    }
-
-    private fun initializePresenter() {
-        presenter.setView(this)
-    }
-
-    companion object {
-        /**
-         * Called when the activity is first created.
-         */
-        private const val EXTRA_URL = "extra_url"
-        private const val EXTRA_TITLE = "extra_title"
-        private const val EXTRA_DATE = "extra_date"
-
-        fun open(context: Context, flags: Int, url: String, title: String, date: String) {
-            val intent = newIntent(context, flags, url, title, date)
-            context.startActivity(intent)
-        }
-
-        fun newIntent(context: Context, flags: Int, url: String, title: String, date: String): Intent {
-            val intent = Intent(context, MoviesListActivity::class.java)
-            intent.putExtra(EXTRA_URL, url)
-            intent.putExtra(EXTRA_TITLE, title)
-            intent.putExtra(EXTRA_DATE, date)
-            intent.flags = flags
-            return intent
-        }
-
     }
 
 }

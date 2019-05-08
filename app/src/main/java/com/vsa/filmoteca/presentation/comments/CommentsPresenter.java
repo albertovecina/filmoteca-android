@@ -1,8 +1,6 @@
 package com.vsa.filmoteca.presentation.comments;
 
 import com.twitter.sdk.android.core.Session;
-import com.twitter.sdk.android.core.TwitterApiClient;
-import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
@@ -27,7 +25,7 @@ import rx.Subscriber;
 /**
  * Created by seldon on 31/03/15.
  */
-public class CommentsPresenter implements Presenter<CommentsView> {
+public class CommentsPresenter extends Presenter<CommentsView> {
 
     private CommentsView mView;
     private String mMovieHashTag;
@@ -217,8 +215,4 @@ public class CommentsPresenter implements Presenter<CommentsView> {
         return tweetLength;
     }
 
-    @Override
-    public void setView(CommentsView view) {
-        mView = view;
-    }
 }

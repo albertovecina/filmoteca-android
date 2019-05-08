@@ -11,7 +11,7 @@ import android.view.View
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent
 import com.vsa.filmoteca.internal.di.module.ActivityModule
-import com.vsa.filmoteca.presentation.detail.DetailPresenter
+import com.vsa.filmoteca.presentation.detail.DetailPresenterImpl
 import com.vsa.filmoteca.view.DetailView
 import com.vsa.filmoteca.view.dialog.DialogManager
 import com.vsa.filmoteca.view.dialog.ProgressDialogManager
@@ -28,7 +28,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     @Inject
-    lateinit var presenter: DetailPresenter
+    lateinit var presenter: DetailPresenterImpl
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,7 +188,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     private fun initializePresenter() {
-        presenter.setView(this)
+        presenter.view = this
     }
 
 }

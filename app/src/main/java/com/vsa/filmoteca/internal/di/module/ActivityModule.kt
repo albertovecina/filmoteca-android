@@ -5,6 +5,8 @@ import com.vsa.filmoteca.data.repository.TwitterDataRepository
 import com.vsa.filmoteca.data.usecase.CommentsUseCase
 import com.vsa.filmoteca.internal.di.PerActivity
 import com.vsa.filmoteca.presentation.comments.CommentsPresenter
+import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
+import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenterImpl
 import dagger.Module
 import dagger.Provides
 
@@ -16,6 +18,10 @@ class ActivityModule(private val context: Context) {
 
     @Provides
     fun providesContext(): Context = context
+
+    @Provides
+    @PerActivity
+    fun providesMoviesListPresenter(moviesListPresenter: MoviesListPresenterImpl): MoviesListPresenter = moviesListPresenter
 
     @Provides
     @PerActivity

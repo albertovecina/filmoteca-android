@@ -72,7 +72,7 @@ class CommentsActivity : BaseActivity(), CommentsView, TextWatcher {
     }
 
     private fun initViews() {
-        presenter.setView(this)
+        //presenter.view = this
         editTextMessage.addTextChangedListener(this)
     }
 

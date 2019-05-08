@@ -12,34 +12,29 @@ import javax.inject.Inject
 /**
  * Created by seldon on 13/03/15.
  */
-class DetailPresenter @Inject constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) : Presenter<DetailView>, Observer<String> {
+class DetailPresenterImpl @Inject constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) : Presenter<DetailView>(), Observer<String> {
 
     private var mContentUrl: String? = null
     private var mTitle: String? = null
-    private var mView: DetailView? = null
 
     fun onCreate(url: String, movieTitle: String) {
         if (!StringUtils.isEmpty(url)) {
             mTitle = movieTitle
             mContentUrl = url
-            mView!!.setWebViewContent("<html></html>", url)
-            mView!!.showMovieTitle(mTitle)
+            view.setWebViewContent("<html></html>", url)
+            view.showMovieTitle(mTitle)
             loadContent(url)
         }
     }
 
     fun onDestroy() {}
 
-    override fun setView(detailView: DetailView) {
-        mView = detailView
-    }
-
     fun onShareButtonClick() {
-        mView!!.showShareDialog()
+        view.showShareDialog()
     }
 
     fun onShowInBrowserButtonClick() {
-        mView!!.launchBrowser(mContentUrl)
+        view.launchBrowser(mContentUrl)
     }
 
     fun onFilmAffinitySearchButtonClick() {
@@ -47,20 +42,20 @@ class DetailPresenter @Inject constructor(private val getMovieDetailUseCase: Get
     }
 
     fun onAboutUsButtonClick() {
-        mView!!.showAboutUs()
+        view.showAboutUs()
     }
 
     fun onFabClick() {
         if (ConnectivityUtils.isInternetAvailable())
-            mView!!.navigateToComments(mTitle)
+            view.navigateToComments(mTitle)
         else
-            mView!!.showErrorNoInternet()
+            view.showErrorNoInternet()
     }
 
     fun loadContent(url: String) {
-        mView!!.stopRefreshing()
-        mView!!.hideContent()
-        mView!!.showProgressDialog()
+        view.stopRefreshing()
+        view.hideContent()
+        view.showProgressDialog()
         getMovieDetailUseCase.movieDetail(url).subscribe(this)
     }
 
@@ -77,26 +72,26 @@ class DetailPresenter @Inject constructor(private val getMovieDetailUseCase: Get
         var searchString = mTitle!!.replace(" ", "+")
         searchString = StringUtils.removeAccents(searchString)
         val url = "http://m.filmaffinity.com/es/search.php?stext=$searchString&stype=title"
-        mView!!.launchBrowser(url)
+        view.launchBrowser(url)
     }
 
     override fun onCompleted() {
-        mView!!.hideProgressDialog()
+        view.hideProgressDialog()
     }
 
     override fun onError(e: Throwable) {
-        mView!!.showTimeOutDialog()
+        view.showTimeOutDialog()
         //Probably this error comes from an inconsistent widget data. We must to update
         //the widget information to match the entries for the next time.
-        mView!!.updateWidget()
+        view.updateWidget()
     }
 
     override fun onNext(html: String) {
         if (StringUtils.isEmpty(html))
-            mView!!.showTimeOutDialog()
+            view.showTimeOutDialog()
         else
-            mView!!.setWebViewContent(html, mContentUrl)
-        mView!!.showContent()
+            view.setWebViewContent(html, mContentUrl)
+        view.showContent()
     }
 
 }
