@@ -2,7 +2,6 @@ package com.vsa.filmoteca.internal.di.module
 
 import com.vsa.filmoteca.FilmotecaApplication
 import com.vsa.filmoteca.data.repository.MoviesPersistanceRepository
-import com.vsa.filmoteca.data.repository.TwitterDataRepository
 import com.vsa.filmoteca.data.repository.database.MoviesDataBaseSource
 import com.vsa.filmoteca.data.repository.sharedpreferences.SharedPreferencesManager
 import com.vsa.filmoteca.internal.di.PerApplication
@@ -33,12 +32,6 @@ class ApplicationModule(private val application: FilmotecaApplication) {
     @PerApplication
     fun provideMoviesDataBaseSource(): MoviesDataBaseSource {
         return MoviesDataBaseSource(application)
-    }
-
-    @Provides
-    @PerApplication
-    fun provideTwitterRepository(): TwitterDataRepository {
-        return TwitterDataRepository()
     }
 
     @Provides

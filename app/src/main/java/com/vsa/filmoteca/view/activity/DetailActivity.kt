@@ -1,6 +1,7 @@
 package com.vsa.filmoteca.view.activity
 
 import android.appwidget.AppWidgetManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -25,6 +26,14 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
         const val EXTRA_DATE = "extra_date"
         const val EXTRA_TITLE = "extra_title"
         const val EXTRA_URL = "extra_url"
+
+        fun open(context: Context, url: String, title: String, date: String) {
+            context.startActivity(Intent(context, DetailActivity::class.java).apply {
+                putExtra(EXTRA_URL, url)
+                putExtra(EXTRA_TITLE, title)
+                putExtra(EXTRA_DATE, date)
+            })
+        }
     }
 
     @Inject
@@ -104,12 +113,12 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
                 R.color.color_accent,
                 R.color.color_primary)
         fabComments.setOnClickListener { presenter.onFabClick() }
-        webviewMoviePage.setOnScrollChangedCallback { _, t, _, oldt ->
+        webviewMoviePage.onScrollChangedCallback = { _, t, _, oldt ->
             swipeRefreshLayout.isEnabled = t == 0
             if (t < oldt && fabComments.visibility != View.VISIBLE)
                 fabComments.show()
         }
-        webviewMoviePage.setOnOverScollListener { fabComments.hide() }
+        webviewMoviePage.onOverScrollListener = { fabComments.hide() }
         showMovieTitle(intent.getStringExtra(EXTRA_TITLE))
 
     }
@@ -179,7 +188,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     override fun navigateToComments(title: String) {
-        CommentsActivity.open(this, title)
+        //TODO
     }
 
     override fun showAboutUs() {

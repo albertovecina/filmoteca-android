@@ -1,5 +1,6 @@
 package com.vsa.filmoteca.data.repository.ws
 
+import android.content.Context
 import com.vsa.filmoteca.presentation.utils.ConnectivityUtils
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -10,7 +11,7 @@ import javax.inject.Inject
 /**
  * Created by albertovecinasanchez on 25/11/15.
  */
-class CacheRequestInterceptor: Interceptor {
+class CacheRequestInterceptor(private val context: Context): Interceptor {
 
     private var mCachePolicy = CachePolicy.PRIORITY_NETWORK
 
@@ -24,7 +25,7 @@ class CacheRequestInterceptor: Interceptor {
 
             CachePolicy.FORCE_CACHE_LOADING -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
             CachePolicy.FORCE_NETWORK_LOADING -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK).build()
-            CachePolicy.PRIORITY_NETWORK -> if (ConnectivityUtils.isInternetAvailable())
+            CachePolicy.PRIORITY_NETWORK -> if (ConnectivityUtils.isInternetAvailable(context))
                 chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK).build()
             else
                 chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()

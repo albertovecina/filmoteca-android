@@ -1,7 +1,6 @@
 package com.vsa.filmoteca.presentation.detail
 
 import com.vsa.filmoteca.data.usecase.GetMovieDetailUseCase
-import com.vsa.filmoteca.presentation.utils.ConnectivityUtils
 import com.vsa.filmoteca.presentation.utils.StringUtils
 import rx.Observer
 import javax.inject.Inject
@@ -11,8 +10,8 @@ import javax.inject.Inject
  */
 class DetailPresenterImpl @Inject constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) : DetailPresenter(), Observer<String> {
 
-    private var contentUrl: String? = null
-    private var title: String? = null
+    private lateinit var contentUrl: String
+    private lateinit var title: String
 
     override fun onCreate(url: String, movieTitle: String) {
         if (!StringUtils.isEmpty(url)) {
@@ -43,15 +42,15 @@ class DetailPresenterImpl @Inject constructor(private val getMovieDetailUseCase:
     }
 
     override fun onFabClick() {
-        if (ConnectivityUtils.isInternetAvailable())
+        if (getMovieDetailUseCase.isInternetAvailable())
             view.navigateToComments(title)
         else
             view.showErrorNoInternet()
     }
 
     override fun onRefresh() {
-        if (contentUrl != null && !contentUrl!!.isEmpty())
-            loadContent(contentUrl!!)
+        if (contentUrl.isNotEmpty())
+            loadContent(contentUrl)
     }
 
     private fun loadContent(url: String) {
@@ -62,7 +61,7 @@ class DetailPresenterImpl @Inject constructor(private val getMovieDetailUseCase:
     }
 
     private fun launchFilmAffinitySearch() {
-        var searchString = title!!.replace(" ", "+")
+        var searchString = title.replace(" ", "+")
         searchString = StringUtils.removeAccents(searchString)
         val url = "http://m.filmaffinity.com/es/search.php?stext=$searchString&stype=title"
         view.launchBrowser(url)

@@ -17,13 +17,13 @@ class MoviesListPresenterImpl
                     private val getMoviesListUseCase: GetMoviesListUseCase) :
         MoviesListPresenter(), OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
 
-    private var moviesList: List<Movie>? = null
+    private var moviesList: MutableList<Movie> = ArrayList()
 
     override fun onCreate(url: String?, title: String?, date: String?) {
         clearCacheUseCase.clearExpiredCacheFiles()
         loadMovies()
         if (url != null)
-            view.navigateToDetail(url, title, date)
+            view.navigateToDetail(url, title ?: "", date ?: "")
     }
 
     override fun onRefreshMenuButtonClick() {
@@ -39,7 +39,7 @@ class MoviesListPresenterImpl
     }
 
     override fun onMovieRowClick(position: Int) {
-        val movie = moviesList!![position]
+        val movie = moviesList[position]
         view.navigateToDetail(movie.url, movie.title, movie.date)
     }
 
@@ -66,9 +66,9 @@ class MoviesListPresenterImpl
     }
 
     override fun onNext(movies: List<Movie>) {
-        moviesList = movies
-        view.showTitle(moviesList!!.size)
-        if (moviesList!!.isEmpty())
+        moviesList.addAll(movies)
+        view.showTitle(moviesList.size)
+        if (moviesList.isEmpty())
             view.showNoEventsDialog()
         else
             view.setMovies(this)
@@ -76,14 +76,14 @@ class MoviesListPresenterImpl
     }
 
     override fun getTitle(index: Int): String {
-        return moviesList!![index].title
+        return moviesList[index].title
     }
 
     override fun getDate(index: Int): String {
-        return moviesList!![index].date
+        return moviesList[index].date
     }
 
     override fun getSize(): Int {
-        return moviesList!!.size
+        return moviesList.size
     }
 }

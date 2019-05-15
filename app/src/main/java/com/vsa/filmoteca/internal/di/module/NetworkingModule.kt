@@ -32,7 +32,7 @@ class NetworkingModule(private val context: Context) {
 
     @PerApplication
     @Provides
-    fun providesCacheRequestInterceptor(): CacheRequestInterceptor = CacheRequestInterceptor()
+    fun providesCacheRequestInterceptor(): CacheRequestInterceptor = CacheRequestInterceptor(context)
 
     @PerApplication
     @Provides

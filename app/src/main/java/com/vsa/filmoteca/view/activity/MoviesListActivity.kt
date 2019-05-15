@@ -119,9 +119,9 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     override fun showTitle(moviesCount: Int) {
         if (moviesCount < 1)
-            supportActionBar!!.setTitle(R.string.title_activity_main)
+            supportActionBar?.setTitle(R.string.title_activity_main)
         else
-            supportActionBar!!.title = getString(R.string.title_activity_main) + " (" + moviesCount + ")"
+            supportActionBar?.title = getString(R.string.title_activity_main) + " (" + moviesCount + ")"
     }
 
     override fun showWifiRequestDialog(okCancelDialogListener: OkCancelDialogListener) {
@@ -152,19 +152,13 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     override fun showChangeLog() {
         //La clase ChangeLog muestra los cambios en la ultima versión
-        val cl = ChangeLog(this)
-        if (cl.firstRun())
-            cl.logDialog.show()
+        val changeLog = ChangeLog(this)
+        if (changeLog.isUpdated())
+            changeLog.logDialog.show()
     }
 
-    override fun navigateToDetail(url: String, title: String, date: String) {
-        val i = Intent(this, DetailActivity::class.java)
-        i.putExtra(DetailActivity.EXTRA_URL, url)
-        i.putExtra(DetailActivity.EXTRA_TITLE, title)
-        i.putExtra(DetailActivity.EXTRA_DATE, date)
-        startActivity(i)
-    }
-
+    override fun navigateToDetail(url: String, title: String, date: String) =
+            DetailActivity.open(this, url, title, date)
 
     override fun showAboutUs() {
         val acercade = Intent(this, AboutActivity::class.java)
@@ -177,10 +171,6 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     override fun setMovies(dataProvider: EventDataProvider) {
         recyclerViewMovies.adapter = MoviesAdapter(this, dataProvider, this)
-    }
-
-    override fun isListLoaded(): Boolean {
-        return recyclerViewMovies.adapter != null
     }
 
     override fun onMovieClick(position: Int) {
