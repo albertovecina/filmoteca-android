@@ -4,8 +4,9 @@ import com.vsa.filmoteca.internal.di.PerApplication
 import com.vsa.filmoteca.internal.di.module.ActivityModule
 import com.vsa.filmoteca.internal.di.module.ApplicationModule
 import com.vsa.filmoteca.internal.di.module.NetworkingModule
+import com.vsa.filmoteca.internal.di.module.WidgetModule
 import dagger.Component
-import javax.inject.Singleton
+
 
 /**
  * Created by albertovecinasanchez on 18/7/16.
@@ -16,5 +17,7 @@ import javax.inject.Singleton
 interface ApplicationComponent {
 
     fun plusActivityComponent(activityModule: ActivityModule): ActivityComponent
+
+    fun plusWidgetComponent(widgetModule: WidgetModule): WidgetComponent
 
 }

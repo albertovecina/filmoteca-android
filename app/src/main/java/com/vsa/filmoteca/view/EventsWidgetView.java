@@ -12,7 +12,7 @@ public interface EventsWidgetView {
 
     void setupIndexView(int current, int size);
 
-    void updateWidget();
+    void refreshViews();
 
     void showProgress();
 
