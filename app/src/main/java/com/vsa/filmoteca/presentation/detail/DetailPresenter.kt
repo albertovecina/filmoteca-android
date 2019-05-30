@@ -1,103 +1,27 @@
 package com.vsa.filmoteca.presentation.detail
 
-import com.vsa.filmoteca.data.usecase.GetMovieDetailUseCase
 import com.vsa.filmoteca.presentation.Presenter
-import com.vsa.filmoteca.presentation.utils.ConnectivityUtils
-import com.vsa.filmoteca.presentation.utils.StringUtils
 import com.vsa.filmoteca.view.DetailView
 
-import rx.Observer
-import javax.inject.Inject
-
 /**
- * Created by seldon on 13/03/15.
+ * Created by Alberto Vecina Sánchez on 2019-05-08.
  */
-class DetailPresenter @Inject constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) : Presenter<DetailView>, Observer<String> {
+abstract class DetailPresenter : Presenter<DetailView>() {
 
-    private var mContentUrl: String? = null
-    private var mTitle: String? = null
-    private var mView: DetailView? = null
+    abstract fun onCreate(url: String, movieTitle: String)
 
-    fun onCreate(url: String, movieTitle: String) {
-        if (!StringUtils.isEmpty(url)) {
-            mTitle = movieTitle
-            mContentUrl = url
-            mView!!.setWebViewContent("<html></html>", url)
-            mView!!.showMovieTitle(mTitle)
-            loadContent(url)
-        }
-    }
+    abstract fun onDestroy()
 
-    fun onDestroy() {}
+    abstract fun onShareButtonClick()
 
-    override fun setView(detailView: DetailView) {
-        mView = detailView
-    }
+    abstract fun onShowInBrowserButtonClick()
 
-    fun onShareButtonClick() {
-        mView!!.showShareDialog()
-    }
+    abstract fun onFilmAffinitySearchButtonClick()
 
-    fun onShowInBrowserButtonClick() {
-        mView!!.launchBrowser(mContentUrl)
-    }
+    abstract fun onRefresh()
 
-    fun onFilmAffinitySearchButtonClick() {
-        launchFilmaffinitySearch()
-    }
+    abstract fun onAboutUsButtonClick()
 
-    fun onAboutUsButtonClick() {
-        mView!!.showAboutUs()
-    }
-
-    fun onFabClick() {
-        if (ConnectivityUtils.isInternetAvailable())
-            mView!!.navigateToComments(mTitle)
-        else
-            mView!!.showErrorNoInternet()
-    }
-
-    fun loadContent(url: String) {
-        mView!!.stopRefreshing()
-        mView!!.hideContent()
-        mView!!.showProgressDialog()
-        getMovieDetailUseCase.movieDetail(url).subscribe(this)
-    }
-
-    fun onRefresh() {
-        if (mContentUrl != null && !mContentUrl!!.isEmpty())
-            loadContent(mContentUrl!!)
-    }
-
-    private fun clearContent() {
-
-    }
-
-    private fun launchFilmaffinitySearch() {
-        var searchString = mTitle!!.replace(" ", "+")
-        searchString = StringUtils.removeAccents(searchString)
-        val url = "http://m.filmaffinity.com/es/search.php?stext=$searchString&stype=title"
-        mView!!.launchBrowser(url)
-    }
-
-    override fun onCompleted() {
-        mView!!.hideProgressDialog()
-    }
-
-    override fun onError(e: Throwable) {
-        mView!!.showTimeOutDialog()
-        //Probably this error comes from an inconsistent widget data. We must to update
-        //the widget information to match the entries for the next time.
-        mView!!.updateWidget()
-    }
-
-    override fun onNext(html: String) {
-        if (StringUtils.isEmpty(html))
-            mView!!.showTimeOutDialog()
-        else
-            mView!!.setWebViewContent(html, mContentUrl)
-        mView!!.showContent()
-    }
+    abstract fun onFabClick()
 
 }
-

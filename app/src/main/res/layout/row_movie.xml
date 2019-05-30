@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wrapperContent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_row_movie"
+    android:gravity="center_vertical"
     android:hapticFeedbackEnabled="true"
     android:orientation="vertical"
-    android:paddingBottom="20px"
-    android:paddingLeft="10px"
-    android:paddingRight="10px"
-    android:paddingTop="10px"
-    android:gravity="center_vertical" >
+    android:paddingStart="20dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="20dp">
 
-        <TextView
-            android:id="@+id/textview_row_movie_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/texto_gris"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/textview_row_movie_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/texto_oscuro"
-            android:layout_marginLeft="20dp"/>
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/texto_gris"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/texto_oscuro" />
+
 </LinearLayout>

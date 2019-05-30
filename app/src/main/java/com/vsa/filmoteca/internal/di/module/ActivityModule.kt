@@ -1,10 +1,10 @@
 package com.vsa.filmoteca.internal.di.module
 
 import android.content.Context
-import com.vsa.filmoteca.data.repository.TwitterDataRepository
-import com.vsa.filmoteca.data.usecase.CommentsUseCase
-import com.vsa.filmoteca.internal.di.PerActivity
-import com.vsa.filmoteca.presentation.comments.CommentsPresenter
+import com.vsa.filmoteca.presentation.detail.DetailPresenter
+import com.vsa.filmoteca.presentation.detail.DetailPresenterImpl
+import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
+import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenterImpl
 import dagger.Module
 import dagger.Provides
 
@@ -18,15 +18,9 @@ class ActivityModule(private val context: Context) {
     fun providesContext(): Context = context
 
     @Provides
-    @PerActivity
-    fun provideCommentsUseCase(twitterDataRepository: TwitterDataRepository): CommentsUseCase {
-        return CommentsUseCase(twitterDataRepository)
-    }
+    fun providesMoviesListPresenter(moviesListPresenter: MoviesListPresenterImpl): MoviesListPresenter = moviesListPresenter
 
     @Provides
-    @PerActivity
-    fun provideCommentsPresenter(commentsUseCase: CommentsUseCase): CommentsPresenter {
-        return CommentsPresenter(commentsUseCase)
-    }
+    fun providesDetailPresenter(detailPresenter: DetailPresenterImpl): DetailPresenter = detailPresenter
 
 }
