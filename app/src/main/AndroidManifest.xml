@@ -42,16 +42,6 @@
             android:theme="@style/Theme.Transparent">
 
         </activity>
-        <activity
-            android:name=".view.activity.CommentsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_comments"
-            android:parentActivityName=".view.activity.DetailActivity"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activity.DetailActivity" />
-        </activity>
 
         <receiver android:name=".view.widget.EventsWidget">
             <intent-filter>
@@ -62,15 +52,6 @@
                 android:resource="@xml/appwidget_info" />
         </receiver>
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="${fabricApiKey}" />
-        <meta-data
-            android:name="io.twitter.ApiKey"
-            android:value="${twitterApiKey}" />
-        <meta-data
-            android:name="io.twitter.ApiSecret"
-            android:value="${twitterApiSecret}" />
     </application>
 
 </manifest>

@@ -1,13 +1,16 @@
+plugins {
+    id("com.android.application")
+    id("com.github.triplet.play") version "2.2.1"
+}
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
-apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.albandroid.filmoteca"
         minSdkVersion 14
@@ -16,9 +19,8 @@ android {
         versionName "1.2.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        initGoogleServicesJson()
         initPlayStoreApiKeys()
-        initFabricKeys(manifestPlaceholders)
-        initTwitterKeys(manifestPlaceholders)
     }
     lintOptions {
         abortOnError false
@@ -41,10 +43,6 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
     productFlavors {
 
         flavorDimensions "environment"
@@ -58,7 +56,7 @@ android {
     }
     play {
         track = 'production'
-        jsonFile = file('../keys.json')
+        serviceAccountCredentials = file('../keys.json')
     }
 
 }
@@ -83,36 +81,29 @@ def initPlayStoreApiKeys() {
     }
 }
 
-def initFabricKeys(Map<String, Object> manifestPlaceholders) {
-    String fabricApiKey = System.getenv("FABRIC_API_KEY")
-    if (fabricApiKey == null) {
-        println "LOADING FABRIC KEYS FROM LOCAL"
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        fabricApiKey = properties.getProperty("fabric.api.key")
+def initGoogleServicesJson() {
+    File googleServicesJsonFile = file('google-services.json')
+    if (googleServicesJsonFile.exists()) {
+        println "google-services.json IS IN THE ROOT PROJECT DIR"
     } else {
-        println "LOADING FABRIC KEYS FROM ENVIRONMENT"
+        String googleServicesJsonBase64 = System.getenv("GOOGLE_SERVICES_JSON")
+        if (googleServicesJsonBase64 == null) {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+            googleServicesJsonBase64 = properties.getProperty("google.services.json")
+            if (googleServicesJsonBase64 != null)
+                println "google-services.json IS IN THE local-properties"
+        } else {
+            println "google-services.json IS IN THE ENVIRONMENT"
+        }
+        if (googleServicesJsonBase64 == null) {
+            println "CANT FIND google-services.json"
+        } else {
+            String googleServicesJsonDecoded = new String(googleServicesJsonBase64.decodeBase64())
+            googleServicesJsonFile.write(googleServicesJsonDecoded)
+            println "google-services.json SUCCESSFULLY CREATED"
+        }
     }
-
-    manifestPlaceholders.put("fabricApiKey", fabricApiKey)
-}
-
-def initTwitterKeys(Map<String, Object> manifestPlaceholders) {
-    String twitterApiKey = System.getenv("TWITTER_API_KEY")
-    String twitterApiSecret = System.getenv("TWITTER_API_SECRET")
-    if (twitterApiKey == null || twitterApiSecret == null) {
-        println "LOADING TWITTER KEYS FROM LOCAL"
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        twitterApiKey = properties.getProperty("twitter.api.key")
-        twitterApiSecret = properties.getProperty("twitter.api.secret")
-    } else {
-        println "LOADING TWITTER KEYS FROM ENVIRONMENT"
-    }
-    if (twitterApiKey.isEmpty() || twitterApiSecret.isEmpty())
-        println "CAN'T FIND TWITTER KEYS"
-    manifestPlaceholders.put("twitterApiKey", twitterApiKey)
-    manifestPlaceholders.put("twitterApiSecret", twitterApiSecret)
 }
 
 def loadStorePassword() {
@@ -164,6 +155,10 @@ dependencies {
     implementation 'com.android.support:exifinterface:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
 
+    //CRASH REPORT
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
     // UNIT TESTING
     testImplementation 'junit:junit:4.12'
     // Set this dependency if you want to use Mockito
@@ -197,11 +192,6 @@ dependencies {
 
     implementation 'org.jsoup:jsoup:1.9.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation('com.twitter.sdk.android:twitter:3.1.1') {
-        exclude group: 'com.squareup.picasso', module: 'picasso'
-    }
-    implementation('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
-        transitive = true
-    }
 
 }
+apply plugin: 'com.google.gms.google-services'
