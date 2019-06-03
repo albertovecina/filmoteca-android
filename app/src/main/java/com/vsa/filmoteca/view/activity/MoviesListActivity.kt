@@ -1,8 +1,9 @@
 package com.vsa.filmoteca.view.activity
 
-import android.content.Context
-import android.content.Intent
+import android.appwidget.AppWidgetManager
+import android.content.*
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -19,6 +20,8 @@ import com.vsa.filmoteca.view.adapter.MoviesAdapter
 import com.vsa.filmoteca.view.dialog.DialogManager
 import com.vsa.filmoteca.view.dialog.ProgressDialogManager
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener
+import com.vsa.filmoteca.view.notifications.NotificationService
+import com.vsa.filmoteca.view.widget.EventsWidget
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -48,15 +51,29 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     }
 
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            presenter.onNewMoviesAdded()
+        }
+    }
+
     @Inject
     lateinit var presenter: MoviesListPresenter
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter(NotificationService.ACTION_NEW_MOVIES))
+
         setContentView(R.layout.activity_main)
         initViews()
         initializePresenter()
         onNewIntent(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
     }
 
     private fun initViews() {
@@ -101,7 +118,7 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_item_refresh -> {
-                presenter.onRefreshMenuButtonClick()
+                presenter.onRefreshButtonClick()
                 true
             }
             R.id.menu_item_about_us -> {
@@ -114,7 +131,7 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun onRefresh() {
-        presenter.onRefresh()
+        presenter.onRefreshButtonClick()
     }
 
     override fun showTitle(moviesCount: Int) {
@@ -175,6 +192,16 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     override fun onMovieClick(position: Int) {
         presenter.onMovieRowClick(position)
+    }
+
+    override fun updateWidget() {
+        val ids = AppWidgetManager.getInstance(application)
+                .getAppWidgetIds(ComponentName(this, EventsWidget::class.java))
+        sendBroadcast(Intent(this, EventsWidget::class.java)
+                .apply {
+                    action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+                })
     }
 
 }

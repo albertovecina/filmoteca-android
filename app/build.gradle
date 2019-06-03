@@ -13,7 +13,7 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.albandroid.filmoteca"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 36
         versionName "1.2.8"
@@ -158,6 +158,9 @@ dependencies {
     //CRASH REPORT
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    //CLOUD MESSAGING
+    implementation 'com.google.firebase:firebase-messaging:18.0.0'
 
     // UNIT TESTING
     testImplementation 'junit:junit:4.12'

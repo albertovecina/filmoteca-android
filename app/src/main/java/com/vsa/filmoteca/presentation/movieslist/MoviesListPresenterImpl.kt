@@ -26,11 +26,11 @@ class MoviesListPresenterImpl
             view.navigateToDetail(url, title ?: "", date ?: "")
     }
 
-    override fun onRefreshMenuButtonClick() {
-        loadMovies()
-    }
+    override fun onNewMoviesAdded() = loadMovies()
 
-    override fun onRefresh() {
+
+    override fun onRefreshButtonClick() {
+        view.updateWidget()
         loadMovies()
     }
 

@@ -7,5 +7,6 @@ package com.vsa.filmoteca.data.repository.ws
 object Environment {
 
     const val BASE_URL_FILMOTECA = "http://www.albacete.es/"
+    const val BASE_URL_WS = "http://seldon-nas.dnset.com:8080/filmoteca-ws/dev/"
 
 }

@@ -5,6 +5,7 @@ import com.vsa.filmoteca.R
 import com.vsa.filmoteca.data.repository.ws.CacheRequestInterceptor
 import com.vsa.filmoteca.data.repository.ws.Environment
 import com.vsa.filmoteca.data.repository.ws.FilmotecaInterface
+import com.vsa.filmoteca.data.repository.ws.WsInterface
 import com.vsa.filmoteca.internal.di.PerApplication
 import dagger.Module
 import dagger.Provides
@@ -44,15 +45,25 @@ class NetworkingModule(private val context: Context) {
 
     @PerApplication
     @Provides
-    fun providesRetrofit(httpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun providesRetrofitBuilder(httpClient: OkHttpClient): Retrofit.Builder = Retrofit.Builder()
             .client(httpClient)
-            .baseUrl(Environment.BASE_URL_FILMOTECA)
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
-            .build()
 
     @PerApplication
     @Provides
-    fun providesFilmotecaInterface(retrofit: Retrofit): FilmotecaInterface = retrofit.create(FilmotecaInterface::class.java)
+    fun providesFilmotecaInterface(retrofitBuilder: Retrofit.Builder): FilmotecaInterface =
+            retrofitBuilder
+                    .baseUrl(Environment.BASE_URL_FILMOTECA)
+                    .build()
+                    .create(FilmotecaInterface::class.java)
+
+    @PerApplication
+    @Provides
+    fun providesWsInterface(retrofitBuilder: Retrofit.Builder): WsInterface =
+            retrofitBuilder
+                    .baseUrl(Environment.BASE_URL_WS)
+                    .build()
+                    .create(WsInterface::class.java)
 
 }
