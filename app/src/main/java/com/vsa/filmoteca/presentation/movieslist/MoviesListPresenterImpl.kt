@@ -17,7 +17,7 @@ class MoviesListPresenterImpl
                     private val getMoviesListUseCase: GetMoviesListUseCase) :
         MoviesListPresenter(), OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
 
-    private var moviesList: MutableList<Movie> = ArrayList()
+    private var moviesList: List<Movie> = ArrayList()
 
     override fun onCreate(url: String?, title: String?, date: String?) {
         clearCacheUseCase.clearExpiredCacheFiles()
@@ -65,8 +65,9 @@ class MoviesListPresenterImpl
         view.showTimeOutDialog()
     }
 
-    override fun onNext(movies: List<Movie>) {
-        moviesList.addAll(movies)
+    override fun onNext(movies: List<Movie>?) {
+        if (movies != null)
+            moviesList = movies
         view.showTitle(moviesList.size)
         if (moviesList.isEmpty())
             view.showNoEventsDialog()
