@@ -63,4 +63,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Notifications -->
+    <string name="notification_title_normal">Filmoteca de Albacete</string>
+    <string name="notification_message_new_movies">Hay nuevas películas en cartelera. Échale un vistazo.</string>
 </resources>

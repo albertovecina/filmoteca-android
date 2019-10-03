@@ -10,9 +10,9 @@ abstract class MoviesListPresenter : Presenter<MoviesListView>() {
 
     abstract fun onCreate(url: String? = null, title: String? = null, date: String? = null)
 
-    abstract fun onRefreshMenuButtonClick()
+    abstract fun onRefreshButtonClick()
 
-    abstract fun onRefresh()
+    abstract fun onNewMoviesAdded()
 
     abstract fun onAboutUsButtonClick()
 

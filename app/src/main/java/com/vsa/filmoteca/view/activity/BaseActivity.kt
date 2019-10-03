@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.view.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 import com.vsa.filmoteca.FilmotecaApplication
 import com.vsa.filmoteca.internal.di.component.ApplicationComponent

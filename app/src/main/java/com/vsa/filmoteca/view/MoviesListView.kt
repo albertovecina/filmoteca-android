@@ -32,6 +32,8 @@ interface MoviesListView {
 
     fun setMovies(dataProvider: EventDataProvider)
 
+    fun updateWidget()
+
     fun finish()
 
 }
