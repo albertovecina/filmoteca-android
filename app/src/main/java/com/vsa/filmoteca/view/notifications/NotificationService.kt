@@ -3,7 +3,7 @@ package com.vsa.filmoteca.view.notifications
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.vsa.filmoteca.FilmotecaApplication
@@ -29,15 +29,14 @@ class NotificationService : FirebaseMessagingService(), NotificationView {
         presenter.view = this
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         presenter.onNotificationReceived()
     }
 
-    override fun onNewToken(token: String?) {
+    override fun onNewToken(token: String) {
         super.onNewToken(token)
-        if (token != null)
-            presenter.onNewToken(token)
+        presenter.onNewToken(token)
     }
 
     override fun notifyApplication() {
@@ -53,5 +52,5 @@ class NotificationService : FirebaseMessagingService(), NotificationView {
                     putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
                 })
     }
-    
+
 }

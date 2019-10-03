@@ -3,10 +3,10 @@ package com.vsa.filmoteca.view.activity
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.os.Bundle
-import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.vsa.filmoteca.R
@@ -82,8 +82,8 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
         swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary)
-        val layoutManager = LinearLayoutManager(this)
-        val itemDecoration = DividerItemDecoration(this,
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        val itemDecoration = androidx.recyclerview.widget.DividerItemDecoration(this,
                 layoutManager.orientation)
         recyclerViewMovies.layoutManager = layoutManager
         recyclerViewMovies.addItemDecoration(itemDecoration)
