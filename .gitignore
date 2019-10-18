@@ -38,5 +38,10 @@ build/
 *~
 *.swp
 
+#Mac files
+.DS_Store
+
 #Google Play Store Key
 keys.json
+#Google Play Services Json
+app/google-services.json
