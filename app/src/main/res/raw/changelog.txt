@@ -19,6 +19,10 @@
     </style>
   </head>
   <body>
+$ 1.2.9
+  % v1.2.9
+  _ 2019-10-18
+    * Nuevo sistema de notificaciones. Ahora puedes enterarte de cualquier actualización en la cartelera al instante.
 $ 1.2.8
   % v1.2.8
   _ 2019-04-25
