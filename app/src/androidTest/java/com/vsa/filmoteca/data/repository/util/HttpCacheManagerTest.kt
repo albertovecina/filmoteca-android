@@ -1,8 +1,7 @@
 package com.vsa.filmoteca.data.repository.util
 
 import android.content.Context
-import android.support.test.InstrumentationRegistry
-
+import androidx.test.platform.app.InstrumentationRegistry
 
 import org.junit.Before
 import org.junit.Test
@@ -24,7 +23,7 @@ class HttpCacheManagerTest {
 
     @Before
     fun setUp() {
-        context = InstrumentationRegistry.getTargetContext()
+        context = InstrumentationRegistry.getInstrumentation().targetContext
         cacheDir = HttpCacheManager.getHttpCacheDir(context!!)
     }
 
