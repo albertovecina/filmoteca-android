@@ -45,3 +45,6 @@ after_success:
   - ./gradlew publishApkRealRelease
 after_failure:
   - cat $TRAVIS_BUILD_DIR/app/build/reports/lint-results.xml
+#License agreement
+before_install:
+  - yes | sdkmanager "platforms;android-28"
