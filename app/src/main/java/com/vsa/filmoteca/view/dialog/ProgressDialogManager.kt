@@ -11,8 +11,7 @@ object ProgressDialogManager {
     private var progressDialog: ProgressDialog? = null
 
     private fun showProgressDialog(context: Context, message: String): ProgressDialog? {
-        if (progressDialog != null && progressDialog!!.isShowing)
-            hideProgressDialog()
+        hideProgressDialog()
         progressDialog = ProgressDialog.show(context, null, message, true, false)
         return progressDialog
     }
@@ -24,11 +23,11 @@ object ProgressDialogManager {
     }
 
     fun hideProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog!!.dismiss()
+        progressDialog?.run {
+            if (isShowing)
+                dismiss()
             progressDialog = null
         }
-
     }
 
 }
