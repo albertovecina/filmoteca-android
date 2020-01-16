@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.internal.di.component
 
 import android.app.Application
-import com.vsa.filmoteca.FilmotecaApplication
+import com.vsa.filmoteca.presentation.FilmotecaApplication
 import com.vsa.filmoteca.internal.di.scope.PerApplication
 import com.vsa.filmoteca.internal.di.module.*
 import dagger.BindsInstance
