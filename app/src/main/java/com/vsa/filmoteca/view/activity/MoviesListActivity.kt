@@ -5,13 +5,9 @@ import android.content.*
 import android.os.Bundle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.internal.di.component.ApplicationComponent
-import com.vsa.filmoteca.internal.di.module.ActivityModule
 import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
 import com.vsa.filmoteca.view.MoviesListView
@@ -67,7 +63,6 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
         setContentView(R.layout.activity_main)
         initViews()
-        initializePresenter()
         onNewIntent(intent)
     }
 
@@ -87,16 +82,6 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
                 layoutManager.orientation)
         recyclerViewMovies.layoutManager = layoutManager
         recyclerViewMovies.addItemDecoration(itemDecoration)
-    }
-
-    override fun initializeInjector(applicationComponent: ApplicationComponent) {
-        applicationComponent
-                .plusActivityComponent(ActivityModule(this))
-                .inject(this)
-    }
-
-    private fun initializePresenter() {
-        presenter.view = this
     }
 
     override fun onNewIntent(intent: Intent) {

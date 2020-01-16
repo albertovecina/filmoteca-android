@@ -1,27 +1,24 @@
 package com.vsa.filmoteca.presentation.detail
 
-import com.vsa.filmoteca.presentation.Presenter
-import com.vsa.filmoteca.view.DetailView
-
 /**
  * Created by Alberto Vecina Sánchez on 2019-05-08.
  */
-abstract class DetailPresenter : Presenter<DetailView>() {
+interface DetailPresenter {
 
-    abstract fun onCreate(url: String, movieTitle: String)
+    fun onCreate(url: String, movieTitle: String)
 
-    abstract fun onDestroy()
+    fun onDestroy()
 
-    abstract fun onShareButtonClick()
+    fun onShareButtonClick()
 
-    abstract fun onShowInBrowserButtonClick()
+    fun onShowInBrowserButtonClick()
 
-    abstract fun onFilmAffinitySearchButtonClick()
+    fun onFilmAffinitySearchButtonClick()
 
-    abstract fun onRefresh()
+    fun onRefresh()
 
-    abstract fun onAboutUsButtonClick()
+    fun onAboutUsButtonClick()
 
-    abstract fun onFabClick()
+    fun onFabClick()
 
 }

@@ -2,13 +2,17 @@ package com.vsa.filmoteca.presentation.detail
 
 import com.vsa.filmoteca.data.usecase.GetMovieDetailUseCase
 import com.vsa.filmoteca.presentation.utils.StringUtils
+import com.vsa.filmoteca.view.DetailView
 import rx.Observer
 import javax.inject.Inject
 
 /**
  * Created by seldon on 13/03/15.
  */
-class DetailPresenterImpl @Inject constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) : DetailPresenter(), Observer<String> {
+class DetailPresenterImpl @Inject constructor(
+        private val view: DetailView,
+        private val getMovieDetailUseCase: GetMovieDetailUseCase)
+    : DetailPresenter, Observer<String> {
 
     private lateinit var contentUrl: String
     private lateinit var title: String

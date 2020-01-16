@@ -1,13 +1,11 @@
 package com.vsa.filmoteca.view.adapter
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.recyclerview.widget.RecyclerView
 import com.vsa.filmoteca.R
-
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.row_movie.*
 
@@ -17,7 +15,7 @@ import kotlinx.android.synthetic.main.row_movie.*
 class MoviesAdapter(context: Context,
                     private val dataProvider: EventDataProvider,
                     private val callback: Callback)
-    : androidx.recyclerview.widget.RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
+    : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -37,7 +35,7 @@ class MoviesAdapter(context: Context,
         }
     }
 
-    class MovieViewHolder constructor(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer
+    class MovieViewHolder constructor(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer
 
     interface Callback {
 

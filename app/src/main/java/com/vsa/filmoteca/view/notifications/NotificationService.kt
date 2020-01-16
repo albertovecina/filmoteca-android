@@ -6,10 +6,9 @@ import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.vsa.filmoteca.FilmotecaApplication
-import com.vsa.filmoteca.internal.di.module.ServiceModule
 import com.vsa.filmoteca.presentation.notifications.NotificationPresenter
 import com.vsa.filmoteca.view.widget.EventsWidget
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class NotificationService : FirebaseMessagingService(), NotificationView {
@@ -23,10 +22,7 @@ class NotificationService : FirebaseMessagingService(), NotificationView {
 
     override fun onCreate() {
         super.onCreate()
-        (application as FilmotecaApplication).applicationComponent
-                .plusServiceComponent(ServiceModule())
-                .inject(this)
-        presenter.view = this
+        AndroidInjection.inject(this)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

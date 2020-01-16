@@ -1,9 +1,10 @@
-package com.vsa.filmoteca.internal.di.module
+package com.vsa.filmoteca.presentation.widget.di
 
-import android.content.Context
-import com.vsa.filmoteca.internal.di.PerWidget
+import com.vsa.filmoteca.internal.di.scope.PerWidget
 import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenter
 import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenterImpl
+import com.vsa.filmoteca.view.EventsWidgetView
+import com.vsa.filmoteca.view.widget.EventsWidget
 import dagger.Module
 import dagger.Provides
 
@@ -12,10 +13,11 @@ import dagger.Provides
  */
 
 @Module
-class WidgetModule(private val context: Context) {
+class EventsWidgetModule {
 
+    @PerWidget
     @Provides
-    fun providesContext(): Context = context
+    fun providesEventsWidgetView(eventsWidget: EventsWidget): EventsWidgetView = eventsWidget
 
     @PerWidget
     @Provides

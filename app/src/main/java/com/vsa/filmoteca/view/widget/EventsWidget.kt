@@ -9,12 +9,11 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.RemoteViews
-import com.vsa.filmoteca.FilmotecaApplication
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.internal.di.module.WidgetModule
 import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenter
 import com.vsa.filmoteca.view.EventsWidgetView
 import com.vsa.filmoteca.view.activity.MoviesListActivity
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class EventsWidget : AppWidgetProvider(), EventsWidgetView {
@@ -34,16 +33,14 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         initializeContext(context)
-        initializeInjector(context)
-        initializePresenter()
+        AndroidInjection.inject(this, context)
         presenter.onUpdate()
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         initializeContext(context)
-        initializeInjector(context)
-        initializePresenter()
+        AndroidInjection.inject(this, context)
         if (intent.action == ACTION_WIDGET_LEFT)
             presenter.onButtonLeftClick()
         else if (intent.action == ACTION_WIDGET_RIGHT)
@@ -115,17 +112,6 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
 
     private fun initializeContext(context: Context) {
         this.context = context
-    }
-
-    private fun initializeInjector(context: Context) {
-        (context.applicationContext as FilmotecaApplication)
-                .applicationComponent
-                .plusWidgetComponent(WidgetModule(context))
-                .inject(this)
-    }
-
-    private fun initializePresenter() {
-        presenter.view = this
     }
 
 }
