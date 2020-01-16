@@ -5,13 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.internal.di.component.ApplicationComponent
-import com.vsa.filmoteca.internal.di.module.ActivityModule
 import com.vsa.filmoteca.presentation.detail.DetailPresenter
 import com.vsa.filmoteca.view.DetailView
 import com.vsa.filmoteca.view.dialog.DialogManager
@@ -45,16 +43,9 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initViews()
-        initializePresenter()
         presenter.onCreate(intent.getStringExtra(EXTRA_URL),
                 intent.getStringExtra(EXTRA_TITLE))
 
-    }
-
-    override fun initializeInjector(applicationComponent: ApplicationComponent) {
-        applicationComponent
-                .plusActivityComponent(ActivityModule(this))
-                .inject(this)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -194,10 +185,6 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     override fun showAboutUs() {
         val intent = Intent(this, AboutActivity::class.java)
         startActivity(intent)
-    }
-
-    private fun initializePresenter() {
-        presenter.view = this
     }
 
 }

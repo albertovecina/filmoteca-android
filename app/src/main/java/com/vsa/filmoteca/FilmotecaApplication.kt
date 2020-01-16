@@ -1,29 +1,19 @@
 package com.vsa.filmoteca
 
-import android.app.Application
-import com.vsa.filmoteca.internal.di.component.ApplicationComponent
 import com.vsa.filmoteca.internal.di.component.DaggerApplicationComponent
-import com.vsa.filmoteca.internal.di.module.ApplicationModule
-import com.vsa.filmoteca.internal.di.module.NetworkingModule
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 
 
 /**
  * Created by seldon on 31/03/15.
  */
-class FilmotecaApplication : Application() {
+class FilmotecaApplication : DaggerApplication() {
 
-    lateinit var applicationComponent: ApplicationComponent
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+            DaggerApplicationComponent.builder()
+                    .application(this)
+                    .build()
 
-    override fun onCreate() {
-        super.onCreate()
-        initializeApplicationComponent()
-    }
-
-    private fun initializeApplicationComponent() {
-        applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .networkingModule(NetworkingModule(this))
-                .build()
-    }
 
 }

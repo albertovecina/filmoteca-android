@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.internal.di
+package com.vsa.filmoteca.internal.di.scope
 
 import javax.inject.Scope
 
@@ -8,4 +8,4 @@ import javax.inject.Scope
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-annotation class PerWidget
+annotation class PerActivity

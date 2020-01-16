@@ -1,8 +1,13 @@
 package com.vsa.filmoteca.internal.di.component
 
-import com.vsa.filmoteca.internal.di.PerApplication
+import android.app.Application
+import com.vsa.filmoteca.FilmotecaApplication
+import com.vsa.filmoteca.internal.di.scope.PerApplication
 import com.vsa.filmoteca.internal.di.module.*
+import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 
 
 /**
@@ -10,13 +15,22 @@ import dagger.Component
  */
 
 @PerApplication
-@Component(modules = [ApplicationModule::class, NetworkingModule::class])
-interface ApplicationComponent {
+@Component(modules = [AndroidSupportInjectionModule::class,
+    ApplicationModule::class,
+    ActivitiesModule::class,
+    ServicesModule::class,
+    WidgetsModule::class,
+    NetworkingModule::class])
+interface ApplicationComponent : AndroidInjector<FilmotecaApplication> {
 
-    fun plusActivityComponent(activityModule: ActivityModule): ActivityComponent
+    @Component.Builder
+    interface Builder {
 
-    fun plusWidgetComponent(widgetModule: WidgetModule): WidgetComponent
+        @BindsInstance
+        fun application(application: Application): Builder
 
-    fun plusServiceComponent(serviceModule: ServiceModule): ServiceComponent
+        fun build(): ApplicationComponent
+
+    }
 
 }

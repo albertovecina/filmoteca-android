@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.internal.di
+package com.vsa.filmoteca.internal.di.scope
 
 import javax.inject.Scope
 

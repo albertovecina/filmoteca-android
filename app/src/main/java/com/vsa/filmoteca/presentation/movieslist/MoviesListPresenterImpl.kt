@@ -3,6 +3,7 @@ package com.vsa.filmoteca.presentation.movieslist
 import com.vsa.filmoteca.data.domain.Movie
 import com.vsa.filmoteca.data.usecase.ClearCacheUseCase
 import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase
+import com.vsa.filmoteca.view.MoviesListView
 import com.vsa.filmoteca.view.adapter.EventDataProvider
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener
 import rx.Observer
@@ -13,9 +14,10 @@ import javax.inject.Inject
  */
 
 class MoviesListPresenterImpl
-@Inject constructor(private val clearCacheUseCase: ClearCacheUseCase,
+@Inject constructor(private val view: MoviesListView,
+                    private val clearCacheUseCase: ClearCacheUseCase,
                     private val getMoviesListUseCase: GetMoviesListUseCase) :
-        MoviesListPresenter(), OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
+        MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
 
     private var moviesList: List<Movie> = ArrayList()
 

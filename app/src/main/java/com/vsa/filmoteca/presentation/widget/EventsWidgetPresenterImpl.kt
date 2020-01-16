@@ -3,18 +3,20 @@ package com.vsa.filmoteca.presentation.widget
 import com.vsa.filmoteca.data.domain.Movie
 import com.vsa.filmoteca.data.usecase.GetMoviesListUseCase
 import com.vsa.filmoteca.data.usecase.MoviesPersistanceUseCase
+import com.vsa.filmoteca.view.EventsWidgetView
 import rx.Observer
 import javax.inject.Inject
 
 /**
  * Created by seldon on 27/03/15.
  */
-class EventsWidgetPresenterImpl @Inject
-constructor(private val getMoviesListUseCase: GetMoviesListUseCase,
-            private val moviesPersistanceUseCase: MoviesPersistanceUseCase)
-    : EventsWidgetPresenter(),
+class EventsWidgetPresenterImpl @Inject constructor(
+        private val view: EventsWidgetView,
+        private val getMoviesListUseCase: GetMoviesListUseCase,
+        private val moviesPersistanceUseCase: MoviesPersistanceUseCase)
+    : EventsWidgetPresenter,
         Observer<List<Movie>> {
-    
+
     private var currentMovieIndex = 0
     private var moviesListSize = 0
     private var movies: List<Movie> = ArrayList()
