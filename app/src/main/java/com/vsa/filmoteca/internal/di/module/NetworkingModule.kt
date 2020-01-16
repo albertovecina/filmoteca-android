@@ -2,10 +2,10 @@ package com.vsa.filmoteca.internal.di.module
 
 import android.content.Context
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.data.repository.ws.CacheRequestInterceptor
-import com.vsa.filmoteca.data.repository.ws.Environment
-import com.vsa.filmoteca.data.repository.ws.FilmotecaInterface
-import com.vsa.filmoteca.data.repository.ws.WsInterface
+import com.vsa.filmoteca.data.source.ws.CacheRequestInterceptor
+import com.vsa.filmoteca.data.source.ws.Environment
+import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
+import com.vsa.filmoteca.data.source.ws.WsInterface
 import com.vsa.filmoteca.internal.di.scope.PerApplication
 import dagger.Module
 import dagger.Provides

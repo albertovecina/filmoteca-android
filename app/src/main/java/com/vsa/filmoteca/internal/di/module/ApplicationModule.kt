@@ -2,9 +2,9 @@ package com.vsa.filmoteca.internal.di.module
 
 import android.app.Application
 import android.content.Context
-import com.vsa.filmoteca.data.repository.MoviesPersistanceRepository
-import com.vsa.filmoteca.data.repository.database.MoviesDataBaseSource
-import com.vsa.filmoteca.data.repository.sharedpreferences.SharedPreferencesManager
+import com.vsa.filmoteca.data.source.repository.MoviesPersistanceRepository
+import com.vsa.filmoteca.data.source.database.MoviesDataBaseSource
+import com.vsa.filmoteca.data.source.sharedpreferences.SharedPreferencesManager
 import com.vsa.filmoteca.internal.di.scope.PerApplication
 import dagger.Module
 import dagger.Provides
