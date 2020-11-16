@@ -2,11 +2,11 @@ package com.vsa.filmoteca.internal.di.module
 
 import android.content.Context
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.data.repository.ws.CacheRequestInterceptor
-import com.vsa.filmoteca.data.repository.ws.Environment
-import com.vsa.filmoteca.data.repository.ws.FilmotecaInterface
-import com.vsa.filmoteca.data.repository.ws.WsInterface
-import com.vsa.filmoteca.internal.di.PerApplication
+import com.vsa.filmoteca.data.source.ws.CacheRequestInterceptor
+import com.vsa.filmoteca.data.source.ws.Environment
+import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
+import com.vsa.filmoteca.data.source.ws.WsInterface
+import com.vsa.filmoteca.internal.di.scope.PerApplication
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -21,23 +21,23 @@ import java.util.concurrent.TimeUnit
  * Created by Alberto Vecina Sánchez on 2019-05-03.
  */
 @Module
-class NetworkingModule(private val context: Context) {
+class NetworkingModule {
 
     @PerApplication
     @Provides
-    fun providesCacheDirectory(): File = File(context.cacheDir.absolutePath, context.resources.getString(R.string.ws_cache_directory_name))
+    fun providesCacheDirectory(context: Context): File = File(context.cacheDir.absolutePath, context.resources.getString(R.string.ws_cache_directory_name))
 
     @PerApplication
     @Provides
-    fun providesCache(cacheDirectory: File): Cache = Cache(cacheDirectory, context.resources.getString(R.string.ws_cache_size).toLong())
+    fun providesCache(context: Context, cacheDirectory: File): Cache = Cache(cacheDirectory, context.resources.getString(R.string.ws_cache_size).toLong())
 
     @PerApplication
     @Provides
-    fun providesCacheRequestInterceptor(): CacheRequestInterceptor = CacheRequestInterceptor(context)
+    fun providesCacheRequestInterceptor(context: Context): CacheRequestInterceptor = CacheRequestInterceptor(context)
 
     @PerApplication
     @Provides
-    fun providesHttpClient(cache: Cache, cacheRequestInterceptor: CacheRequestInterceptor): OkHttpClient = OkHttpClient.Builder()
+    fun providesHttpClient(context: Context, cache: Cache, cacheRequestInterceptor: CacheRequestInterceptor): OkHttpClient = OkHttpClient.Builder()
             .cache(cache)
             .readTimeout(context.resources.getString(R.string.ws_timeout).toLong(), TimeUnit.MILLISECONDS)
             .addInterceptor(cacheRequestInterceptor)

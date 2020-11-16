@@ -1,10 +1,11 @@
 package com.vsa.filmoteca.internal.di.module
 
-import com.vsa.filmoteca.FilmotecaApplication
-import com.vsa.filmoteca.data.repository.MoviesPersistanceRepository
-import com.vsa.filmoteca.data.repository.database.MoviesDataBaseSource
-import com.vsa.filmoteca.data.repository.sharedpreferences.SharedPreferencesManager
-import com.vsa.filmoteca.internal.di.PerApplication
+import android.app.Application
+import android.content.Context
+import com.vsa.filmoteca.data.source.repository.MoviesPersistanceRepository
+import com.vsa.filmoteca.data.source.database.MoviesDataBaseSource
+import com.vsa.filmoteca.data.source.sharedpreferences.SharedPreferencesManager
+import com.vsa.filmoteca.internal.di.scope.PerApplication
 import dagger.Module
 import dagger.Provides
 
@@ -14,24 +15,22 @@ import dagger.Provides
 
 
 @Module
-class ApplicationModule(private val application: FilmotecaApplication) {
+class ApplicationModule {
 
     @Provides
     @PerApplication
-    fun provideApplication(): FilmotecaApplication {
-        return application
+    fun provideApplicationContext(application: Application): Context = application
+
+    @Provides
+    @PerApplication
+    fun provideSharedPreferencesManager(context: Context): SharedPreferencesManager {
+        return SharedPreferencesManager(context)
     }
 
     @Provides
     @PerApplication
-    fun provideSharedPreferencesManager(): SharedPreferencesManager {
-        return SharedPreferencesManager(application)
-    }
-
-    @Provides
-    @PerApplication
-    fun provideMoviesDataBaseSource(): MoviesDataBaseSource {
-        return MoviesDataBaseSource(application)
+    fun provideMoviesDataBaseSource(context: Context): MoviesDataBaseSource {
+        return MoviesDataBaseSource(context)
     }
 
     @Provides
