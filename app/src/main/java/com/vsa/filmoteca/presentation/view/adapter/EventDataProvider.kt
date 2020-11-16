@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.adapter
+package com.vsa.filmoteca.presentation.view.adapter
 
 /**
  * Created by Alberto Vecina Sánchez on 2019-05-02.

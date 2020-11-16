@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.activity
+package com.vsa.filmoteca.presentation.view.activity
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -10,7 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.presentation.detail.DetailPresenter
+import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenter
 import com.vsa.filmoteca.view.DetailView
 import com.vsa.filmoteca.view.dialog.DialogManager
 import com.vsa.filmoteca.view.dialog.ProgressDialogManager
@@ -43,15 +43,15 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initViews()
-        presenter.onCreate(intent.getStringExtra(EXTRA_URL),
-                intent.getStringExtra(EXTRA_TITLE))
+        presenter.onCreate(intent.getStringExtra(EXTRA_URL) ?: "",
+                intent.getStringExtra(EXTRA_TITLE) ?: "")
 
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        presenter.onCreate(intent.getStringExtra(EXTRA_URL),
-                intent.getStringExtra(EXTRA_TITLE))
+        presenter.onCreate(intent.getStringExtra(EXTRA_URL) ?: "",
+                intent.getStringExtra(EXTRA_TITLE) ?: "")
     }
 
     override fun onDestroy() {
@@ -103,15 +103,6 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
         swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary)
-        fabComments.setOnClickListener { presenter.onFabClick() }
-        webviewMoviePage.onScrollChangedCallback = { _, t, _, oldt ->
-            swipeRefreshLayout.isEnabled = t == 0
-            if (t < oldt && fabComments.visibility != View.VISIBLE)
-                fabComments.show()
-        }
-        webviewMoviePage.onOverScrollListener = { fabComments.hide() }
-        showMovieTitle(intent.getStringExtra(EXTRA_TITLE))
-
     }
 
     override fun showContent() {
@@ -159,7 +150,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
 
     override fun showShareDialog() {
         val titleShareButton = intent.getStringExtra(EXTRA_TITLE)
-        val dateShareButton = getString(R.string.share_date) + ": " + intent.getStringExtra(EXTRA_DATE).substring(1)
+        val dateShareButton = getString(R.string.share_date) + ": " + intent.getStringExtra(EXTRA_DATE)?.substring(1)
         val infoShareButton = getString(R.string.share_message) + " " + titleShareButton + "\n" + dateShareButton
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"

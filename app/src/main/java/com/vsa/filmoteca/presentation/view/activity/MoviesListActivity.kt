@@ -1,18 +1,18 @@
-package com.vsa.filmoteca.view.activity
+package com.vsa.filmoteca.presentation.view.activity
 
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.os.Bundle
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.Menu
 import android.view.MenuItem
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
-import com.vsa.filmoteca.view.MoviesListView
-import com.vsa.filmoteca.view.adapter.EventDataProvider
-import com.vsa.filmoteca.view.adapter.MoviesAdapter
+import com.vsa.filmoteca.presentation.view.MoviesListView
+import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
+import com.vsa.filmoteca.presentation.view.adapter.MoviesAdapter
 import com.vsa.filmoteca.view.dialog.DialogManager
 import com.vsa.filmoteca.view.dialog.ProgressDialogManager
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener

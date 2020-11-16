@@ -1,10 +1,11 @@
-package com.vsa.filmoteca.presentation.movieslist
+package com.vsa.filmoteca.presentation.presenter.movieslist
 
 import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.ClearCacheUseCase
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
-import com.vsa.filmoteca.view.MoviesListView
-import com.vsa.filmoteca.view.adapter.EventDataProvider
+import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
+import com.vsa.filmoteca.presentation.view.MoviesListView
+import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
 import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener
 import rx.Observer
 import javax.inject.Inject
