@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.adapter
+package com.vsa.filmoteca.presentation.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

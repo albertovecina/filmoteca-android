@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.activity
+package com.vsa.filmoteca.presentation.view.activity
 
 import android.content.pm.PackageManager
 import android.os.Bundle

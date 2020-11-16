@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.detail
+package com.vsa.filmoteca.presentation.presenter.detail
 
 import com.vsa.filmoteca.domain.usecase.GetMovieDetailUseCase
 import com.vsa.filmoteca.presentation.utils.StringUtils
@@ -18,7 +18,7 @@ class DetailPresenterImpl @Inject constructor(
     private lateinit var title: String
 
     override fun onCreate(url: String, movieTitle: String) {
-        if (!StringUtils.isEmpty(url)) {
+        if (!url.isNullOrEmpty()) {
             title = movieTitle
             contentUrl = url
             view.setWebViewContent("<html></html>", url)
@@ -83,7 +83,7 @@ class DetailPresenterImpl @Inject constructor(
     }
 
     override fun onNext(html: String) {
-        if (StringUtils.isEmpty(html))
+        if (html.isNullOrEmpty())
             view.showTimeOutDialog()
         else
             view.setWebViewContent(html, contentUrl)

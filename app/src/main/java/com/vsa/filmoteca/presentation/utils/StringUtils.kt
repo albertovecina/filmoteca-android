@@ -73,8 +73,4 @@ object StringUtils {
         return if (source == null || source.isEmpty()) "" else source.replace(" ", "")
     }
 
-    fun isEmpty(string: String?): Boolean {
-        return string == null || string.isEmpty()
-    }
-
 }

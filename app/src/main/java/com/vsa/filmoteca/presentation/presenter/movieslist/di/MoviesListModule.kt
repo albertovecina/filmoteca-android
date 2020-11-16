@@ -1,9 +1,9 @@
-package com.vsa.filmoteca.presentation.movieslist.di
+package com.vsa.filmoteca.presentation.presenter.movieslist.di
 
 import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
-import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenterImpl
-import com.vsa.filmoteca.view.MoviesListView
-import com.vsa.filmoteca.view.activity.MoviesListActivity
+import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenterImpl
+import com.vsa.filmoteca.presentation.view.MoviesListView
+import com.vsa.filmoteca.presentation.view.activity.MoviesListActivity
 import dagger.Module
 import dagger.Provides
 

@@ -1,9 +1,9 @@
-package com.vsa.filmoteca.presentation.detail.di
+package com.vsa.filmoteca.presentation.presenter.detail.di
 
-import com.vsa.filmoteca.presentation.detail.DetailPresenter
-import com.vsa.filmoteca.presentation.detail.DetailPresenterImpl
+import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenter
+import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenterImpl
+import com.vsa.filmoteca.presentation.view.activity.DetailActivity
 import com.vsa.filmoteca.view.DetailView
-import com.vsa.filmoteca.view.activity.DetailActivity
 import dagger.Module
 import dagger.Provides
 

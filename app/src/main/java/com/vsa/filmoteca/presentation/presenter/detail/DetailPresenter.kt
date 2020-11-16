@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.detail
+package com.vsa.filmoteca.presentation.presenter.detail
 
 /**
  * Created by Alberto Vecina Sánchez on 2019-05-08.
