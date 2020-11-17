@@ -13,7 +13,7 @@ android {
     buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId "com.albandroid.filmoteca"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 39
         versionName "1.2.9"

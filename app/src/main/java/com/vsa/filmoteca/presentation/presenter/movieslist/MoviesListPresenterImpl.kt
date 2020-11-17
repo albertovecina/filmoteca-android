@@ -47,7 +47,7 @@ class MoviesListPresenterImpl
 
     private fun loadMovies() {
         view.stopRefreshing()
-        view.showProgressDialog()
+        view.showLoading()
         getMoviesListUseCase.moviesList().subscribe(this)
     }
 
@@ -60,7 +60,7 @@ class MoviesListPresenterImpl
     }
 
     override fun onCompleted() {
-        view.hideProgressDialog()
+        view.hideLoading()
     }
 
     override fun onError(e: Throwable) {

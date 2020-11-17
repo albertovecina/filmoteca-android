@@ -6,13 +6,9 @@ import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListe
 /**
  * Created by seldon on 10/03/15.
  */
-interface MoviesListView {
+interface MoviesListView : LoadingView {
 
     fun showChangeLog()
-
-    fun showProgressDialog()
-
-    fun hideProgressDialog()
 
     fun stopRefreshing()
 

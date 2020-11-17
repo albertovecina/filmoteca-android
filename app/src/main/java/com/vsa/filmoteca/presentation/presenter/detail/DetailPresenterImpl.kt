@@ -60,7 +60,7 @@ class DetailPresenterImpl @Inject constructor(
     private fun loadContent(url: String) {
         view.stopRefreshing()
         view.hideContent()
-        view.showProgressDialog()
+        view.showLoading()
         getMovieDetailUseCase.movieDetail(url).subscribe(this)
     }
 
@@ -72,7 +72,7 @@ class DetailPresenterImpl @Inject constructor(
     }
 
     override fun onCompleted() {
-        view.hideProgressDialog()
+        view.hideLoading()
     }
 
     override fun onError(e: Throwable) {

@@ -42,4 +42,4 @@ build/
 #Google Play Store Key
 keys.json
 #Google Play Services Json
-app/google-services.json
+google-services.json
