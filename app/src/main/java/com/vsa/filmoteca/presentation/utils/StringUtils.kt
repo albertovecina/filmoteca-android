@@ -59,7 +59,7 @@ object StringUtils {
         val original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ"
         val ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC"
         var output = input
-        for (i in 0 until original.length)
+        for (i in original.indices)
             output = output.replace(original[i], ascii[i])
         return output
     }

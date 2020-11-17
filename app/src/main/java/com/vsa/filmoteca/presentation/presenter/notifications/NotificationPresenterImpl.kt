@@ -1,7 +1,7 @@
-package com.vsa.filmoteca.presentation.notifications
+package com.vsa.filmoteca.presentation.presenter.notifications
 
 import com.vsa.filmoteca.domain.usecase.PushRegistrationTokenUseCase
-import com.vsa.filmoteca.view.notifications.NotificationView
+import com.vsa.filmoteca.presentation.view.notifications.NotificationView
 import javax.inject.Inject
 
 /**

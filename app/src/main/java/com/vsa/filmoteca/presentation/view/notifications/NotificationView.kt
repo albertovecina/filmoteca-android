@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.notifications
+package com.vsa.filmoteca.presentation.view.notifications
 
 /**
  * Created by Alberto Vecina Sánchez on 2019-06-03.

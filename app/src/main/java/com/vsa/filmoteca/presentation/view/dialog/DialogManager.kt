@@ -1,10 +1,10 @@
-package com.vsa.filmoteca.view.dialog
+package com.vsa.filmoteca.presentation.view.dialog
 
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener
+import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 
 object DialogManager {
 

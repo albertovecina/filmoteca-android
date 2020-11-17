@@ -11,10 +11,10 @@ import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenter
-import com.vsa.filmoteca.view.DetailView
-import com.vsa.filmoteca.view.dialog.DialogManager
-import com.vsa.filmoteca.view.dialog.ProgressDialogManager
-import com.vsa.filmoteca.view.widget.EventsWidget
+import com.vsa.filmoteca.presentation.view.DetailView
+import com.vsa.filmoteca.presentation.view.dialog.DialogManager
+import com.vsa.filmoteca.presentation.view.dialog.ProgressDialogManager
+import com.vsa.filmoteca.presentation.view.widget.EventsWidget
 import kotlinx.android.synthetic.main.activity_detail.*
 import javax.inject.Inject
 
@@ -103,6 +103,9 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
         swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary)
+        webviewMoviePage.onScrollChangedCallback = { _, top, _, _ ->
+            swipeRefreshLayout.isEnabled = top == 0
+        }
     }
 
     override fun showContent() {

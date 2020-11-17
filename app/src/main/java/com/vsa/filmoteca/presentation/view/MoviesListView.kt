@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.presentation.view
 
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
-import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener
+import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 
 /**
  * Created by seldon on 10/03/15.

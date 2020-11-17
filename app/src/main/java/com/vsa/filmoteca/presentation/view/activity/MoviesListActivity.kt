@@ -8,16 +8,16 @@ import android.view.MenuItem
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.presentation.movieslist.MoviesListPresenter
+import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
 import com.vsa.filmoteca.presentation.view.adapter.MoviesAdapter
-import com.vsa.filmoteca.view.dialog.DialogManager
-import com.vsa.filmoteca.view.dialog.ProgressDialogManager
-import com.vsa.filmoteca.view.dialog.interfaces.OkCancelDialogListener
-import com.vsa.filmoteca.view.notifications.NotificationService
-import com.vsa.filmoteca.view.widget.EventsWidget
+import com.vsa.filmoteca.presentation.view.dialog.DialogManager
+import com.vsa.filmoteca.presentation.view.dialog.ProgressDialogManager
+import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
+import com.vsa.filmoteca.presentation.view.notifications.NotificationService
+import com.vsa.filmoteca.presentation.view.widget.EventsWidget
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
