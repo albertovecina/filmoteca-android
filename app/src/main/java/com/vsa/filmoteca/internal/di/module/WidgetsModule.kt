@@ -1,8 +1,8 @@
 package com.vsa.filmoteca.internal.di.module
 
 import com.vsa.filmoteca.internal.di.scope.PerWidget
-import com.vsa.filmoteca.presentation.widget.di.EventsWidgetModule
-import com.vsa.filmoteca.view.widget.EventsWidget
+import com.vsa.filmoteca.presentation.presenter.widget.di.EventsWidgetModule
+import com.vsa.filmoteca.presentation.view.widget.EventsWidget
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.notifications
+package com.vsa.filmoteca.presentation.view.notifications
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -6,8 +6,8 @@ import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.vsa.filmoteca.presentation.notifications.NotificationPresenter
-import com.vsa.filmoteca.view.widget.EventsWidget
+import com.vsa.filmoteca.presentation.presenter.notifications.NotificationPresenter
+import com.vsa.filmoteca.presentation.view.widget.EventsWidget
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 

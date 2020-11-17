@@ -1,10 +1,10 @@
-package com.vsa.filmoteca.presentation.widget.di
+package com.vsa.filmoteca.presentation.presenter.widget.di
 
 import com.vsa.filmoteca.internal.di.scope.PerWidget
-import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenter
-import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenterImpl
-import com.vsa.filmoteca.view.EventsWidgetView
-import com.vsa.filmoteca.view.widget.EventsWidget
+import com.vsa.filmoteca.presentation.presenter.widget.EventsWidgetPresenter
+import com.vsa.filmoteca.presentation.presenter.widget.EventsWidgetPresenterImpl
+import com.vsa.filmoteca.presentation.view.EventsWidgetView
+import com.vsa.filmoteca.presentation.view.widget.EventsWidget
 import dagger.Module
 import dagger.Provides
 

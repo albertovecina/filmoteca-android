@@ -26,7 +26,7 @@ class MoviesDataBaseSource @Inject constructor(context: Context) {
     fun insertMovie(index: Int, movie: Movie) {
         database!!.execSQL("INSERT INTO " + WidgetDataBaseHelper.TABLE_MOVIES +
                 " VALUES (" +
-                Integer.toString(index) + ",'" +
+                index.toString() + ",'" +
                 movie.title.replace("'", "") + "','" +
                 movie.subtitle.replace("'", "") + "','" +
                 "description','" +

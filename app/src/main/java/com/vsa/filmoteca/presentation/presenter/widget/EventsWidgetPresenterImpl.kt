@@ -1,9 +1,9 @@
-package com.vsa.filmoteca.presentation.widget
+package com.vsa.filmoteca.presentation.presenter.widget
 
 import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
 import com.vsa.filmoteca.domain.usecase.MoviesPersistanceUseCase
-import com.vsa.filmoteca.view.EventsWidgetView
+import com.vsa.filmoteca.presentation.view.EventsWidgetView
 import rx.Observer
 import javax.inject.Inject
 

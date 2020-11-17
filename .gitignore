@@ -33,8 +33,6 @@ proguard/
 *.orig
 .idea/
 build/
-*.iws
-*.ipr
 *~
 *.swp
 
