@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.webview
+package com.vsa.filmoteca.presentation.view.webview
 
 import android.content.Context
 import android.util.AttributeSet
@@ -15,8 +15,8 @@ class ObservableWebView : WebView {
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
-    var onScrollChangedCallback: ((left: Int, top: Int, oldLeft: Int, oldTop: Int) -> Any)? = null
-    var onOverScrollListener: (() -> Any)? = null
+    var onScrollChangedCallback: ((left: Int, top: Int, oldLeft: Int, oldTop: Int) -> Unit)? = null
+    var onOverScrollListener: (() -> Unit)? = null
 
     private var startedOverScrollingY: Boolean = false
 

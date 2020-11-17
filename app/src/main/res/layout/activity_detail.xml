@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.vsa.filmoteca.view.webview.ObservableWebView
+                <com.vsa.filmoteca.presentation.view.webview.ObservableWebView
                     android:id="@+id/webviewMoviePage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -43,7 +43,7 @@
             </RelativeLayout>
 
         </LinearLayout>
-        
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

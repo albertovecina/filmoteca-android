@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view
+package com.vsa.filmoteca.presentation.view
 
 /**
  * Created by seldon on 15/03/15.

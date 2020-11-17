@@ -2,7 +2,7 @@ package com.vsa.filmoteca.presentation.presenter.detail
 
 import com.vsa.filmoteca.domain.usecase.GetMovieDetailUseCase
 import com.vsa.filmoteca.presentation.utils.StringUtils
-import com.vsa.filmoteca.view.DetailView
+import com.vsa.filmoteca.presentation.view.DetailView
 import rx.Observer
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class DetailPresenterImpl @Inject constructor(
     private lateinit var title: String
 
     override fun onCreate(url: String, movieTitle: String) {
-        if (!url.isNullOrEmpty()) {
+        if (url.isNotEmpty()) {
             title = movieTitle
             contentUrl = url
             view.setWebViewContent("<html></html>", url)
@@ -83,7 +83,7 @@ class DetailPresenterImpl @Inject constructor(
     }
 
     override fun onNext(html: String) {
-        if (html.isNullOrEmpty())
+        if (html.isEmpty())
             view.showTimeOutDialog()
         else
             view.setWebViewContent(html, contentUrl)

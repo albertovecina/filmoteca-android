@@ -1,9 +1,9 @@
-package com.vsa.filmoteca.presentation.notifications.di
+package com.vsa.filmoteca.presentation.presenter.notifications.di
 
-import com.vsa.filmoteca.presentation.notifications.NotificationPresenter
-import com.vsa.filmoteca.presentation.notifications.NotificationPresenterImpl
-import com.vsa.filmoteca.view.notifications.NotificationService
-import com.vsa.filmoteca.view.notifications.NotificationView
+import com.vsa.filmoteca.presentation.presenter.notifications.NotificationPresenter
+import com.vsa.filmoteca.presentation.presenter.notifications.NotificationPresenterImpl
+import com.vsa.filmoteca.presentation.view.notifications.NotificationService
+import com.vsa.filmoteca.presentation.view.notifications.NotificationView
 import dagger.Module
 import dagger.Provides
 

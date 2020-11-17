@@ -10,8 +10,6 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
-    <style name="DetailTitleTextStyle"></style>
-
     <style name="Theme.MainTheme" parent="Theme.AppCompat.Light">
         <!-- colorPrimary is used for the default action bar background -->
         <item name="colorPrimary">@color/color_primary</item>
@@ -45,9 +43,7 @@
     <style name="DialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">@android:color/black</item>
     </style>
-
-    <style name="Theme.DetailTheme" parent="Theme.MainTheme"></style>
-
+    
     <style name="Theme.Transparent" parent="Theme.AppCompat.Light">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

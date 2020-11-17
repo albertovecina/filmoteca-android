@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.dialog
+package com.vsa.filmoteca.presentation.view.dialog
 
 import android.app.ProgressDialog
 import android.content.Context

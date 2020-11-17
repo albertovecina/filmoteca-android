@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.view.widget
+package com.vsa.filmoteca.presentation.view.widget
 
 
 import android.app.PendingIntent
@@ -10,9 +10,9 @@ import android.content.Intent
 import android.view.View
 import android.widget.RemoteViews
 import com.vsa.filmoteca.R
+import com.vsa.filmoteca.presentation.presenter.widget.EventsWidgetPresenter
+import com.vsa.filmoteca.presentation.view.EventsWidgetView
 import com.vsa.filmoteca.presentation.view.activity.MoviesListActivity
-import com.vsa.filmoteca.presentation.widget.EventsWidgetPresenter
-import com.vsa.filmoteca.view.EventsWidgetView
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
