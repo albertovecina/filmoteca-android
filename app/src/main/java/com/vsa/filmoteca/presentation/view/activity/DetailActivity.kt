@@ -13,7 +13,6 @@ import com.vsa.filmoteca.R
 import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenter
 import com.vsa.filmoteca.presentation.view.DetailView
 import com.vsa.filmoteca.presentation.view.dialog.DialogManager
-import com.vsa.filmoteca.presentation.view.dialog.ProgressDialogManager
 import com.vsa.filmoteca.presentation.view.widget.EventsWidget
 import kotlinx.android.synthetic.main.activity_detail.*
 import javax.inject.Inject
@@ -114,14 +113,6 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
 
     override fun hideContent() {
         wrapperContent.visibility = View.GONE
-    }
-
-    override fun showProgressDialog() {
-        ProgressDialogManager.showProgressDialog(this, R.string.loading)
-    }
-
-    override fun hideProgressDialog() {
-        ProgressDialogManager.hideProgressDialog()
     }
 
     override fun showMovieTitle(title: String) {

@@ -140,14 +140,6 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
         ) { finish() }
     }
 
-    override fun showProgressDialog() {
-        ProgressDialogManager.showProgressDialog(this, R.string.loading)
-    }
-
-    override fun hideProgressDialog() {
-        ProgressDialogManager.hideProgressDialog()
-    }
-
     override fun stopRefreshing() {
         swipeRefreshLayout.isRefreshing = false
     }

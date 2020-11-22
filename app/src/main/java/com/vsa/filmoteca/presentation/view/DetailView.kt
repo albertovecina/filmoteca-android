@@ -3,15 +3,11 @@ package com.vsa.filmoteca.presentation.view
 /**
  * Created by seldon on 13/03/15.
  */
-interface DetailView {
+interface DetailView : LoadingView {
 
     fun hideContent()
 
     fun showContent()
-
-    fun showProgressDialog()
-
-    fun hideProgressDialog()
 
     fun showMovieTitle(title: String)
 
