@@ -51,7 +51,7 @@
             android:layout_alignParentTop="true"
             android:ellipsize="end"
             android:gravity="center"
-            android:maxLines="1"
+            android:lines="1"
             android:textColor="@color/gris_oscuro"
             android:textStyle="bold" />
 
