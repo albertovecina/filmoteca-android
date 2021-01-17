@@ -2,12 +2,9 @@ package com.vsa.filmoteca.presentation.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.vsa.filmoteca.R
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.row_movie.*
+import com.vsa.filmoteca.databinding.RowMovieBinding
 
 /**
  * Created by seldon on 27/03/15.
@@ -21,21 +18,23 @@ class MoviesAdapter(context: Context,
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): MovieViewHolder =
-            MovieViewHolder(inflater.inflate(R.layout.row_movie, parent, false))
+            MovieViewHolder(RowMovieBinding.inflate(inflater, parent, false))
 
     override fun getItemCount(): Int {
         return dataProvider.getSize()
     }
 
     override fun onBindViewHolder(movieViewHolder: MovieViewHolder, position: Int) {
-        movieViewHolder.textViewDate.text = dataProvider.getDate(position)
-        movieViewHolder.textViewTitle.text = dataProvider.getTitle(position)
-        movieViewHolder.containerView.setOnClickListener {
-            callback.onMovieClick(position)
+        with(movieViewHolder.binding) {
+            textViewDate.text = dataProvider.getDate(position)
+            textViewTitle.text = dataProvider.getTitle(position)
+            wrapperContent.setOnClickListener {
+                callback.onMovieClick(position)
+            }
         }
     }
 
-    class MovieViewHolder constructor(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer
+    class MovieViewHolder constructor(val binding: RowMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface Callback {
 

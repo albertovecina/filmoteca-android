@@ -11,6 +11,7 @@ import android.view.MenuItem
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
+import com.vsa.filmoteca.databinding.ActivityMainBinding
 import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
 import com.vsa.filmoteca.presentation.view.MoviesListView
@@ -20,7 +21,6 @@ import com.vsa.filmoteca.presentation.view.dialog.DialogManager
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 import com.vsa.filmoteca.presentation.view.notifications.NotificationService
 import com.vsa.filmoteca.presentation.view.widget.EventsWidget
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
@@ -59,12 +59,15 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     @Inject
     lateinit var presenter: MoviesListPresenter
 
+    private lateinit var binding: ActivityMainBinding
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter(NotificationService.ACTION_NEW_MOVIES))
 
-        setContentView(R.layout.activity_main)
         initViews()
         onNewIntent(intent)
     }
@@ -76,15 +79,15 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     private fun initViews() {
         showTitle(0)
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary)
         val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         val itemDecoration = androidx.recyclerview.widget.DividerItemDecoration(this,
                 layoutManager.orientation)
-        recyclerViewMovies.layoutManager = layoutManager
-        recyclerViewMovies.addItemDecoration(itemDecoration)
+        binding.recyclerViewMovies.layoutManager = layoutManager
+        binding.recyclerViewMovies.addItemDecoration(itemDecoration)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -148,7 +151,7 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun stopRefreshing() {
-        swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showChangeLog() {
@@ -171,7 +174,7 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun setMovies(dataProvider: EventDataProvider) {
-        recyclerViewMovies.adapter = MoviesAdapter(this, dataProvider, this)
+        binding.recyclerViewMovies.adapter = MoviesAdapter(this, dataProvider, this)
     }
 
     override fun onMovieClick(position: Int) {
