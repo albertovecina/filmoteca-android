@@ -1,6 +1,6 @@
 plugins {
     id("com.android.application")
-    id("com.github.triplet.play") version "2.2.1"
+    id("com.github.triplet.play") version "3.2.0"
 }
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -50,15 +50,19 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    flavorDimensions 'environment', 'location'
     productFlavors {
-
-        flavorDimensions "environment"
-
         real {
-            flavorDimensions "environment"
+            dimension 'environment'
         }
         mock {
-            flavorDimensions "environment"
+            dimension 'environment'
+        }
+        albacete {
+            dimension 'location'
+        }
+        valencia {
+            dimension 'location'
         }
     }
     play {
@@ -183,9 +187,9 @@ dependencies {
 
     // DEPENDENCY INJECTION
     api 'com.google.dagger:dagger:2.31'
-    kapt 'com.google.dagger:dagger-compiler:2.27'
+    kapt 'com.google.dagger:dagger-compiler:2.31'
     api 'com.google.dagger:dagger-android-support:2.31'
-    kapt 'com.google.dagger:dagger-android-processor:2.27'
+    kapt 'com.google.dagger:dagger-android-processor:2.31'
 
     // RX JAVA
     implementation 'io.reactivex:rxandroid:1.2.1'
