@@ -28,6 +28,15 @@ object DetailHtmlParser {
         //Style
         val style = "<style type=\"text/css\">" +
                 "img, input{ max-width:100%!important; height:auto!important;} strong{font-size:13px;} " +
+                "@font-face {\n" +
+                "    font-family: Monserrat;\n" +
+                "    src: url(\"file:///android_asset/fonts/montserrat_regular.ttf\")\n" +
+                "} " +
+                "body {\n" +
+                "    font-family: Monserrat;\n" +
+                "    font-size: medium;\n" +
+                "    text-align: justify;\n" +
+                "}" +
                 "a{font-size:15px!important;" +
                 "word-wrap: break-word; /* Internet Explorer 5.5+ */ " +
                 "}" +

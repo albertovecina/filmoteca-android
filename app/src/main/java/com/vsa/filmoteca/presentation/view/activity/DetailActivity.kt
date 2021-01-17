@@ -10,12 +10,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
+import com.vsa.filmoteca.databinding.ActivityDetailBinding
 import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenter
 import com.vsa.filmoteca.presentation.view.DetailView
 import com.vsa.filmoteca.presentation.view.dialog.DialogManager
-import com.vsa.filmoteca.presentation.view.dialog.ProgressDialogManager
 import com.vsa.filmoteca.presentation.view.widget.EventsWidget
-import kotlinx.android.synthetic.main.activity_detail.*
 import javax.inject.Inject
 
 class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshListener {
@@ -37,9 +36,12 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     @Inject
     lateinit var presenter: DetailPresenter
 
+    private lateinit var binding: ActivityDetailBinding
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initViews()
@@ -99,33 +101,25 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     private fun initViews() {
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary)
-        webviewMoviePage.onScrollChangedCallback = { _, top, _, _ ->
-            swipeRefreshLayout.isEnabled = top == 0
+        binding.webviewMoviePage.onScrollChangedCallback = { _, top, _, _ ->
+            binding.swipeRefreshLayout.isEnabled = top == 0
         }
     }
 
     override fun showContent() {
-        wrapperContent.visibility = View.VISIBLE
+        binding.wrapperContent.visibility = View.VISIBLE
     }
 
     override fun hideContent() {
-        wrapperContent.visibility = View.GONE
-    }
-
-    override fun showProgressDialog() {
-        ProgressDialogManager.showProgressDialog(this, R.string.loading)
-    }
-
-    override fun hideProgressDialog() {
-        ProgressDialogManager.hideProgressDialog()
+        binding.wrapperContent.visibility = View.GONE
     }
 
     override fun showMovieTitle(title: String) {
-        textViewTitle.text = title
+        binding.textViewTitle.text = title
     }
 
     override fun updateWidget() {
@@ -139,7 +133,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     override fun stopRefreshing() {
-        swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     override fun launchBrowser(url: String) {
@@ -168,7 +162,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     override fun setWebViewContent(html: String, baseUrl: String) {
-        webviewMoviePage.loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8",
+        binding.webviewMoviePage.loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8",
                 "about:blank")
     }
 

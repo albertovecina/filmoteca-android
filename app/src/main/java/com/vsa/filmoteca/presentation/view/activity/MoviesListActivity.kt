@@ -3,23 +3,26 @@ package com.vsa.filmoteca.presentation.view.activity
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TypefaceSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
+import com.vsa.filmoteca.databinding.ActivityMainBinding
 import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
 import com.vsa.filmoteca.presentation.view.adapter.MoviesAdapter
 import com.vsa.filmoteca.presentation.view.dialog.DialogManager
-import com.vsa.filmoteca.presentation.view.dialog.ProgressDialogManager
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 import com.vsa.filmoteca.presentation.view.notifications.NotificationService
 import com.vsa.filmoteca.presentation.view.widget.EventsWidget
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+
 
 class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.OnRefreshListener, MoviesAdapter.Callback {
 
@@ -56,12 +59,15 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     @Inject
     lateinit var presenter: MoviesListPresenter
 
+    private lateinit var binding: ActivityMainBinding
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter(NotificationService.ACTION_NEW_MOVIES))
 
-        setContentView(R.layout.activity_main)
         initViews()
         onNewIntent(intent)
     }
@@ -73,15 +79,15 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     private fun initViews() {
         showTitle(0)
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
                 R.color.color_accent,
                 R.color.color_primary)
         val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         val itemDecoration = androidx.recyclerview.widget.DividerItemDecoration(this,
                 layoutManager.orientation)
-        recyclerViewMovies.layoutManager = layoutManager
-        recyclerViewMovies.addItemDecoration(itemDecoration)
+        binding.recyclerViewMovies.layoutManager = layoutManager
+        binding.recyclerViewMovies.addItemDecoration(itemDecoration)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -120,10 +126,14 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun showTitle(moviesCount: Int) {
-        if (moviesCount < 1)
-            supportActionBar?.setTitle(R.string.title_activity_main)
-        else
-            supportActionBar?.title = getString(R.string.title_activity_main) + " (" + moviesCount + ")"
+        val spannableString =
+                if (moviesCount < 1)
+                    SpannableString(getString(R.string.title_activity_main))
+                else
+                    SpannableString(getString(R.string.title_activity_main) + " (" + moviesCount + ")")
+        spannableString.setSpan(TypefaceSpan("montserrat_regular.ttf"), 0, spannableString.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        supportActionBar?.title = spannableString
     }
 
     override fun showWifiRequestDialog(okCancelDialogListener: OkCancelDialogListener) {
@@ -140,16 +150,8 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
         ) { finish() }
     }
 
-    override fun showProgressDialog() {
-        ProgressDialogManager.showProgressDialog(this, R.string.loading)
-    }
-
-    override fun hideProgressDialog() {
-        ProgressDialogManager.hideProgressDialog()
-    }
-
     override fun stopRefreshing() {
-        swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showChangeLog() {
@@ -172,7 +174,7 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun setMovies(dataProvider: EventDataProvider) {
-        recyclerViewMovies.adapter = MoviesAdapter(this, dataProvider, this)
+        binding.recyclerViewMovies.adapter = MoviesAdapter(this, dataProvider, this)
     }
 
     override fun onMovieClick(position: Int) {
