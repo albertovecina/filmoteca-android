@@ -3,6 +3,9 @@ package com.vsa.filmoteca.presentation.view.activity
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TypefaceSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -14,12 +17,12 @@ import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
 import com.vsa.filmoteca.presentation.view.adapter.MoviesAdapter
 import com.vsa.filmoteca.presentation.view.dialog.DialogManager
-import com.vsa.filmoteca.presentation.view.dialog.ProgressDialogManager
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 import com.vsa.filmoteca.presentation.view.notifications.NotificationService
 import com.vsa.filmoteca.presentation.view.widget.EventsWidget
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+
 
 class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.OnRefreshListener, MoviesAdapter.Callback {
 
@@ -120,10 +123,14 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun showTitle(moviesCount: Int) {
-        if (moviesCount < 1)
-            supportActionBar?.setTitle(R.string.title_activity_main)
-        else
-            supportActionBar?.title = getString(R.string.title_activity_main) + " (" + moviesCount + ")"
+        val spannableString =
+                if (moviesCount < 1)
+                    SpannableString(getString(R.string.title_activity_main))
+                else
+                    SpannableString(getString(R.string.title_activity_main) + " (" + moviesCount + ")")
+        spannableString.setSpan(TypefaceSpan("montserrat_regular.ttf"), 0, spannableString.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        supportActionBar?.title = spannableString
     }
 
     override fun showWifiRequestDialog(okCancelDialogListener: OkCancelDialogListener) {
