@@ -39,7 +39,7 @@ class HttpCacheManagerTest {
 
         HttpCacheManager.removeCacheFilesOlderThan(context!!, 0)
 
-        assertThat(cacheDir!!.list().size, `is`(0))
+        assertThat(cacheDir?.list()?.size, `is`(0))
     }
 
 
