@@ -1,11 +1,9 @@
 package com.vsa.filmoteca.internal.di.module
 
 import android.content.Context
+import com.vsa.filmoteca.BuildConfig
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.data.source.ws.CacheRequestInterceptor
-import com.vsa.filmoteca.data.source.ws.Environment
-import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
-import com.vsa.filmoteca.data.source.ws.WsInterface
+import com.vsa.filmoteca.data.source.ws.*
 import com.vsa.filmoteca.internal.di.scope.PerApplication
 import dagger.Module
 import dagger.Provides
@@ -33,13 +31,21 @@ class NetworkingModule {
 
     @PerApplication
     @Provides
+    fun providesBasicAuthInterceptor() = BasicAuthInterceptor(BuildConfig.BASIC_AUTH_USER, BuildConfig.BASIC_AUTH_PASSWORD)
+
+    @PerApplication
+    @Provides
     fun providesCacheRequestInterceptor(context: Context): CacheRequestInterceptor = CacheRequestInterceptor(context)
 
     @PerApplication
     @Provides
-    fun providesHttpClient(context: Context, cache: Cache, cacheRequestInterceptor: CacheRequestInterceptor): OkHttpClient = OkHttpClient.Builder()
+    fun providesHttpClient(context: Context,
+                           cache: Cache,
+                           basicAuthInterceptor: BasicAuthInterceptor,
+                           cacheRequestInterceptor: CacheRequestInterceptor): OkHttpClient = OkHttpClient.Builder()
             .cache(cache)
             .readTimeout(context.resources.getString(R.string.ws_timeout).toLong(), TimeUnit.MILLISECONDS)
+            .addInterceptor(basicAuthInterceptor)
             .addInterceptor(cacheRequestInterceptor)
             .build()
 
