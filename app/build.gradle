@@ -21,6 +21,9 @@ android {
 
         initGoogleServicesJson()
         initPlayStoreApiKeys()
+
+        buildConfigField "String", "BASIC_AUTH_USER", "\"${getBasicAuthUser()}\""
+        buildConfigField "String", "BASIC_AUTH_PASSWORD", "\"${getBasicAuthPassword()}\""
     }
     viewBinding {
         enabled = true
@@ -70,6 +73,38 @@ android {
 
 androidExtensions {
     experimental = true
+}
+
+def getBasicAuthUser() {
+    String user = System.getenv("BASIC_AUTH_USER")
+
+    if (user == null)
+        println "BASIC AUTH USER NOT FOUND IN THE ENVIRONMENT"
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+    user = properties.getProperty("basicauth.user")
+
+    if (user == null)
+        println "BASIC AUTH USER NOT FOUND IN THE PROPERTIES FILE"
+
+    return user
+}
+
+def getBasicAuthPassword() {
+    String password = System.getenv("BASIC_AUTH_PASSWORD")
+
+    if (password == null)
+        println "BASIC AUTH PASSWORD NOT FOUND IN THE ENVIRONMENT"
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+    password = properties.getProperty("basicauth.password")
+
+    if (password == null)
+        println "BASIC AUTH PASSWORD NOT FOUND IN THE PROPERTIES FILE"
+
+    return password
 }
 
 def initPlayStoreApiKeys() {
