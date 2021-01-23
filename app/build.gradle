@@ -82,15 +82,16 @@ androidExtensions {
 def getBasicAuthUser() {
     String user = System.getenv("BASIC_AUTH_USER")
 
-    if (user == null)
+    if (user == null) {
         println "BASIC AUTH USER NOT FOUND IN THE ENVIRONMENT"
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file("local.properties").newDataInputStream())
-    user = properties.getProperty("basicauth.user")
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        user = properties.getProperty("basicauth.user")
 
-    if (user == null)
-        println "BASIC AUTH USER NOT FOUND IN THE PROPERTIES FILE"
+        if (user == null)
+            println "BASIC AUTH USER NOT FOUND IN THE PROPERTIES FILE"
+    }
 
     return user
 }
@@ -98,15 +99,16 @@ def getBasicAuthUser() {
 def getBasicAuthPassword() {
     String password = System.getenv("BASIC_AUTH_PASSWORD")
 
-    if (password == null)
+    if (password == null) {
         println "BASIC AUTH PASSWORD NOT FOUND IN THE ENVIRONMENT"
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file("local.properties").newDataInputStream())
-    password = properties.getProperty("basicauth.password")
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        password = properties.getProperty("basicauth.password")
 
-    if (password == null)
-        println "BASIC AUTH PASSWORD NOT FOUND IN THE PROPERTIES FILE"
+        if (password == null)
+            println "BASIC AUTH PASSWORD NOT FOUND IN THE PROPERTIES FILE"
+    }
 
     return password
 }
