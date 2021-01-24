@@ -42,7 +42,7 @@ script:
   - ./gradlew connectedMockAlbaceteDebugAndroidTest -PdisablePreDex --continue --stacktrace
 #Builds and publish the apk to the play store
 after_success:
-  - ./gradlew publishApkRealAlbaceteRelease
+  - ./gradlew publishRealAlbaceteReleaseBundle
 after_failure:
   - cat $TRAVIS_BUILD_DIR/app/build/reports/lint-results.xml
 #License agreement
