@@ -21,7 +21,6 @@ object DetailHtmlParser {
     private const val ATTR_HREF = "href"
 
 
-    @Throws(Exception::class)
     fun parse(source: String?): String? {
         if (source == null)
             return null
