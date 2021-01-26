@@ -14,8 +14,8 @@ class DetailPresenterImpl @Inject constructor(
         private val getMovieDetailUseCase: GetMovieDetailUseCase)
     : DetailPresenter, Observer<String> {
 
-    private lateinit var contentUrl: String
-    private lateinit var title: String
+    private var contentUrl: String = ""
+    private var title: String = ""
 
     override fun onCreate(url: String, movieTitle: String) {
         if (url.isNotEmpty()) {
