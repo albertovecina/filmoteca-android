@@ -26,6 +26,7 @@
 
     <!-- DetailActivity -->
     <string name="error_no_internet">Debe tener activa una conexión a internet.</string>
+    <string name="no_browser_found">Necesitas un navegador para poder ver la página.</string>
 
     <!-- Comments -->
     <string name="title_activity_comments">Comentarios</string>
