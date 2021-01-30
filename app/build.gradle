@@ -46,11 +46,15 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
+
+            buildConfigField "String", "BASE_URL_WS", "\"http://seldon-nas.dnset.com:7070/filmoteca-ws/dev/\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+
+            buildConfigField "String", "BASE_URL_WS", "\"http://seldon-nas.dnset.com:7070/filmoteca-ws/pro/\""
         }
     }
     flavorDimensions 'environment', 'location'
@@ -63,9 +67,11 @@ android {
         }
         albacete {
             dimension 'location'
+            buildConfigField "String", "BASE_URL_FILMOTECA", "\"http://www.albacete.es/\""
         }
         valencia {
             dimension 'location'
+            buildConfigField "String", "BASE_URL_FILMOTECA", "\"https://ivc.gva.es/\""
         }
     }
     play {
