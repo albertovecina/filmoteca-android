@@ -10,7 +10,7 @@ import rx.Observable
  */
 interface FilmotecaInterface {
 
-    @GET("/es/webs-municipales/filmoteca/agenda/folder_listing")
+    @GET("es/webs-municipales/filmoteca/agenda/folder_listing")
     fun moviesListHtml(): Observable<String>
 
     @GET
