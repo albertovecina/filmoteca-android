@@ -3,7 +3,10 @@ package com.vsa.filmoteca.internal.di.module
 import android.content.Context
 import com.vsa.filmoteca.BuildConfig
 import com.vsa.filmoteca.R
-import com.vsa.filmoteca.data.source.ws.*
+import com.vsa.filmoteca.data.source.ws.BasicAuthInterceptor
+import com.vsa.filmoteca.data.source.ws.CacheRequestInterceptor
+import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
+import com.vsa.filmoteca.data.source.ws.WsInterface
 import com.vsa.filmoteca.internal.di.scope.PerApplication
 import dagger.Module
 import dagger.Provides
@@ -60,7 +63,7 @@ class NetworkingModule {
     @Provides
     fun providesFilmotecaInterface(retrofitBuilder: Retrofit.Builder): FilmotecaInterface =
             retrofitBuilder
-                    .baseUrl(Environment.BASE_URL_FILMOTECA)
+                    .baseUrl(BuildConfig.BASE_URL_FILMOTECA)
                     .build()
                     .create(FilmotecaInterface::class.java)
 
@@ -68,7 +71,7 @@ class NetworkingModule {
     @Provides
     fun providesWsInterface(retrofitBuilder: Retrofit.Builder): WsInterface =
             retrofitBuilder
-                    .baseUrl(Environment.BASE_URL_WS)
+                    .baseUrl(BuildConfig.BASE_URL_WS)
                     .build()
                     .create(WsInterface::class.java)
 
