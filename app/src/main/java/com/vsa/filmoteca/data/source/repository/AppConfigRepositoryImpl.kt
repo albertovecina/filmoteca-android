@@ -22,7 +22,7 @@ class AppConfigRepositoryImpl @Inject constructor(private val preferencesManager
         }
     }
 
-    override fun inAppUpdateEnabled(): Boolean =
+    override fun inAppReviewsEnabled(): Boolean =
             FirebaseRemoteConfig.getInstance().getBoolean(KEY_IN_APP_REVIEWS_ENABLED)
 
     override fun getMillisUntilReview(): Long =
@@ -30,6 +30,12 @@ class AppConfigRepositoryImpl @Inject constructor(private val preferencesManager
 
     override fun getExecutionsUntilReview(): Long =
             FirebaseRemoteConfig.getInstance().getLong(KEY_EXECUTIONS_UNTIL_REVIEW)
+
+    override var isReviewAlreadySuggested: Boolean
+        get() = preferencesManager.isReviewAlreadySuggested
+        set(value) {
+            preferencesManager.isReviewAlreadySuggested = value
+        }
 
     override var appVisitsCounter: Int
         get() = preferencesManager.appVisitsCounter

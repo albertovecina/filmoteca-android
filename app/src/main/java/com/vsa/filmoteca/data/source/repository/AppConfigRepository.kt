@@ -4,11 +4,13 @@ interface AppConfigRepository {
 
     fun initAppConfig()
 
-    fun inAppUpdateEnabled(): Boolean
+    fun inAppReviewsEnabled(): Boolean
 
     fun getMillisUntilReview(): Long
 
     fun getExecutionsUntilReview(): Long
+
+    var isReviewAlreadySuggested: Boolean
 
     var appVisitsCounter: Int
 

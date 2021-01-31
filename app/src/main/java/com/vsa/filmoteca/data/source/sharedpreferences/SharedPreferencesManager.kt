@@ -13,8 +13,9 @@ class SharedPreferencesManager @Inject constructor(context: Context) {
         private const val KEY_NAME = "MySharedPreferences"
         private const val KEY_CURRENT = "Current"
         private const val KEY_SIZE = "Size"
-        private const val KEY_FIRST_EXECUTION_TIME_MILLIS = "key_first_execution_time_millis"
-        private const val KEY_APP_VISITS = "key_app_visits"
+        private const val KEY_REVIEW_ALREADY_SUGGESTED = "review_already_suggested"
+        private const val KEY_FIRST_EXECUTION_TIME_MILLIS = "first_execution_time_millis"
+        private const val KEY_APP_VISITS = "app_visits"
     }
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
@@ -34,6 +35,14 @@ class SharedPreferencesManager @Inject constructor(context: Context) {
             sharedPreferences
                     .edit()
                     .putInt(KEY_SIZE, index)
+                    .apply()
+        }
+
+    var isReviewAlreadySuggested: Boolean
+        get() = sharedPreferences.getBoolean(KEY_REVIEW_ALREADY_SUGGESTED, false)
+        set(value) {
+            sharedPreferences.edit()
+                    .putBoolean(KEY_REVIEW_ALREADY_SUGGESTED, value)
                     .apply()
         }
 
