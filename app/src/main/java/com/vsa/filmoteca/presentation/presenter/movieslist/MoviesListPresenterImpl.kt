@@ -3,7 +3,7 @@ package com.vsa.filmoteca.presentation.presenter.movieslist
 import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.ClearCacheUseCase
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
-import com.vsa.filmoteca.presentation.utils.rate.RateManager
+import com.vsa.filmoteca.presentation.utils.rate.ReviewManager
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class MoviesListPresenterImpl
 @Inject constructor(private val view: MoviesListView,
-                    private val rateManager: RateManager,
+                    private val reviewManager: ReviewManager,
                     private val clearCacheUseCase: ClearCacheUseCase,
                     private val getMoviesListUseCase: GetMoviesListUseCase) :
         MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
@@ -25,10 +25,10 @@ class MoviesListPresenterImpl
 
     override fun onCreate(url: String?, title: String?, date: String?) {
         clearCacheUseCase.clearExpiredCacheFiles()
-        rateManager.increaseAppVisits()
+        reviewManager.increaseAppVisits()
         loadMovies()
         if (url == null)
-            rateManager.showRateIfNecessary()
+            reviewManager.showRateIfNecessary()
         else
             view.navigateToDetail(url, title ?: "", date ?: "")
     }

@@ -1,6 +1,6 @@
 package com.vsa.filmoteca.presentation.utils.rate
 
-interface RateManager {
+interface ReviewManager {
 
     fun showRateIfNecessary()
 

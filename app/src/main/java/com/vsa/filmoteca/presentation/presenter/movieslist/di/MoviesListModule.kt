@@ -3,8 +3,8 @@ package com.vsa.filmoteca.presentation.presenter.movieslist.di
 import android.app.Activity
 import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenterImpl
-import com.vsa.filmoteca.presentation.utils.rate.RateManager
-import com.vsa.filmoteca.presentation.utils.rate.RateManagerImpl
+import com.vsa.filmoteca.presentation.utils.rate.ReviewManager
+import com.vsa.filmoteca.presentation.utils.rate.ReviewManagerImpl
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.activity.MoviesListActivity
 import dagger.Module
@@ -20,7 +20,7 @@ class MoviesListModule {
     fun provideMoviesListView(moviesListActivity: MoviesListActivity): MoviesListView = moviesListActivity
 
     @Provides
-    fun provideRateManager(rateManager: RateManagerImpl): RateManager = rateManager
+    fun provideRateManager(rateManager: ReviewManagerImpl): ReviewManager = rateManager
 
     @Provides
     fun providesMoviesListPresenter(moviesListPresenter: MoviesListPresenterImpl): MoviesListPresenter = moviesListPresenter

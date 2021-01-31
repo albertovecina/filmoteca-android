@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<remoteConfigDefaults>
+
+    <entry>
+        <key>in_app_reviews_enabled</key>
+        <value>true</value>
+    </entry>
+    
+    <entry>
+        <key>millis_until_review</key>
+        <value>604800000</value>
+    </entry>
+
+</remoteConfigDefaults>

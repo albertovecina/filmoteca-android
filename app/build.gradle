@@ -218,6 +218,9 @@ dependencies {
     //CLOUD MESSAGING
     implementation 'com.google.firebase:firebase-messaging'
 
+    //REMOTE CONFIG
+    implementation 'com.google.firebase:firebase-config'
+
     // UNIT TESTING
     testImplementation 'junit:junit:4.13.1'
     // Set this dependency if you want to use Mockito

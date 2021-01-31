@@ -2,17 +2,20 @@ package com.vsa.filmoteca.presentation.utils.rate
 
 import android.app.Activity
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.vsa.filmoteca.data.source.repository.AppConfigRepository
 import com.vsa.filmoteca.data.source.sharedpreferences.SharedPreferencesManager
 import javax.inject.Inject
 
-class RateManagerImpl @Inject constructor(
+class ReviewManagerImpl @Inject constructor(
         private val activity: Activity,
+        private val appConfigRepository: AppConfigRepository,
         private val sharedPreferencesManager: SharedPreferencesManager
-) : RateManager {
+) : ReviewManager {
 
     override fun showRateIfNecessary() {
-        if (hasBeenInstalledForAWhile() && hasBeenExecutedEnough())
-            showRateView()
+        if (appConfigRepository.inAppUpdateEnabled())
+            if (hasBeenInstalledForAWhile() && hasBeenExecutedEnough())
+                showRateView()
     }
 
     override fun increaseAppVisits() {
@@ -42,8 +45,8 @@ class RateManagerImpl @Inject constructor(
     private fun hasBeenInstalledForAWhile(): Boolean {
         val currentTimeMillis = System.currentTimeMillis()
         val firstExecutionTimeMillis = sharedPreferencesManager.fistExecutionTimeMillis
-
-        return (firstExecutionTimeMillis - currentTimeMillis) > 1000 * 60 * 60 * 24 * 7
+        val millisUntilRate = appConfigRepository.getMillisUntilRate()
+        return (firstExecutionTimeMillis - currentTimeMillis) > millisUntilRate
     }
 
     private fun hasBeenExecutedEnough(): Boolean {
