@@ -19,6 +19,11 @@
     </style>
   </head>
   <body>
+$ 1.3.3
+  % v1.3.3
+  _ 2021-02-01
+    * Mejoras de diseño.
+    * Correcciones de carácter general
 $ 1.3.2
   % v1.3.2
   _ 2021-01-26
