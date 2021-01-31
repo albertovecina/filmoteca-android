@@ -3,7 +3,7 @@
     android:id="@+id/wrapperContent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_row_movie"
+    android:background="?attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:hapticFeedbackEnabled="true"
     android:orientation="vertical"
