@@ -13,7 +13,7 @@ class ReviewManagerImpl @Inject constructor(
 ) : ReviewManager {
 
     override fun showRateIfNecessary() {
-        if (appConfigRepository.inAppUpdateEnabled())
+        if (appConfigRepository.inAppReviewsEnabled() && !appConfigRepository.isReviewAlreadySuggested)
             if (hasBeenInstalledForAWhile() && hasBeenExecutedEnough())
                 showRateView()
     }
@@ -31,6 +31,7 @@ class ReviewManagerImpl @Inject constructor(
             if (response.isSuccessful) {
                 manager.launchReviewFlow(activity, response.result)
                         .addOnCompleteListener {
+                            appConfigRepository.isReviewAlreadySuggested = true
                             tracker.logAppReviewLaunched()
                         }
             }
