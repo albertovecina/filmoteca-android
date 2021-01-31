@@ -8,4 +8,8 @@ interface AppConfigRepository {
 
     fun getMillisUntilRate(): Long
 
+    var appVisitsCounter: Int
+
+    var fistExecutionTimeMillis: Long
+
 }
