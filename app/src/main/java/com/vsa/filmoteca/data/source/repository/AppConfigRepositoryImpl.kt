@@ -9,7 +9,8 @@ class AppConfigRepositoryImpl @Inject constructor(private val preferencesManager
 
     companion object {
         const val KEY_IN_APP_REVIEWS_ENABLED = "in_app_reviews_enabled"
-        const val MILLIS_UNTIL_REVIEW = "millis_until_review"
+        const val KEY_MILLIS_UNTIL_REVIEW = "millis_until_review"
+        const val KEY_EXECUTIONS_UNTIL_REVIEW = "executions_until_review"
     }
 
     override fun initAppConfig() {
@@ -24,8 +25,11 @@ class AppConfigRepositoryImpl @Inject constructor(private val preferencesManager
     override fun inAppUpdateEnabled(): Boolean =
             FirebaseRemoteConfig.getInstance().getBoolean(KEY_IN_APP_REVIEWS_ENABLED)
 
-    override fun getMillisUntilRate(): Long =
-            FirebaseRemoteConfig.getInstance().getLong(MILLIS_UNTIL_REVIEW)
+    override fun getMillisUntilReview(): Long =
+            FirebaseRemoteConfig.getInstance().getLong(KEY_MILLIS_UNTIL_REVIEW)
+
+    override fun getExecutionsUntilReview(): Long =
+            FirebaseRemoteConfig.getInstance().getLong(KEY_EXECUTIONS_UNTIL_REVIEW)
 
     override var appVisitsCounter: Int
         get() = preferencesManager.appVisitsCounter

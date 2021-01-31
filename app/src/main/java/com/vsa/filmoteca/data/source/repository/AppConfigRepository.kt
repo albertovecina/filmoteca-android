@@ -6,7 +6,9 @@ interface AppConfigRepository {
 
     fun inAppUpdateEnabled(): Boolean
 
-    fun getMillisUntilRate(): Long
+    fun getMillisUntilReview(): Long
+
+    fun getExecutionsUntilReview(): Long
 
     var appVisitsCounter: Int
 
