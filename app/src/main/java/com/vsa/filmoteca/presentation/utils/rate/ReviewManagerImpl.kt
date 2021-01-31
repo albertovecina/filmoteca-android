@@ -4,12 +4,14 @@ import android.app.Activity
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.vsa.filmoteca.data.source.repository.AppConfigRepository
 import com.vsa.filmoteca.data.source.sharedpreferences.SharedPreferencesManager
+import com.vsa.filmoteca.presentation.utils.tracker.Tracker
 import javax.inject.Inject
 
 class ReviewManagerImpl @Inject constructor(
         private val activity: Activity,
         private val appConfigRepository: AppConfigRepository,
-        private val sharedPreferencesManager: SharedPreferencesManager
+        private val sharedPreferencesManager: SharedPreferencesManager,
+        private val tracker: Tracker
 ) : ReviewManager {
 
     override fun showRateIfNecessary() {
@@ -30,12 +32,9 @@ class ReviewManagerImpl @Inject constructor(
         manager.requestReviewFlow().addOnCompleteListener { response ->
             if (response.isSuccessful) {
                 // We got the ReviewInfo object
-                val reviewInfo = response.result
-                val flow = manager.launchReviewFlow(activity, reviewInfo)
+                val flow = manager.launchReviewFlow(activity, response.result)
                 flow.addOnCompleteListener { _ ->
-                    // The flow has finished. The API does not indicate whether the user
-                    // reviewed or not, or even whether the review dialog was shown. Thus, no
-                    // matter the result, we continue our app flow.
+                    tracker.logAppReviewLaunched()
                 }
             }
         }
