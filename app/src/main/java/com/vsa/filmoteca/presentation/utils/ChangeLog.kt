@@ -20,8 +20,6 @@ package com.vsa.filmoteca.presentation.utils
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager.NameNotFoundException
-import android.preference.PreferenceManager
 import android.util.Log
 import android.webkit.WebView
 import com.vsa.filmoteca.R
@@ -29,19 +27,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 
-class ChangeLog
-/**
- * Constructor
- *
- *
- * Retrieves the version names and stores the new version name in
- * SharedPreferences
- *
- * @param context
- * @param sp      the shared preferences to store the last version name into
- */
-private constructor(private val context: Context, sp: SharedPreferences) {
-    constructor(context: Context) : this(context, PreferenceManager.getDefaultSharedPreferences(context))
+class ChangeLog(private val context: Context) {
 
     companion object {
 
@@ -52,22 +38,20 @@ private constructor(private val context: Context, sp: SharedPreferences) {
 
     }
 
-    private var lastVersion: String = sp.getString(VERSION_KEY, "") ?: ""
-    private var thisVersion: String = try {
-        context.packageManager.getPackageInfo(
-                context.packageName, 0).versionName
-    } catch (e: NameNotFoundException) {
-        Log.e(TAG, "could not get version name from manifest!")
-        e.printStackTrace()
-        "?"
-    }
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("${context.packageName}_preferences", Context.MODE_PRIVATE)
+
+    private var lastVersionName: String
+    private var currentVersionName: String
 
     init {
-        Log.d(TAG, "lastVersion: $lastVersion")
-        Log.d(TAG, "appVersion: $thisVersion")
+        lastVersionName = sharedPreferences.getString(VERSION_KEY, "") ?: ""
+        currentVersionName = context.packageManager.getPackageInfo(context.packageName, 0).versionName
+
+        Log.d(TAG, "lastVersion: $lastVersionName")
+        Log.d(TAG, "appVersion: $currentVersionName")
         // save new version number to preferences
-        val editor = sp.edit()
-        editor.putString(VERSION_KEY, thisVersion)
+        val editor = sharedPreferences.edit()
+        editor.putString(VERSION_KEY, currentVersionName)
         editor.apply()
     }
 
@@ -77,19 +61,19 @@ private constructor(private val context: Context, sp: SharedPreferences) {
      * installed version of your app (what's new).
      */
     val logDialog: AlertDialog
-        get() = this.getDialog(false)
+        get() = this.getDialog(isFirstInstall())
 
 
     private var listMode = Listmode.NONE
-    private var sb: StringBuffer? = null
+    private var stringBuffer: StringBuffer? = null
 
     /**
      * @return `true` if this version of your app is started the
      * first time
      */
-    fun isUpdated(): Boolean {
-        return this.lastVersion != this.thisVersion
-    }
+    fun isUpdated(): Boolean = lastVersionName != currentVersionName
+
+    private fun isFirstInstall(): Boolean = lastVersionName.isEmpty()
 
     private fun getDialog(full: Boolean): AlertDialog {
         val wv = WebView(this.context)
@@ -123,7 +107,7 @@ private constructor(private val context: Context, sp: SharedPreferences) {
 
     private fun getLog(full: Boolean): String {
         // read changelog.txt file
-        sb = StringBuffer()
+        stringBuffer = StringBuffer()
         try {
             val ins = context.resources.openRawResource(R.raw.changelog)
             val bufferedReader = BufferedReader(InputStreamReader(ins))
@@ -142,7 +126,7 @@ private constructor(private val context: Context, sp: SharedPreferences) {
                     val version = line.substring(1).trim { it <= ' ' }
                     // stop output?
                     if (!full) {
-                        if (this.lastVersion == version) {
+                        if (this.lastVersionName == version) {
                             advanceToEOVS = true
                         } else if (version == EOCL) {
                             advanceToEOVS = false
@@ -153,32 +137,32 @@ private constructor(private val context: Context, sp: SharedPreferences) {
                         '%' -> {
                             // line contains version title
                             this.closeList()
-                            sb!!.append("<div class='title'>").append(line.substring(1).trim { it <= ' ' }).append("</div>\n")
+                            stringBuffer!!.append("<div class='title'>").append(line.substring(1).trim { it <= ' ' }).append("</div>\n")
                         }
                         '_' -> {
                             // line contains version title
                             this.closeList()
-                            sb!!.append("<div class='subtitle'>").append(line.substring(1).trim { it <= ' ' }).append("</div>\n")
+                            stringBuffer!!.append("<div class='subtitle'>").append(line.substring(1).trim { it <= ' ' }).append("</div>\n")
                         }
                         '!' -> {
                             // line contains free text
                             this.closeList()
-                            sb!!.append("<div class='freetext'>").append(line.substring(1).trim { it <= ' ' }).append("</div>\n")
+                            stringBuffer!!.append("<div class='freetext'>").append(line.substring(1).trim { it <= ' ' }).append("</div>\n")
                         }
                         '#' -> {
                             // line contains numbered list item
                             this.openList(Listmode.ORDERED)
-                            sb!!.append("<li>").append(line.substring(1).trim { it <= ' ' }).append("</li>\n")
+                            stringBuffer!!.append("<li>").append(line.substring(1).trim { it <= ' ' }).append("</li>\n")
                         }
                         '*' -> {
                             // line contains bullet list item
                             this.openList(Listmode.UNORDERED)
-                            sb!!.append("<li>").append(line.substring(1).trim { it <= ' ' }).append("</li>\n")
+                            stringBuffer!!.append("<li>").append(line.substring(1).trim { it <= ' ' }).append("</li>\n")
                         }
                         else -> {
                             // no special character: just use line as is
                             this.closeList()
-                            sb!!.append(line).append("\n")
+                            stringBuffer!!.append(line).append("\n")
                         }
                     }
                 }
@@ -190,16 +174,16 @@ private constructor(private val context: Context, sp: SharedPreferences) {
             e.printStackTrace()
         }
 
-        return sb!!.toString()
+        return stringBuffer!!.toString()
     }
 
     private fun openList(listMode: Listmode) {
         if (this.listMode != listMode) {
             closeList()
             if (listMode == Listmode.ORDERED) {
-                sb!!.append("<div class='list'><ol>\n")
+                stringBuffer!!.append("<div class='list'><ol>\n")
             } else if (listMode == Listmode.UNORDERED) {
-                sb!!.append("<div class='list'><ul>\n")
+                stringBuffer!!.append("<div class='list'><ul>\n")
             }
             this.listMode = listMode
         }
@@ -207,9 +191,9 @@ private constructor(private val context: Context, sp: SharedPreferences) {
 
     private fun closeList() {
         if (this.listMode == Listmode.ORDERED) {
-            sb!!.append("</ol></div>\n")
+            stringBuffer!!.append("</ol></div>\n")
         } else if (this.listMode == Listmode.UNORDERED) {
-            sb!!.append("</ul></div>\n")
+            stringBuffer!!.append("</ul></div>\n")
         }
         this.listMode = Listmode.NONE
     }
