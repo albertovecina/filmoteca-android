@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.utils.rate
+package com.vsa.filmoteca.presentation.utils.review
 
 interface ReviewManager {
 
