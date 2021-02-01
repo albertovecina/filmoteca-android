@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.utils.rate
+package com.vsa.filmoteca.presentation.utils.review
 
 import android.app.Activity
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -43,7 +43,7 @@ class ReviewManagerImpl @Inject constructor(
         val currentTimeMillis = System.currentTimeMillis()
         val firstExecutionTimeMillis = appConfigRepository.fistExecutionTimeMillis
         val millisUntilRate = appConfigRepository.getMillisUntilReview()
-        return (firstExecutionTimeMillis - currentTimeMillis) > millisUntilRate
+        return (currentTimeMillis - firstExecutionTimeMillis) > millisUntilRate
     }
 
     private fun hasBeenExecutedEnough(): Boolean =
