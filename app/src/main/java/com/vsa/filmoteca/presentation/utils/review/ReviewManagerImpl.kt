@@ -43,7 +43,7 @@ class ReviewManagerImpl @Inject constructor(
         val currentTimeMillis = System.currentTimeMillis()
         val firstExecutionTimeMillis = appConfigRepository.fistExecutionTimeMillis
         val millisUntilRate = appConfigRepository.getMillisUntilReview()
-        return (firstExecutionTimeMillis - currentTimeMillis) > millisUntilRate
+        return (currentTimeMillis - firstExecutionTimeMillis) > millisUntilRate
     }
 
     private fun hasBeenExecutedEnough(): Boolean =
