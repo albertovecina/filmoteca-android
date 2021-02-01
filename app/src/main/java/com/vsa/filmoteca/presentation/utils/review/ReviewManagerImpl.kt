@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.utils.rate
+package com.vsa.filmoteca.presentation.utils.review
 
 import android.app.Activity
 import com.google.android.play.core.review.ReviewManagerFactory
