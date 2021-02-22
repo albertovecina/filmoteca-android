@@ -10,6 +10,6 @@ import retrofit2.http.Query
 interface WsInterface {
 
     @POST("registrationId")
-    fun registerPusHNotificationToken(@Query("token") token: String): Call<Void>
+    fun registerPushNotificationToken(@Query("region") region: String, @Query("token") token: String): Call<Void>
 
 }
