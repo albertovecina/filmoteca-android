@@ -68,10 +68,12 @@ android {
         albacete {
             dimension 'location'
             buildConfigField "String", "BASE_URL_FILMOTECA", "\"http://www.albacete.es/\""
+            buildConfigField "String", "REGION", "\"ab\""
         }
         valencia {
             dimension 'location'
             buildConfigField "String", "BASE_URL_FILMOTECA", "\"https://ivc.gva.es/\""
+            buildConfigField "String", "REGION", "\"cv\""
         }
     }
     play {
