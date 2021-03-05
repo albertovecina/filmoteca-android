@@ -4,12 +4,13 @@ import android.content.Context
 
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.data.source.util.HttpCacheManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 /**
  * Created by albertovecinasanchez on 27/5/16.
  */
-class CacheRepository @Inject constructor(private val context: Context) {
+class CacheRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
     fun clearExpiredCacheFilesAsync() {
         val expirationDays = context.resources.getInteger(R.integer.cache_file_expiration_days)

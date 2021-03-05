@@ -7,9 +7,11 @@ import com.vsa.filmoteca.data.source.ws.BasicAuthInterceptor
 import com.vsa.filmoteca.data.source.ws.CacheRequestInterceptor
 import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
 import com.vsa.filmoteca.data.source.ws.WsInterface
-import com.vsa.filmoteca.internal.di.scope.PerApplication
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -17,32 +19,35 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 /**
  * Created by Alberto Vecina Sánchez on 2019-05-03.
  */
+
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkingModule {
 
-    @PerApplication
+    @Singleton
     @Provides
-    fun providesCacheDirectory(context: Context): File = File(context.cacheDir.absolutePath, context.resources.getString(R.string.ws_cache_directory_name))
+    fun providesCacheDirectory(@ApplicationContext context: Context): File = File(context.cacheDir.absolutePath, context.resources.getString(R.string.ws_cache_directory_name))
 
-    @PerApplication
+    @Singleton
     @Provides
-    fun providesCache(context: Context, cacheDirectory: File): Cache = Cache(cacheDirectory, context.resources.getString(R.string.ws_cache_size).toLong())
+    fun providesCache(@ApplicationContext context: Context, cacheDirectory: File): Cache = Cache(cacheDirectory, context.resources.getString(R.string.ws_cache_size).toLong())
 
-    @PerApplication
+    @Singleton
     @Provides
     fun providesBasicAuthInterceptor() = BasicAuthInterceptor(BuildConfig.BASIC_AUTH_USER, BuildConfig.BASIC_AUTH_PASSWORD)
 
-    @PerApplication
+    @Singleton
     @Provides
-    fun providesCacheRequestInterceptor(context: Context): CacheRequestInterceptor = CacheRequestInterceptor(context)
+    fun providesCacheRequestInterceptor(@ApplicationContext context: Context): CacheRequestInterceptor = CacheRequestInterceptor(context)
 
-    @PerApplication
+    @Singleton
     @Provides
-    fun providesHttpClient(context: Context,
+    fun providesHttpClient(@ApplicationContext context: Context,
                            cache: Cache,
                            basicAuthInterceptor: BasicAuthInterceptor,
                            cacheRequestInterceptor: CacheRequestInterceptor): OkHttpClient = OkHttpClient.Builder()
@@ -52,14 +57,14 @@ class NetworkingModule {
             .addInterceptor(cacheRequestInterceptor)
             .build()
 
-    @PerApplication
+    @Singleton
     @Provides
     fun providesRetrofitBuilder(httpClient: OkHttpClient): Retrofit.Builder = Retrofit.Builder()
             .client(httpClient)
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
 
-    @PerApplication
+    @Singleton
     @Provides
     fun providesFilmotecaInterface(retrofitBuilder: Retrofit.Builder): FilmotecaInterface =
             retrofitBuilder
@@ -67,7 +72,7 @@ class NetworkingModule {
                     .build()
                     .create(FilmotecaInterface::class.java)
 
-    @PerApplication
+    @Singleton
     @Provides
     fun providesWsInterface(retrofitBuilder: Retrofit.Builder): WsInterface =
             retrofitBuilder

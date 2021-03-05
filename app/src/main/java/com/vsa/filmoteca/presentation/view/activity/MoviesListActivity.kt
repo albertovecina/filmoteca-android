@@ -21,9 +21,11 @@ import com.vsa.filmoteca.presentation.view.dialog.DialogManager
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 import com.vsa.filmoteca.presentation.view.notifications.NotificationService
 import com.vsa.filmoteca.presentation.view.widget.EventsWidget
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.OnRefreshListener, MoviesAdapter.Callback {
 
     companion object {
