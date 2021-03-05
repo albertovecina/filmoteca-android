@@ -13,9 +13,10 @@ import com.vsa.filmoteca.R
 import com.vsa.filmoteca.presentation.presenter.widget.EventsWidgetPresenter
 import com.vsa.filmoteca.presentation.view.EventsWidgetView
 import com.vsa.filmoteca.presentation.view.activity.MoviesListActivity
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class EventsWidget : AppWidgetProvider(), EventsWidgetView {
 
     companion object {
@@ -32,15 +33,13 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     lateinit var presenter: EventsWidgetPresenter
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        initializeContext(context)
-        AndroidInjection.inject(this, context)
+        initializeWidget(context)
         presenter.onUpdate()
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        initializeContext(context)
-        AndroidInjection.inject(this, context)
+        initializeWidget(context)
         if (intent.action == ACTION_WIDGET_LEFT)
             presenter.onButtonLeftClick()
         else if (intent.action == ACTION_WIDGET_RIGHT)
@@ -48,7 +47,7 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     }
 
     override fun initWidget() {
-        initializeContext(context)
+        initializeWidget(context)
         views = RemoteViews(context.packageName, R.layout.widget_layout)
         appWidgetManager = AppWidgetManager.getInstance(context)
         val thisAppWidget = ComponentName(context.packageName, EventsWidget::class.java.name)
@@ -56,11 +55,11 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     }
 
     override fun setupLRButtons() {
-        views!!.setOnClickPendingIntent(R.id.left,
+        views?.setOnClickPendingIntent(R.id.left,
                 PendingIntent.getBroadcast(context, 0, Intent(context, EventsWidget::class.java).apply {
                     action = ACTION_WIDGET_LEFT
                 }, PendingIntent.FLAG_UPDATE_CURRENT))
-        views!!.setOnClickPendingIntent(R.id.right,
+        views?.setOnClickPendingIntent(R.id.right,
                 PendingIntent.getBroadcast(context, 0, Intent(context, EventsWidget::class.java).apply {
                     action = ACTION_WIDGET_RIGHT
                 }, PendingIntent.FLAG_UPDATE_CURRENT))
@@ -69,14 +68,14 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     override fun setupMovieView(url: String, title: String, date: String) {
         val intent = MoviesListActivity.newIntent(context, Intent.FLAG_ACTIVITY_CLEAR_TOP, url, title, date)
         val actionPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        views!!.setOnClickPendingIntent(R.id.widgetInfoLayout, actionPendingIntent)
-        views!!.setTextViewText(R.id.widgetTitleText, title)
-        views!!.setTextViewText(R.id.widgetDateText, date)
+        views?.setOnClickPendingIntent(R.id.widgetInfoLayout, actionPendingIntent)
+        views?.setTextViewText(R.id.widgetTitleText, title)
+        views?.setTextViewText(R.id.widgetDateText, date)
 
     }
 
     override fun setupIndexView(current: Int, size: Int) {
-        views!!.setTextViewText(R.id.widgetPageText, "$current / $size")
+        views?.setTextViewText(R.id.widgetPageText, "$current / $size")
     }
 
     override fun refreshViews() {
@@ -84,24 +83,24 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     }
 
     override fun showProgress() {
-        views!!.setViewVisibility(R.id.widgetUpdateButton, View.GONE)
-        views!!.setViewVisibility(R.id.widgetInfoLayout, View.GONE)
-        views!!.setViewVisibility(R.id.widgetProgressBar, View.VISIBLE)
+        views?.setViewVisibility(R.id.widgetUpdateButton, View.GONE)
+        views?.setViewVisibility(R.id.widgetInfoLayout, View.GONE)
+        views?.setViewVisibility(R.id.widgetProgressBar, View.VISIBLE)
         refreshViews()
     }
 
     override fun hideProgress() {
-        views!!.setViewVisibility(R.id.widgetProgressBar, View.GONE)
-        views!!.setViewVisibility(R.id.widgetUpdateButton, View.GONE)
-        views!!.setViewVisibility(R.id.widgetInfoLayout, View.VISIBLE)
+        views?.setViewVisibility(R.id.widgetProgressBar, View.GONE)
+        views?.setViewVisibility(R.id.widgetUpdateButton, View.GONE)
+        views?.setViewVisibility(R.id.widgetInfoLayout, View.VISIBLE)
         refreshViews()
     }
 
     override fun showRefreshButton() {
-        views!!.setViewVisibility(R.id.widgetInfoLayout, View.GONE)
-        views!!.setViewVisibility(R.id.widgetProgressBar, View.GONE)
-        views!!.setViewVisibility(R.id.widgetUpdateButton, View.VISIBLE)
-        views!!.setOnClickPendingIntent(R.id.widgetUpdateButton,
+        views?.setViewVisibility(R.id.widgetInfoLayout, View.GONE)
+        views?.setViewVisibility(R.id.widgetProgressBar, View.GONE)
+        views?.setViewVisibility(R.id.widgetUpdateButton, View.VISIBLE)
+        views?.setOnClickPendingIntent(R.id.widgetUpdateButton,
                 PendingIntent.getBroadcast(context, 0,
                         Intent(context, EventsWidget::class.java).apply {
                             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
@@ -110,8 +109,9 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
         refreshViews()
     }
 
-    private fun initializeContext(context: Context) {
+    private fun initializeWidget(context: Context) {
         this.context = context
+        presenter.view = this
     }
 
 }

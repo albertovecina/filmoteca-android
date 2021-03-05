@@ -17,8 +17,10 @@ import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenter
 import com.vsa.filmoteca.presentation.view.DetailView
 import com.vsa.filmoteca.presentation.view.dialog.DialogManager
 import com.vsa.filmoteca.presentation.view.widget.EventsWidget
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshListener {
 
     companion object {

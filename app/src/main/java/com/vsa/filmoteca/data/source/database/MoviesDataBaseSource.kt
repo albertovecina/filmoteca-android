@@ -4,12 +4,16 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 
 import com.vsa.filmoteca.domain.model.Movie
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by seldon on 16/03/15.
  */
-class MoviesDataBaseSource @Inject constructor(context: Context) {
+
+@Singleton
+class MoviesDataBaseSource @Inject constructor(@ApplicationContext context: Context) {
 
     private var database: SQLiteDatabase? = null
     private val databaseHelper: WidgetDataBaseHelper = WidgetDataBaseHelper(context)

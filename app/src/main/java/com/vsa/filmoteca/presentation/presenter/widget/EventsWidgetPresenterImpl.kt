@@ -11,7 +11,6 @@ import javax.inject.Inject
  * Created by seldon on 27/03/15.
  */
 class EventsWidgetPresenterImpl @Inject constructor(
-        private val view: EventsWidgetView,
         private val getMoviesListUseCase: GetMoviesListUseCase,
         private val moviesPersistanceUseCase: MoviesPersistanceUseCase)
     : EventsWidgetPresenter,
@@ -20,16 +19,16 @@ class EventsWidgetPresenterImpl @Inject constructor(
     private var currentMovieIndex = 0
     private var moviesListSize = 0
     private var movies: List<Movie> = ArrayList()
-
+    override var view: EventsWidgetView? = null
 
     override fun onUpdate() {
-        view.initWidget()
-        view.showProgress()
+        view?.initWidget()
+        view?.showProgress()
         getMoviesListUseCase.moviesList().subscribe(this)
     }
 
     override fun onButtonLeftClick() {
-        view.initWidget()
+        view?.initWidget()
         //Obtenemos el indice actual y el tamaño de la base de datos
         currentMovieIndex = moviesPersistanceUseCase.currentMovieIndex
         moviesListSize = moviesPersistanceUseCase.moviesCount
@@ -41,15 +40,15 @@ class EventsWidgetPresenterImpl @Inject constructor(
             }
             val movie = moviesPersistanceUseCase.currentMovie
             //Preparamos la vista
-            view.setupLRButtons()
-            view.setupMovieView(movie.url, movie.title, movie.date)
-            view.setupIndexView(currentMovieIndex + 1, moviesListSize)
-            view.refreshViews()
+            view?.setupLRButtons()
+            view?.setupMovieView(movie.url, movie.title, movie.date)
+            view?.setupIndexView(currentMovieIndex + 1, moviesListSize)
+            view?.refreshViews()
         }
     }
 
     override fun onButtonRightClick() {
-        view.initWidget()
+        view?.initWidget()
         //Obtenemos el indice actual y el tamaño de la base de datos
         currentMovieIndex = moviesPersistanceUseCase.currentMovieIndex
         moviesListSize = moviesPersistanceUseCase.moviesCount
@@ -62,10 +61,10 @@ class EventsWidgetPresenterImpl @Inject constructor(
             }
             val movie = moviesPersistanceUseCase.currentMovie
             //Preparamos la vista
-            view.setupLRButtons()
-            view.setupMovieView(movie.url, movie.title, movie.date)
-            view.setupIndexView(currentMovieIndex + 1, moviesListSize)
-            view.refreshViews()
+            view?.setupLRButtons()
+            view?.setupMovieView(movie.url, movie.title, movie.date)
+            view?.setupIndexView(currentMovieIndex + 1, moviesListSize)
+            view?.refreshViews()
         }
     }
 
@@ -80,7 +79,7 @@ class EventsWidgetPresenterImpl @Inject constructor(
     override fun onNext(movies: List<Movie>) {
         this.movies = movies
         if (this.movies.isEmpty()) {
-            view.showRefreshButton()
+            view?.showRefreshButton()
         } else {
             if (this.movies.isNotEmpty()) {
                 //Actualizando base de datos
@@ -93,14 +92,14 @@ class EventsWidgetPresenterImpl @Inject constructor(
                 moviesPersistanceUseCase.moviesCount = moviesListSize
 
                 //Configurando la vista
-                view.setupLRButtons()
+                view?.setupLRButtons()
                 var movie: Movie? = null
                 if (this.movies.isNotEmpty())
                     movie = this.movies[currentMovieIndex]
-                view.hideProgress()
-                view.setupMovieView(movie!!.url, movie.title, movie.date)
-                view.setupIndexView(currentMovieIndex + 1, moviesListSize)
-                view.refreshViews()
+                view?.hideProgress()
+                view?.setupMovieView(movie!!.url, movie.title, movie.date)
+                view?.setupIndexView(currentMovieIndex + 1, moviesListSize)
+                view?.refreshViews()
             }
         }
     }

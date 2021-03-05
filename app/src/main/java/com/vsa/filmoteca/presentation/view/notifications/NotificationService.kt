@@ -8,9 +8,10 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.vsa.filmoteca.presentation.presenter.notifications.NotificationPresenter
 import com.vsa.filmoteca.presentation.view.widget.EventsWidget
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class NotificationService : FirebaseMessagingService(), NotificationView {
 
     companion object {
@@ -19,11 +20,6 @@ class NotificationService : FirebaseMessagingService(), NotificationView {
 
     @Inject
     lateinit var presenter: NotificationPresenter
-
-    override fun onCreate() {
-        super.onCreate()
-        AndroidInjection.inject(this)
-    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
