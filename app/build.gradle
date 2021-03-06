@@ -48,7 +48,6 @@ android {
         debug {
             applicationIdSuffix ".debug"
 
-            resValue("bool", "DISABLE_ANALYTICS_COLLECTION", "true")
             buildConfigField "String", "BASE_URL_WS", "\"http://seldon-nas.dnset.com:7070/filmoteca-ws/dev/\""
         }
         release {
@@ -56,7 +55,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
 
-            resValue("bool", "DISABLE_ANALYTICS_COLLECTION", "false")
             buildConfigField "String", "BASE_URL_WS", "\"http://seldon-nas.dnset.com:7070/filmoteca-ws/pro/\""
         }
     }
@@ -246,7 +244,7 @@ dependencies {
     kapt 'com.google.dagger:hilt-compiler:2.33-beta'
 
     // For instrumentation tests
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.33-beta'
+    androidTestImplementation  'com.google.dagger:hilt-android-testing:2.33-beta'
     kaptAndroidTest 'com.google.dagger:hilt-compiler:2.33-beta'
 
     // For local unit tests

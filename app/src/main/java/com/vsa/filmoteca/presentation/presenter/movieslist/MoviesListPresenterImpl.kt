@@ -4,6 +4,7 @@ import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.ClearCacheUseCase
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
 import com.vsa.filmoteca.presentation.tracker.Tracker
+import com.vsa.filmoteca.presentation.utils.extensions.weak
 import com.vsa.filmoteca.presentation.utils.review.ReviewManager
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 class MoviesListPresenterImpl
 @Inject constructor(
-        private val view: MoviesListView,
+        view: MoviesListView,
         private val clearCacheUseCase: ClearCacheUseCase,
         private val getMoviesListUseCase: GetMoviesListUseCase,
         private val reviewManager: ReviewManager,
