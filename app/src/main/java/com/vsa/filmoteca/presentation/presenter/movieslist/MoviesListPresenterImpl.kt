@@ -3,6 +3,7 @@ package com.vsa.filmoteca.presentation.presenter.movieslist
 import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.ClearCacheUseCase
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
+import com.vsa.filmoteca.presentation.utils.extensions.weak
 import com.vsa.filmoteca.presentation.utils.review.ReviewManager
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider

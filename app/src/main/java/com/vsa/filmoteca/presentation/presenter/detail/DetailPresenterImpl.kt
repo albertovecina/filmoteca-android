@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.presentation.presenter.detail
 
 import com.vsa.filmoteca.domain.usecase.GetMovieDetailUseCase
-import com.vsa.filmoteca.presentation.utils.StringUtils
+import com.vsa.filmoteca.presentation.utils.extensions.toUrlEncoded
 import com.vsa.filmoteca.presentation.view.DetailView
 import rx.Observer
 import javax.inject.Inject
@@ -65,9 +65,7 @@ class DetailPresenterImpl @Inject constructor(
     }
 
     private fun launchFilmAffinitySearch() {
-        var searchString = title.replace(" ", "+")
-        searchString = StringUtils.removeAccents(searchString)
-        val url = "http://m.filmaffinity.com/es/search.php?stext=$searchString&stype=title"
+        val url = "http://m.filmaffinity.com/es/search.php?stext=${title.toUrlEncoded()}&stype=title"
         view.launchBrowser(url)
     }
 

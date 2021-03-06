@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.internal.di.module
 
-import com.vsa.filmoteca.presentation.utils.tracker.FirebaseTracker
-import com.vsa.filmoteca.presentation.utils.tracker.Tracker
+import com.vsa.filmoteca.presentation.tracker.FirebaseTracker
+import com.vsa.filmoteca.presentation.tracker.Tracker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

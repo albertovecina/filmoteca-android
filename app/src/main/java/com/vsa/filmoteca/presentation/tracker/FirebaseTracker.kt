@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.utils.tracker
+package com.vsa.filmoteca.presentation.tracker
 
 import android.content.Context
 import android.os.Bundle
@@ -10,8 +10,8 @@ class FirebaseTracker @Inject constructor(@ApplicationContext context: Context) 
 
     private val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
-    override fun logAppReviewLaunched() {
-        logEvent(Event.ReviewLaunched)
+    override fun logAppReviewRequest() {
+        logEvent(Event.AppReviewRequest)
     }
 
     private fun logEvent(event: Event) {

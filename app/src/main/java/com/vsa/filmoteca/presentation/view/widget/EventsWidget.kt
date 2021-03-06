@@ -25,7 +25,7 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     }
 
     private var views: RemoteViews? = null
-    private var appWidgetManager: AppWidgetManager? = null
+    private lateinit var appWidgetManager: AppWidgetManager
     private var appWidgetIds: IntArray? = null
     private lateinit var context: Context
 
@@ -33,25 +33,33 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     lateinit var presenter: EventsWidgetPresenter
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        initializeWidget(context)
+        initializePresenter(context)
         presenter.onUpdate()
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        initializeWidget(context)
-        if (intent.action == ACTION_WIDGET_LEFT)
-            presenter.onButtonLeftClick()
-        else if (intent.action == ACTION_WIDGET_RIGHT)
-            presenter.onButtonRightClick()
+
+        initializePresenter(context)
+
+        when (intent.action) {
+            ACTION_WIDGET_LEFT -> presenter.onButtonLeftClick()
+            ACTION_WIDGET_RIGHT -> presenter.onButtonRightClick()
+        }
+    }
+
+    private fun initializePresenter(context: Context? = null) {
+        if (context != null)
+            this.context = context
+        presenter.view = this
     }
 
     override fun initWidget() {
-        initializeWidget(context)
+        initializePresenter()
         views = RemoteViews(context.packageName, R.layout.widget_layout)
         appWidgetManager = AppWidgetManager.getInstance(context)
         val thisAppWidget = ComponentName(context.packageName, EventsWidget::class.java.name)
-        appWidgetIds = appWidgetManager!!.getAppWidgetIds(thisAppWidget)
+        appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget)
     }
 
     override fun setupLRButtons() {
@@ -79,7 +87,7 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     }
 
     override fun refreshViews() {
-        appWidgetManager!!.updateAppWidget(appWidgetIds, views)
+        appWidgetManager.updateAppWidget(appWidgetIds, views)
     }
 
     override fun showProgress() {
@@ -107,11 +115,6 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
                             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(R.xml.appwidget_info))
                         }, 0))
         refreshViews()
-    }
-
-    private fun initializeWidget(context: Context) {
-        this.context = context
-        presenter.view = this
     }
 
 }

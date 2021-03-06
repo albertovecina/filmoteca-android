@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.data.source.repository
 
 import android.content.Context
-import com.vsa.filmoteca.presentation.utils.ConnectivityUtils
+import com.vsa.filmoteca.presentation.utils.extensions.isInternetAvailable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -10,6 +10,6 @@ import javax.inject.Inject
  */
 class SystemDataRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
-    fun isInternetAvailable(): Boolean = ConnectivityUtils.isInternetAvailable(context)
+    fun isInternetAvailable(): Boolean = context.isInternetAvailable()
 
 }

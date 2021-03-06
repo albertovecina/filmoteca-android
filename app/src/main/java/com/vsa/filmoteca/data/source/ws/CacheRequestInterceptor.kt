@@ -1,17 +1,16 @@
 package com.vsa.filmoteca.data.source.ws
 
 import android.content.Context
-import com.vsa.filmoteca.presentation.utils.ConnectivityUtils
+import com.vsa.filmoteca.presentation.utils.extensions.isInternetAvailable
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
-import kotlin.jvm.Throws
 
 /**
  * Created by albertovecinasanchez on 25/11/15.
  */
-class CacheRequestInterceptor(private val context: Context): Interceptor {
+class CacheRequestInterceptor(private val context: Context) : Interceptor {
 
     private var mCachePolicy = CachePolicy.PRIORITY_NETWORK
 
@@ -25,7 +24,7 @@ class CacheRequestInterceptor(private val context: Context): Interceptor {
 
             CachePolicy.FORCE_CACHE_LOADING -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
             CachePolicy.FORCE_NETWORK_LOADING -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK).build()
-            CachePolicy.PRIORITY_NETWORK -> if (ConnectivityUtils.isInternetAvailable(context))
+            CachePolicy.PRIORITY_NETWORK -> if (context.isInternetAvailable())
                 chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK).build()
             else
                 chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
