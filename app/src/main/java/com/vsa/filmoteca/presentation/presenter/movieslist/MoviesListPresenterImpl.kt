@@ -23,6 +23,7 @@ class MoviesListPresenterImpl
         MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
 
     private val view: MoviesListView? by weak(view)
+
     private var moviesList: List<Movie> = ArrayList()
 
     override fun onCreate(url: String?, title: String?, date: String?) {
