@@ -3,7 +3,7 @@ package com.vsa.filmoteca.presentation.utils.review
 import android.app.Activity
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.vsa.filmoteca.data.source.repository.AppConfigRepository
-import com.vsa.filmoteca.presentation.utils.tracker.Tracker
+import com.vsa.filmoteca.presentation.tracker.Tracker
 import javax.inject.Inject
 
 class ReviewManagerImpl @Inject constructor(
@@ -32,7 +32,7 @@ class ReviewManagerImpl @Inject constructor(
                 manager.launchReviewFlow(activity, response.result)
                         .addOnCompleteListener {
                             appConfigRepository.isReviewAlreadySuggested = true
-                            tracker.logAppReviewLaunched()
+                            tracker.logAppReviewRequest()
                         }
             }
         }
