@@ -1,6 +1,7 @@
 package com.vsa.filmoteca.presentation.presenter.detail
 
 import com.vsa.filmoteca.domain.usecase.GetMovieDetailUseCase
+import com.vsa.filmoteca.presentation.tracker.Tracker
 import com.vsa.filmoteca.presentation.utils.extensions.toUrlEncoded
 import com.vsa.filmoteca.presentation.utils.extensions.weak
 import com.vsa.filmoteca.presentation.view.DetailView
@@ -12,8 +13,9 @@ import javax.inject.Inject
  */
 class DetailPresenterImpl @Inject constructor(
         view: DetailView,
-        private val getMovieDetailUseCase: GetMovieDetailUseCase)
-    : DetailPresenter, Observer<String> {
+        private val getMovieDetailUseCase: GetMovieDetailUseCase,
+        private val tracker: Tracker
+) : DetailPresenter, Observer<String> {
 
     private val view: DetailView? by weak(view)
 
@@ -30,17 +32,18 @@ class DetailPresenterImpl @Inject constructor(
         }
     }
 
-    override fun onDestroy() {}
-
     override fun onShareButtonClick() {
+        tracker.logClickShareMovie(title)
         view?.showShareDialog()
     }
 
     override fun onShowInBrowserButtonClick() {
+        tracker.logClickWebsite(title)
         view?.launchBrowser(contentUrl)
     }
 
     override fun onFilmAffinitySearchButtonClick() {
+        tracker.logClickFilmAffinity(title)
         launchFilmAffinitySearch()
     }
 

@@ -60,11 +60,6 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
                 intent.getStringExtra(EXTRA_TITLE) ?: "")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
         return true

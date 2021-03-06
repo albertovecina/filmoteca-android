@@ -14,8 +14,28 @@ class FirebaseTracker @Inject constructor(@ApplicationContext context: Context) 
         logEvent(Event.AppReviewRequest)
     }
 
-    private fun logEvent(event: Event) {
-        firebaseAnalytics.logEvent(event.value, Bundle.EMPTY)
+    override fun logClickAboutUs() {
+        logEvent(Event.ClickAboutUs)
+    }
+
+    override fun logClickMovieItem(title: String) {
+        logEvent(Event.ClickMovieItem, Bundle().apply { putString(Event.PARAM_MOVIE_TITLE, title) })
+    }
+
+    override fun logClickFilmAffinity(title: String) {
+        logEvent(Event.ClickFilmAffinity, Bundle().apply { putString(Event.PARAM_MOVIE_TITLE, title) })
+    }
+
+    override fun logClickWebsite(title: String) {
+        logEvent(Event.ClickWebSite, Bundle().apply { putString(Event.PARAM_MOVIE_TITLE, title) })
+    }
+
+    override fun logClickShareMovie(title: String) {
+        logEvent(Event.ClickShareMovie, Bundle().apply { putString(Event.PARAM_MOVIE_TITLE, title) })
+    }
+
+    private fun logEvent(event: Event, params: Bundle = Bundle.EMPTY) {
+        firebaseAnalytics.logEvent(event.name, params)
     }
 
 }

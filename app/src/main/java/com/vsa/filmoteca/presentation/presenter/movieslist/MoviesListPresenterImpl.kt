@@ -3,7 +3,7 @@ package com.vsa.filmoteca.presentation.presenter.movieslist
 import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.ClearCacheUseCase
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
-import com.vsa.filmoteca.presentation.utils.extensions.weak
+import com.vsa.filmoteca.presentation.tracker.Tracker
 import com.vsa.filmoteca.presentation.utils.review.ReviewManager
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
@@ -16,11 +16,13 @@ import javax.inject.Inject
  */
 
 class MoviesListPresenterImpl
-@Inject constructor(view: MoviesListView,
-                    private val reviewManager: ReviewManager,
-                    private val clearCacheUseCase: ClearCacheUseCase,
-                    private val getMoviesListUseCase: GetMoviesListUseCase) :
-        MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
+@Inject constructor(
+        private val view: MoviesListView,
+        private val clearCacheUseCase: ClearCacheUseCase,
+        private val getMoviesListUseCase: GetMoviesListUseCase,
+        private val reviewManager: ReviewManager,
+        private val tracker: Tracker
+) : MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
 
     private val view: MoviesListView? by weak(view)
 
@@ -50,6 +52,7 @@ class MoviesListPresenterImpl
 
     override fun onMovieRowClick(position: Int) {
         val movie = moviesList[position]
+        tracker.logClickMovieItem(movie.title)
         view?.navigateToDetail(movie.url, movie.title, movie.date)
     }
 
