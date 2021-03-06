@@ -51,7 +51,7 @@ class EventsWidget : AppWidgetProvider(), EventsWidgetView {
     private fun initializePresenter(context: Context? = null) {
         if (context != null)
             this.context = context
-        presenter.view = this
+        presenter.setView(this)
     }
 
     override fun initWidget() {

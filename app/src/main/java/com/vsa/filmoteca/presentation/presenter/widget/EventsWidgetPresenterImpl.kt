@@ -5,6 +5,7 @@ import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
 import com.vsa.filmoteca.domain.usecase.MoviesPersistanceUseCase
 import com.vsa.filmoteca.presentation.view.EventsWidgetView
 import rx.Observer
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
@@ -16,10 +17,18 @@ class EventsWidgetPresenterImpl @Inject constructor(
     : EventsWidgetPresenter,
         Observer<List<Movie>> {
 
+    private var viewWeakReference: WeakReference<EventsWidgetView>? = null
+    private val view: EventsWidgetView?
+        get() = viewWeakReference?.get()
+
     private var currentMovieIndex = 0
     private var moviesListSize = 0
     private var movies: List<Movie> = ArrayList()
-    override var view: EventsWidgetView? = null
+
+
+    override fun setView(view: EventsWidgetView) {
+        viewWeakReference = WeakReference(view)
+    }
 
     override fun onUpdate() {
         view?.initWidget()
