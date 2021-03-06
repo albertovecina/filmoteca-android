@@ -2,6 +2,7 @@ package com.vsa.filmoteca.presentation.presenter.detail
 
 import com.vsa.filmoteca.domain.usecase.GetMovieDetailUseCase
 import com.vsa.filmoteca.presentation.utils.extensions.toUrlEncoded
+import com.vsa.filmoteca.presentation.utils.extensions.weak
 import com.vsa.filmoteca.presentation.view.DetailView
 import rx.Observer
 import javax.inject.Inject
@@ -10,9 +11,11 @@ import javax.inject.Inject
  * Created by seldon on 13/03/15.
  */
 class DetailPresenterImpl @Inject constructor(
-        private val view: DetailView,
+        view: DetailView,
         private val getMovieDetailUseCase: GetMovieDetailUseCase)
     : DetailPresenter, Observer<String> {
+
+    private val view: DetailView? by weak(view)
 
     private var contentUrl: String = ""
     private var title: String = ""
@@ -21,8 +24,8 @@ class DetailPresenterImpl @Inject constructor(
         if (url.isNotEmpty()) {
             title = movieTitle
             contentUrl = url
-            view.setWebViewContent("<html></html>", url)
-            view.showMovieTitle(title)
+            view?.setWebViewContent("<html></html>", url)
+            view?.showMovieTitle(title)
             loadContent(url)
         }
     }
@@ -30,11 +33,11 @@ class DetailPresenterImpl @Inject constructor(
     override fun onDestroy() {}
 
     override fun onShareButtonClick() {
-        view.showShareDialog()
+        view?.showShareDialog()
     }
 
     override fun onShowInBrowserButtonClick() {
-        view.launchBrowser(contentUrl)
+        view?.launchBrowser(contentUrl)
     }
 
     override fun onFilmAffinitySearchButtonClick() {
@@ -42,14 +45,14 @@ class DetailPresenterImpl @Inject constructor(
     }
 
     override fun onAboutUsButtonClick() {
-        view.showAboutUs()
+        view?.showAboutUs()
     }
 
     override fun onFabClick() {
         if (getMovieDetailUseCase.isInternetAvailable())
-            view.navigateToComments(title)
+            view?.navigateToComments(title)
         else
-            view.showErrorNoInternet()
+            view?.showErrorNoInternet()
     }
 
     override fun onRefresh() {
@@ -58,34 +61,34 @@ class DetailPresenterImpl @Inject constructor(
     }
 
     private fun loadContent(url: String) {
-        view.stopRefreshing()
-        view.hideContent()
-        view.showLoading()
+        view?.stopRefreshing()
+        view?.hideContent()
+        view?.showLoading()
         getMovieDetailUseCase.movieDetail(url).subscribe(this)
     }
 
     private fun launchFilmAffinitySearch() {
         val url = "http://m.filmaffinity.com/es/search.php?stext=${title.toUrlEncoded()}&stype=title"
-        view.launchBrowser(url)
+        view?.launchBrowser(url)
     }
 
     override fun onCompleted() {
-        view.hideLoading()
+        view?.hideLoading()
     }
 
     override fun onError(e: Throwable) {
-        view.showTimeOutDialog()
+        view?.showTimeOutDialog()
         //Probably this error comes from an inconsistent widget data. We must to update
         //the widget information to match the entries for the next time.
-        view.updateWidget()
+        view?.updateWidget()
     }
 
     override fun onNext(html: String) {
         if (html.isEmpty())
-            view.showTimeOutDialog()
+            view?.showTimeOutDialog()
         else
-            view.setWebViewContent(html, contentUrl)
-        view.showContent()
+            view?.setWebViewContent(html, contentUrl)
+        view?.showContent()
     }
 
 }

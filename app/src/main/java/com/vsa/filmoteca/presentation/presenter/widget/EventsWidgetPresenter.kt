@@ -7,7 +7,7 @@ import com.vsa.filmoteca.presentation.view.EventsWidgetView
  */
 interface EventsWidgetPresenter {
 
-    var view: EventsWidgetView?
+    fun setView(view: EventsWidgetView)
 
     fun onUpdate()
 

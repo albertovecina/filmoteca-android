@@ -16,11 +16,13 @@ import javax.inject.Inject
  */
 
 class MoviesListPresenterImpl
-@Inject constructor(private val view: MoviesListView,
+@Inject constructor(view: MoviesListView,
                     private val reviewManager: ReviewManager,
                     private val clearCacheUseCase: ClearCacheUseCase,
                     private val getMoviesListUseCase: GetMoviesListUseCase) :
         MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
+
+    private val view: MoviesListView? by weak(view)
 
     private var moviesList: List<Movie> = ArrayList()
 
@@ -31,57 +33,57 @@ class MoviesListPresenterImpl
         if (url == null)
             reviewManager.showRateIfNecessary()
         else
-            view.navigateToDetail(url, title ?: "", date ?: "")
+            view?.navigateToDetail(url, title ?: "", date ?: "")
     }
 
     override fun onNewMoviesAdded() = loadMovies()
 
 
     override fun onRefreshButtonClick() {
-        view.updateWidget()
+        view?.updateWidget()
         loadMovies()
     }
 
     override fun onAboutUsButtonClick() {
-        view.showAboutUs()
+        view?.showAboutUs()
     }
 
     override fun onMovieRowClick(position: Int) {
         val movie = moviesList[position]
-        view.navigateToDetail(movie.url, movie.title, movie.date)
+        view?.navigateToDetail(movie.url, movie.title, movie.date)
     }
 
     private fun loadMovies() {
-        view.stopRefreshing()
-        view.showLoading()
+        view?.stopRefreshing()
+        view?.showLoading()
         getMoviesListUseCase.moviesList().subscribe(this)
     }
 
     override fun onAcceptButtonPressed() {
-        view.showWifiSettings()
+        view?.showWifiSettings()
     }
 
     override fun onCancelButtonPressed() {
-        view.finish()
+        view?.finish()
     }
 
     override fun onCompleted() {
-        view.hideLoading()
+        view?.hideLoading()
     }
 
     override fun onError(e: Throwable) {
-        view.showTimeOutDialog()
+        view?.showTimeOutDialog()
     }
 
     override fun onNext(movies: List<Movie>?) {
         if (movies != null)
             moviesList = movies
-        view.showTitle(moviesList.size)
+        view?.showTitle(moviesList.size)
         if (moviesList.isEmpty())
-            view.showNoEventsDialog()
+            view?.showNoEventsDialog()
         else
-            view.setMovies(this)
-        view.showChangeLog()
+            view?.setMovies(this)
+        view?.showChangeLog()
     }
 
     override fun getTitle(index: Int): String {
