@@ -8,8 +8,6 @@ sealed class Event(val name: String) {
 
     object AppReviewRequest : Event("app_review_request")
 
-    object ClickAboutUs : Event("click_about_us")
-
     object ClickMovieItem : Event("click_movie_item")
 
     object ClickFilmAffinity : Event("click_film_affinity")

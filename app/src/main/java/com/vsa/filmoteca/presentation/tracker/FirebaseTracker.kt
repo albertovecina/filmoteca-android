@@ -14,10 +14,6 @@ class FirebaseTracker @Inject constructor(@ApplicationContext context: Context) 
         logEvent(Event.AppReviewRequest)
     }
 
-    override fun logClickAboutUs() {
-        logEvent(Event.ClickAboutUs)
-    }
-
     override fun logClickMovieItem(title: String) {
         logEvent(Event.ClickMovieItem, Bundle().apply { putString(Event.PARAM_MOVIE_TITLE, title) })
     }

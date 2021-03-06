@@ -4,14 +4,12 @@ interface Tracker {
 
     fun logAppReviewRequest()
 
-    fun logClickAboutUs()
+    fun logClickMovieItem(title: String)
 
-    fun logClickMovieItem(title:String)
+    fun logClickFilmAffinity(title: String)
 
-    fun logClickFilmAffinity(title:String)
+    fun logClickWebsite(title: String)
 
-    fun logClickWebsite(title:String)
-
-    fun logClickShareMovie(title:String)
+    fun logClickShareMovie(title: String)
 
 }
