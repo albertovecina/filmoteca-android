@@ -12,30 +12,22 @@ import javax.inject.Inject
  * Created by seldon on 27/03/15.
  */
 class EventsWidgetPresenterImpl @Inject constructor(
+        private val view:EventsWidgetView,
         private val getMoviesListUseCase: GetMoviesListUseCase,
         private val moviesPersistanceUseCase: MoviesPersistanceUseCase)
     : EventsWidgetPresenter,
         Observer<List<Movie>> {
 
-    private var viewWeakReference: WeakReference<EventsWidgetView>? = null
-    private val view: EventsWidgetView?
-        get() = viewWeakReference?.get()
-
     private var currentMovieIndex = 0
     private var moviesListSize = 0
 
-    override fun setView(view: EventsWidgetView) {
-        viewWeakReference = WeakReference(view)
-    }
-
-    override fun onUpdate() {
-        view?.initWidget()
-        view?.showProgress()
+    override fun onRefresh() {
+        view.showProgress()
+        view.refreshViews()
         getMoviesListUseCase.moviesList().subscribe(this)
     }
 
     override fun onButtonLeftClick() {
-        view?.initWidget()
         //Obtenemos el indice actual y el tamaño de la base de datos
         currentMovieIndex = moviesPersistanceUseCase.currentMovieIndex
         moviesListSize = moviesPersistanceUseCase.moviesCount
@@ -47,15 +39,14 @@ class EventsWidgetPresenterImpl @Inject constructor(
             }
             val movie = moviesPersistanceUseCase.currentMovie
             //Preparamos la vista
-            view?.setupLRButtons()
-            view?.setupMovieView(movie.url, movie.title, movie.date)
-            view?.setupIndexView(currentMovieIndex + 1, moviesListSize)
-            view?.refreshViews()
+            view.setupLRButtons()
+            view.setupMovieView(movie.url, movie.title, movie.date)
+            view.setupIndexView(currentMovieIndex + 1, moviesListSize)
+            view.refreshViews()
         }
     }
 
     override fun onButtonRightClick() {
-        view?.initWidget()
         //Obtenemos el indice actual y el tamaño de la base de datos
         currentMovieIndex = moviesPersistanceUseCase.currentMovieIndex
         moviesListSize = moviesPersistanceUseCase.moviesCount
@@ -68,10 +59,10 @@ class EventsWidgetPresenterImpl @Inject constructor(
             }
             val movie = moviesPersistanceUseCase.currentMovie
             //Preparamos la vista
-            view?.setupLRButtons()
-            view?.setupMovieView(movie.url, movie.title, movie.date)
-            view?.setupIndexView(currentMovieIndex + 1, moviesListSize)
-            view?.refreshViews()
+            view.setupLRButtons()
+            view.setupMovieView(movie.url, movie.title, movie.date)
+            view.setupIndexView(currentMovieIndex + 1, moviesListSize)
+            view.refreshViews()
         }
     }
 
@@ -81,12 +72,13 @@ class EventsWidgetPresenterImpl @Inject constructor(
 
     override fun onError(e: Throwable) {
         e.printStackTrace()
-        view?.showRefreshButton()
+        view.showRefreshButton()
+        view.refreshViews()
     }
 
     override fun onNext(movies: List<Movie>) {
         if (movies.isEmpty()) {
-            view?.showRefreshButton()
+            view.showRefreshButton()
         } else {
             if (movies.isNotEmpty()) {
                 //Actualizando base de datos
@@ -99,15 +91,16 @@ class EventsWidgetPresenterImpl @Inject constructor(
                 moviesPersistanceUseCase.moviesCount = moviesListSize
 
                 //Configurando la vista
-                view?.setupLRButtons()
+                view.setupLRButtons()
                 var currentMovie: Movie? = null
-                if (movies.isNotEmpty())
+                if (movies.isNotEmpty()) {
                     currentMovie = movies[currentMovieIndex]
-                view?.hideProgress()
-                view?.setupMovieView(currentMovie!!.url, currentMovie.title, currentMovie.date)
-                view?.setupIndexView(currentMovieIndex + 1, moviesListSize)
-                view?.refreshViews()
+                    view.setupMovieView(currentMovie.url, currentMovie.title, currentMovie.date)
+                    view.setupIndexView(currentMovieIndex + 1, moviesListSize)
+                }
+                view.hideProgress()
             }
         }
+        view.refreshViews()
     }
 }

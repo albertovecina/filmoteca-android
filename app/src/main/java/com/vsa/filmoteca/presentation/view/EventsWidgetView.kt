@@ -5,7 +5,11 @@ package com.vsa.filmoteca.presentation.view
  */
 interface EventsWidgetView {
 
-    fun initWidget()
+    companion object {
+        const val ACTION_WIDGET_LEFT = "action_widget_left"
+        const val ACTION_WIDGET_RIGHT = "action_widget_right"
+        const val ACTION_WIDGET_REFRESH = "action_widget_update"
+    }
 
     fun setupLRButtons()
 
