@@ -23,8 +23,6 @@ class EventsWidgetPresenterImpl @Inject constructor(
 
     private var currentMovieIndex = 0
     private var moviesListSize = 0
-    private var movies: List<Movie> = ArrayList()
-
 
     override fun setView(view: EventsWidgetView) {
         viewWeakReference = WeakReference(view)
@@ -83,30 +81,30 @@ class EventsWidgetPresenterImpl @Inject constructor(
 
     override fun onError(e: Throwable) {
         e.printStackTrace()
+        view?.showRefreshButton()
     }
 
     override fun onNext(movies: List<Movie>) {
-        this.movies = movies
-        if (this.movies.isEmpty()) {
+        if (movies.isEmpty()) {
             view?.showRefreshButton()
         } else {
-            if (this.movies.isNotEmpty()) {
+            if (movies.isNotEmpty()) {
                 //Actualizando base de datos
-                moviesPersistanceUseCase.setMovies(this.movies)
+                moviesPersistanceUseCase.setMovies(movies)
 
                 //Estableciendo elemento actual y tamaño de la base de datos
                 currentMovieIndex = 0
-                moviesListSize = this.movies.size
+                moviesListSize = movies.size
                 moviesPersistanceUseCase.currentMovieIndex = 0
                 moviesPersistanceUseCase.moviesCount = moviesListSize
 
                 //Configurando la vista
                 view?.setupLRButtons()
-                var movie: Movie? = null
-                if (this.movies.isNotEmpty())
-                    movie = this.movies[currentMovieIndex]
+                var currentMovie: Movie? = null
+                if (movies.isNotEmpty())
+                    currentMovie = movies[currentMovieIndex]
                 view?.hideProgress()
-                view?.setupMovieView(movie!!.url, movie.title, movie.date)
+                view?.setupMovieView(currentMovie!!.url, currentMovie.title, currentMovie.date)
                 view?.setupIndexView(currentMovieIndex + 1, moviesListSize)
                 view?.refreshViews()
             }
