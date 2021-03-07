@@ -27,7 +27,7 @@ class AnimatedCircleView @JvmOverloads constructor(
     private val circlesNumber = 3
 
     private val paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.orange_26)
+        color = ContextCompat.getColor(context, R.color.color_accent)
         style = Paint.Style.FILL
         isAntiAlias = true
     }
