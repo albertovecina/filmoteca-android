@@ -1,14 +1,14 @@
 package com.vsa.filmoteca.presentation.view.activity
 
+import androidx.appcompat.app.AppCompatActivity
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.presentation.view.dialog.progress.LoadingDialog
-import dagger.android.support.DaggerAppCompatActivity
 
 /**
  * Created by albertovecinasanchez on 18/7/16.
  */
 
-abstract class BaseActivity : DaggerAppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     private var loadingDialog: LoadingDialog? = null
 
@@ -30,4 +30,5 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         super.onDestroy()
         loadingDialog?.dismiss()
     }
+    
 }

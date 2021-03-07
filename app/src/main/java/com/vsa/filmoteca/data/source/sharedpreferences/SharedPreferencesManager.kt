@@ -2,12 +2,16 @@ package com.vsa.filmoteca.data.source.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by seldon on 27/03/15.
  */
-class SharedPreferencesManager @Inject constructor(context: Context) {
+
+@Singleton
+class SharedPreferencesManager @Inject constructor(@ApplicationContext context: Context) {
 
     companion object {
         private const val KEY_NAME = "MySharedPreferences"

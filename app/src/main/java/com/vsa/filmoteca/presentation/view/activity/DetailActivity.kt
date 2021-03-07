@@ -16,9 +16,11 @@ import com.vsa.filmoteca.databinding.ActivityDetailBinding
 import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenter
 import com.vsa.filmoteca.presentation.view.DetailView
 import com.vsa.filmoteca.presentation.view.dialog.DialogManager
-import com.vsa.filmoteca.presentation.view.widget.EventsWidget
+import com.vsa.filmoteca.presentation.view.widget.EventsWidgetProvider
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
@@ -56,11 +58,6 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
         super.onNewIntent(intent)
         presenter.onCreate(intent.getStringExtra(EXTRA_URL) ?: "",
                 intent.getStringExtra(EXTRA_TITLE) ?: "")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -125,7 +122,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     override fun updateWidget() {
-        val intent = Intent(this, EventsWidget::class.java)
+        val intent = Intent(this, EventsWidgetProvider::class.java)
         intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
         // since it seems the onUpdate() is only fired on that:

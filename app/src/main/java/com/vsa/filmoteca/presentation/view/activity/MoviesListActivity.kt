@@ -20,10 +20,12 @@ import com.vsa.filmoteca.presentation.view.adapter.MoviesAdapter
 import com.vsa.filmoteca.presentation.view.dialog.DialogManager
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 import com.vsa.filmoteca.presentation.view.notifications.NotificationService
-import com.vsa.filmoteca.presentation.view.widget.EventsWidget
+import com.vsa.filmoteca.presentation.view.widget.EventsWidgetProvider
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.OnRefreshListener, MoviesAdapter.Callback {
 
     companion object {
@@ -183,8 +185,8 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     override fun updateWidget() {
         val ids = AppWidgetManager.getInstance(application)
-                .getAppWidgetIds(ComponentName(this, EventsWidget::class.java))
-        sendBroadcast(Intent(this, EventsWidget::class.java)
+                .getAppWidgetIds(ComponentName(this, EventsWidgetProvider::class.java))
+        sendBroadcast(Intent(this, EventsWidgetProvider::class.java)
                 .apply {
                     action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
                     putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)

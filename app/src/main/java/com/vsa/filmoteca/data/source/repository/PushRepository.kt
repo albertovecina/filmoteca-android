@@ -1,5 +1,6 @@
 package com.vsa.filmoteca.data.source.repository
 
+import com.vsa.filmoteca.BuildConfig
 import com.vsa.filmoteca.data.source.ws.WsInterface
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,7 +13,7 @@ import javax.inject.Inject
 class PushRepository @Inject constructor(private val wsInterface: WsInterface) {
 
     fun registerPushNotificationToken(token: String) {
-        wsInterface.registerPusHNotificationToken(token).enqueue(object : Callback<Void> {
+        wsInterface.registerPushNotificationToken(BuildConfig.REGION, token).enqueue(object : Callback<Void> {
             override fun onFailure(call: Call<Void>, t: Throwable) {
 
             }

@@ -1,15 +1,16 @@
 package com.vsa.filmoteca.data.source.repository
 
-import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.data.source.database.MoviesDataBaseSource
 import com.vsa.filmoteca.data.source.sharedpreferences.SharedPreferencesManager
-
+import com.vsa.filmoteca.domain.model.Movie
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by albertovecinasanchez on 22/7/16.
  */
 
+@Singleton
 class MoviesPersistanceRepository @Inject constructor(private val moviesDataBase: MoviesDataBaseSource,
                                                       private val sharedPreferencesManager: SharedPreferencesManager) {
 

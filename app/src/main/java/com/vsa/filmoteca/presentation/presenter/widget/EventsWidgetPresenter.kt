@@ -5,7 +5,7 @@ package com.vsa.filmoteca.presentation.presenter.widget
  */
 interface EventsWidgetPresenter {
 
-    fun onUpdate()
+    fun onRefresh()
 
     fun onButtonLeftClick()
 

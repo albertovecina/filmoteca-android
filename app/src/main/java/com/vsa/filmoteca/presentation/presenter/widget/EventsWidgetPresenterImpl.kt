@@ -5,13 +5,14 @@ import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
 import com.vsa.filmoteca.domain.usecase.MoviesPersistanceUseCase
 import com.vsa.filmoteca.presentation.view.EventsWidgetView
 import rx.Observer
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
  * Created by seldon on 27/03/15.
  */
 class EventsWidgetPresenterImpl @Inject constructor(
-        private val view: EventsWidgetView,
+        private val view:EventsWidgetView,
         private val getMoviesListUseCase: GetMoviesListUseCase,
         private val moviesPersistanceUseCase: MoviesPersistanceUseCase)
     : EventsWidgetPresenter,
@@ -19,17 +20,14 @@ class EventsWidgetPresenterImpl @Inject constructor(
 
     private var currentMovieIndex = 0
     private var moviesListSize = 0
-    private var movies: List<Movie> = ArrayList()
 
-
-    override fun onUpdate() {
-        view.initWidget()
+    override fun onRefresh() {
         view.showProgress()
+        view.refreshViews()
         getMoviesListUseCase.moviesList().subscribe(this)
     }
 
     override fun onButtonLeftClick() {
-        view.initWidget()
         //Obtenemos el indice actual y el tamaño de la base de datos
         currentMovieIndex = moviesPersistanceUseCase.currentMovieIndex
         moviesListSize = moviesPersistanceUseCase.moviesCount
@@ -49,7 +47,6 @@ class EventsWidgetPresenterImpl @Inject constructor(
     }
 
     override fun onButtonRightClick() {
-        view.initWidget()
         //Obtenemos el indice actual y el tamaño de la base de datos
         currentMovieIndex = moviesPersistanceUseCase.currentMovieIndex
         moviesListSize = moviesPersistanceUseCase.moviesCount
@@ -75,33 +72,35 @@ class EventsWidgetPresenterImpl @Inject constructor(
 
     override fun onError(e: Throwable) {
         e.printStackTrace()
+        view.showRefreshButton()
+        view.refreshViews()
     }
 
     override fun onNext(movies: List<Movie>) {
-        this.movies = movies
-        if (this.movies.isEmpty()) {
+        if (movies.isEmpty()) {
             view.showRefreshButton()
         } else {
-            if (this.movies.isNotEmpty()) {
+            if (movies.isNotEmpty()) {
                 //Actualizando base de datos
-                moviesPersistanceUseCase.setMovies(this.movies)
+                moviesPersistanceUseCase.setMovies(movies)
 
                 //Estableciendo elemento actual y tamaño de la base de datos
                 currentMovieIndex = 0
-                moviesListSize = this.movies.size
+                moviesListSize = movies.size
                 moviesPersistanceUseCase.currentMovieIndex = 0
                 moviesPersistanceUseCase.moviesCount = moviesListSize
 
                 //Configurando la vista
                 view.setupLRButtons()
-                var movie: Movie? = null
-                if (this.movies.isNotEmpty())
-                    movie = this.movies[currentMovieIndex]
+                var currentMovie: Movie? = null
+                if (movies.isNotEmpty()) {
+                    currentMovie = movies[currentMovieIndex]
+                    view.setupMovieView(currentMovie.url, currentMovie.title, currentMovie.date)
+                    view.setupIndexView(currentMovieIndex + 1, moviesListSize)
+                }
                 view.hideProgress()
-                view.setupMovieView(movie!!.url, movie.title, movie.date)
-                view.setupIndexView(currentMovieIndex + 1, moviesListSize)
-                view.refreshViews()
             }
         }
+        view.refreshViews()
     }
 }

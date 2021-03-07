@@ -3,6 +3,8 @@ package com.vsa.filmoteca.presentation.presenter.movieslist
 import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.ClearCacheUseCase
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
+import com.vsa.filmoteca.presentation.tracker.Tracker
+import com.vsa.filmoteca.presentation.utils.extensions.weak
 import com.vsa.filmoteca.presentation.utils.review.ReviewManager
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
@@ -15,11 +17,15 @@ import javax.inject.Inject
  */
 
 class MoviesListPresenterImpl
-@Inject constructor(private val view: MoviesListView,
-                    private val reviewManager: ReviewManager,
-                    private val clearCacheUseCase: ClearCacheUseCase,
-                    private val getMoviesListUseCase: GetMoviesListUseCase) :
-        MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
+@Inject constructor(
+        view: MoviesListView,
+        private val clearCacheUseCase: ClearCacheUseCase,
+        private val getMoviesListUseCase: GetMoviesListUseCase,
+        private val reviewManager: ReviewManager,
+        private val tracker: Tracker
+) : MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
+
+    private val view: MoviesListView? by weak(view)
 
     private var moviesList: List<Movie> = ArrayList()
 
@@ -30,57 +36,58 @@ class MoviesListPresenterImpl
         if (url == null)
             reviewManager.showRateIfNecessary()
         else
-            view.navigateToDetail(url, title ?: "", date ?: "")
+            view?.navigateToDetail(url, title ?: "", date ?: "")
     }
 
     override fun onNewMoviesAdded() = loadMovies()
 
 
     override fun onRefreshButtonClick() {
-        view.updateWidget()
+        view?.updateWidget()
         loadMovies()
     }
 
     override fun onAboutUsButtonClick() {
-        view.showAboutUs()
+        view?.showAboutUs()
     }
 
     override fun onMovieRowClick(position: Int) {
         val movie = moviesList[position]
-        view.navigateToDetail(movie.url, movie.title, movie.date)
+        tracker.logClickMovieItem(movie.title)
+        view?.navigateToDetail(movie.url, movie.title, movie.date)
     }
 
     private fun loadMovies() {
-        view.stopRefreshing()
-        view.showLoading()
+        view?.stopRefreshing()
+        view?.showLoading()
         getMoviesListUseCase.moviesList().subscribe(this)
     }
 
     override fun onAcceptButtonPressed() {
-        view.showWifiSettings()
+        view?.showWifiSettings()
     }
 
     override fun onCancelButtonPressed() {
-        view.finish()
+        view?.finish()
     }
 
     override fun onCompleted() {
-        view.hideLoading()
+        view?.hideLoading()
     }
 
     override fun onError(e: Throwable) {
-        view.showTimeOutDialog()
+        view?.showTimeOutDialog()
     }
 
     override fun onNext(movies: List<Movie>?) {
         if (movies != null)
             moviesList = movies
-        view.showTitle(moviesList.size)
+        view?.showTitle(moviesList.size)
         if (moviesList.isEmpty())
-            view.showNoEventsDialog()
+            view?.showNoEventsDialog()
         else
-            view.setMovies(this)
-        view.showChangeLog()
+            view?.setMovies(this)
+        view?.showChangeLog()
     }
 
     override fun getTitle(index: Int): String {

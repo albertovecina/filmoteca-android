@@ -1,16 +1,15 @@
 package com.vsa.filmoteca.presentation.view.notifications
 
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.vsa.filmoteca.presentation.presenter.notifications.NotificationPresenter
-import com.vsa.filmoteca.presentation.view.widget.EventsWidget
-import dagger.android.AndroidInjection
+import com.vsa.filmoteca.presentation.view.EventsWidgetView
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class NotificationService : FirebaseMessagingService(), NotificationView {
 
     companion object {
@@ -19,11 +18,6 @@ class NotificationService : FirebaseMessagingService(), NotificationView {
 
     @Inject
     lateinit var presenter: NotificationPresenter
-
-    override fun onCreate() {
-        super.onCreate()
-        AndroidInjection.inject(this)
-    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
@@ -40,13 +34,7 @@ class NotificationService : FirebaseMessagingService(), NotificationView {
     }
 
     override fun updateWidget() {
-        val ids = AppWidgetManager.getInstance(application)
-                .getAppWidgetIds(ComponentName(this, EventsWidget::class.java))
-        sendBroadcast(Intent(this, EventsWidget::class.java)
-                .apply {
-                    action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-                })
+        sendBroadcast(Intent(EventsWidgetView.ACTION_WIDGET_REFRESH))
     }
 
 }

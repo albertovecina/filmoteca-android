@@ -45,7 +45,7 @@
             android:label="@string/about_us"
             android:theme="@style/Theme.Transparent" />
 
-        <receiver android:name=".presentation.view.widget.EventsWidget">
+        <receiver android:name=".presentation.view.widget.EventsWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

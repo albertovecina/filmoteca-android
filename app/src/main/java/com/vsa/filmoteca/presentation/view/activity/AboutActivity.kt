@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.pm.PackageInfoCompat
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.databinding.ActivityAboutUsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AboutActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityAboutUsBinding

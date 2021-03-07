@@ -6,9 +6,7 @@ package com.vsa.filmoteca.presentation.presenter.detail
 interface DetailPresenter {
 
     fun onCreate(url: String, movieTitle: String)
-
-    fun onDestroy()
-
+    
     fun onShareButtonClick()
 
     fun onShowInBrowserButtonClick()

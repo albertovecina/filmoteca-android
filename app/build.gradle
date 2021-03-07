@@ -6,17 +6,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
     buildToolsVersion '29.0.3'
     defaultConfig {
-        applicationId "com.albandroid.filmoteca"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 46
-        versionName "1.3.4"
+        versionCode 47
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         initGoogleServicesJson()
@@ -67,11 +66,21 @@ android {
         }
         albacete {
             dimension 'location'
+
+            applicationId "com.albandroid.filmoteca"
+            versionName "1.3.5"
+
             buildConfigField "String", "BASE_URL_FILMOTECA", "\"http://www.albacete.es/\""
+            buildConfigField "String", "REGION", "\"ab\""
         }
         valencia {
             dimension 'location'
+
+            applicationId "com.vsa.filmoteca.cv"
+            versionName "1.0.0"
+
             buildConfigField "String", "BASE_URL_FILMOTECA", "\"https://ivc.gva.es/\""
+            buildConfigField "String", "REGION", "\"cv\""
         }
     }
     play {
@@ -237,10 +246,16 @@ dependencies {
     implementation 'com.google.android.play:core:1.9.1'
 
     // DEPENDENCY INJECTION
-    api 'com.google.dagger:dagger:2.31'
-    kapt 'com.google.dagger:dagger-compiler:2.31'
-    api 'com.google.dagger:dagger-android-support:2.31'
-    kapt 'com.google.dagger:dagger-android-processor:2.31'
+    implementation 'com.google.dagger:hilt-android:2.33-beta'
+    kapt 'com.google.dagger:hilt-compiler:2.33-beta'
+
+    // For instrumentation tests
+    androidTestImplementation  'com.google.dagger:hilt-android-testing:2.33-beta'
+    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.33-beta'
+
+    // For local unit tests
+    testImplementation 'com.google.dagger:hilt-android-testing:2.33-beta'
+    kaptTest 'com.google.dagger:hilt-compiler:2.33-beta'
 
     // RX JAVA
     implementation 'io.reactivex:rxandroid:1.2.1'
