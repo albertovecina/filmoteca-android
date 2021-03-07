@@ -13,11 +13,9 @@ android {
     compileSdkVersion 30
     buildToolsVersion '29.0.3'
     defaultConfig {
-        applicationId "com.albandroid.filmoteca"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 46
-        versionName "1.3.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         initGoogleServicesJson()
@@ -68,11 +66,19 @@ android {
         }
         albacete {
             dimension 'location'
+
+            applicationId "com.albandroid.filmoteca"
+            versionName "1.3.4"
+
             buildConfigField "String", "BASE_URL_FILMOTECA", "\"http://www.albacete.es/\""
             buildConfigField "String", "REGION", "\"ab\""
         }
         valencia {
             dimension 'location'
+
+            applicationId "com.vsa.filmoteca.cv"
+            versionName "1.0.0"
+
             buildConfigField "String", "BASE_URL_FILMOTECA", "\"https://ivc.gva.es/\""
             buildConfigField "String", "REGION", "\"cv\""
         }
