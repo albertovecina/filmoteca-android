@@ -12,6 +12,7 @@ object MovieHtmlMapper {
 
     private const val CLASS_ACTIVITY = "actividad"
     private const val CLASS_MOVIE_TEXTS = "textos-peli"
+    private const val CLASS_PLACE = "lugar"
 
     private const val CLASS_DAY = "dia"
     private const val CLASS_MONTH = "mes"
@@ -35,6 +36,7 @@ object MovieHtmlMapper {
                 val movie = Movie()
                 movie.date = getDate(activity)
                 val movieTexts = activity.getElementsByClass(CLASS_MOVIE_TEXTS)
+
                 movieTexts.forEach { movieText ->
 
                     val links = movieText.getElementsByTag(TAG_A)
@@ -44,6 +46,7 @@ object MovieHtmlMapper {
                     }
 
                     movie.subtitle = getSubtitle(movieText)
+                    movie.place = getPlace(movieText)
 
                 }
                 moviesList.add(movie)
@@ -51,7 +54,6 @@ object MovieHtmlMapper {
         }
         return moviesList
     }
-
 
     private fun getDate(activity: Element): String {
         val day = activity.getElementsByClass(CLASS_DAY)[0].text()
@@ -67,6 +69,15 @@ object MovieHtmlMapper {
             paragraphs[0].text()
         else
             ""
+    }
+
+    private fun getPlace(movieText: Element): String {
+        return movieText.getElementsByClass(CLASS_PLACE)?.let { place ->
+            if (place.size > 0)
+                place[0].text()
+            else
+                ""
+        } ?: ""
     }
 
 }
