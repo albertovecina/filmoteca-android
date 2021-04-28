@@ -37,18 +37,19 @@ object MovieHtmlMapper {
                 movie.date = getDate(activity)
                 val movieTexts = activity.getElementsByClass(CLASS_MOVIE_TEXTS)
 
-                movieTexts.forEach { movieText ->
+                if (movieTexts.isNotEmpty())
+                    movieTexts[0]?.let { movieText ->
 
-                    val links = movieText.getElementsByTag(TAG_A)
-                    if (links.size > 0) {
-                        movie.title = links[0].attr(ATTRIBUTE_TITLE_TITLE)
-                        movie.url = links[0].attr(ATTRIBUTE_HREF)
+                        val links = movieText.getElementsByTag(TAG_A)
+                        if (links.isNotEmpty()) {
+                            movie.title = links[0].attr(ATTRIBUTE_TITLE_TITLE)
+                            movie.url = links[0].attr(ATTRIBUTE_HREF)
+                        }
+
+                        movie.subtitle = getSubtitle(movieText)
+                        movie.place = getPlace(movieText)
+
                     }
-
-                    movie.subtitle = getSubtitle(movieText)
-                    movie.place = getPlace(movieText)
-
-                }
                 moviesList.add(movie)
             }
         }
@@ -65,19 +66,19 @@ object MovieHtmlMapper {
 
     private fun getSubtitle(movieText: Element): String {
         val paragraphs = movieText.getElementsByTag(TAG_P)
-        return if (paragraphs.size > 0)
+        return if (paragraphs.isNotEmpty())
             paragraphs[0].text()
         else
             ""
     }
 
-    private fun getPlace(movieText: Element): String {
+    private fun getPlace(movieText: Element): String? {
         return movieText.getElementsByClass(CLASS_PLACE)?.let { place ->
-            if (place.size > 0)
+            if (place.isNotEmpty())
                 place[0].text()
             else
-                ""
-        } ?: ""
+                null
+        }
     }
 
 }
