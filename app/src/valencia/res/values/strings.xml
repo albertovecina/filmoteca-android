@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Filmoteca C.V.</string>
+    <string name="warning_no_films_recived">
+        No hay eventos disponibles para la Filmoteca C.V. Durante el més de agosto no hay programación.</string>
+
+    <!-- Share -->
+    <string name="share_subject">Filmoteca C.V.</string>
+
+    <!-- Notifications -->
+    <string name="notification_title_normal">Filmoteca C.V.</string>
+
+</resources>

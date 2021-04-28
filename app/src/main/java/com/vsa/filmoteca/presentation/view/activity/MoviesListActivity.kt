@@ -15,8 +15,8 @@ import com.vsa.filmoteca.databinding.ActivityMainBinding
 import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
 import com.vsa.filmoteca.presentation.view.MoviesListView
-import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
 import com.vsa.filmoteca.presentation.view.adapter.MoviesAdapter
+import com.vsa.filmoteca.presentation.view.adapter.model.MovieViewModel
 import com.vsa.filmoteca.presentation.view.dialog.DialogManager
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 import com.vsa.filmoteca.presentation.view.notifications.NotificationService
@@ -90,6 +90,7 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
                 layoutManager.orientation)
         binding.recyclerViewMovies.layoutManager = layoutManager
         binding.recyclerViewMovies.addItemDecoration(itemDecoration)
+        binding.recyclerViewMovies.adapter = MoviesAdapter(this, this)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -171,13 +172,14 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
         startActivity(acercade)
     }
 
+    override fun setMovies(movies: List<MovieViewModel>) {
+        (binding.recyclerViewMovies.adapter as MoviesAdapter).update(movies)
+    }
+
     override fun showWifiSettings() {
         startActivity(Intent(android.provider.Settings.ACTION_WIFI_SETTINGS))
     }
 
-    override fun setMovies(dataProvider: EventDataProvider) {
-        binding.recyclerViewMovies.adapter = MoviesAdapter(this, dataProvider, this)
-    }
 
     override fun onMovieClick(position: Int) {
         presenter.onMovieRowClick(position)

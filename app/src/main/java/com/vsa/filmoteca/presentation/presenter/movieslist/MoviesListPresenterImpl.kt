@@ -7,7 +7,7 @@ import com.vsa.filmoteca.presentation.tracker.Tracker
 import com.vsa.filmoteca.presentation.utils.extensions.weak
 import com.vsa.filmoteca.presentation.utils.review.ReviewManager
 import com.vsa.filmoteca.presentation.view.MoviesListView
-import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
+import com.vsa.filmoteca.presentation.view.adapter.model.toViewModel
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 import rx.Observer
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class MoviesListPresenterImpl
         private val getMoviesListUseCase: GetMoviesListUseCase,
         private val reviewManager: ReviewManager,
         private val tracker: Tracker
-) : MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
+) : MoviesListPresenter, OkCancelDialogListener, Observer<List<Movie>> {
 
     private val view: MoviesListView? by weak(view)
 
@@ -86,19 +86,8 @@ class MoviesListPresenterImpl
         if (moviesList.isEmpty())
             view?.showNoEventsDialog()
         else
-            view?.setMovies(this)
+            view?.setMovies(movies.toViewModel())
         view?.showChangeLog()
     }
 
-    override fun getTitle(index: Int): String {
-        return moviesList[index].title
-    }
-
-    override fun getDate(index: Int): String {
-        return moviesList[index].date
-    }
-
-    override fun getSize(): Int {
-        return moviesList.size
-    }
 }
