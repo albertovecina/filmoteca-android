@@ -36,6 +36,9 @@ build/
 *~
 *.swp
 
+# Keystore
+*.keystore
+
 #Mac files
 .DS_Store
 
