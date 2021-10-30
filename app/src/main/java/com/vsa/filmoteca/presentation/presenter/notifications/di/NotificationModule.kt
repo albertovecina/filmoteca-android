@@ -4,6 +4,7 @@ import android.app.Service
 import com.vsa.filmoteca.presentation.presenter.notifications.NotificationPresenter
 import com.vsa.filmoteca.presentation.presenter.notifications.NotificationPresenterImpl
 import com.vsa.filmoteca.presentation.view.notifications.NotificationView
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +20,13 @@ class NotificationModule {
     @Provides
     fun providesNotificationView(notificationService: Service): NotificationView = notificationService as NotificationView
 
-    @Provides
-    fun providesNotificationPresenter(presenter: NotificationPresenterImpl): NotificationPresenter = presenter
+    @Module
+    @InstallIn(ServiceComponent::class)
+    interface Bindings {
+
+        @Binds
+        fun bindsNotificationPresenter(presenter: NotificationPresenterImpl): NotificationPresenter
+
+    }
 
 }

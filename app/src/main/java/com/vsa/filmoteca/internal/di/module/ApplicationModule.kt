@@ -2,8 +2,8 @@ package com.vsa.filmoteca.internal.di.module
 
 import com.vsa.filmoteca.presentation.tracker.FirebaseTracker
 import com.vsa.filmoteca.presentation.tracker.Tracker
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -14,10 +14,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ApplicationModule {
+interface ApplicationModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideTracker(tracker: FirebaseTracker): Tracker = tracker
+    fun bindsTracker(tracker: FirebaseTracker): Tracker
 
 }
