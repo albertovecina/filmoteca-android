@@ -5,9 +5,6 @@ import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
 import com.vsa.filmoteca.domain.mapper.DetailHtmlParser
 import com.vsa.filmoteca.domain.mapper.MovieHtmlMapper
 import com.vsa.filmoteca.domain.model.Movie
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -15,11 +12,10 @@ import javax.inject.Inject
  */
 class MoviesDataRepository @Inject constructor(private val filmotecaInterface: FilmotecaInterface) {
 
-    fun moviesList(): Observable<List<Movie>> {
-        return filmotecaInterface.moviesListHtml().map { MovieHtmlMapper.transformMovie(it) }
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
+    fun moviesList(): Result<List<Movie>> =
+        filmotecaInterface.moviesListHtml().execute().toResult()
+            .map { MovieHtmlMapper.transformMovie(it) }
+
 
     fun movieDetail(url: String): Result<String> =
         with(filmotecaInterface.movieDetail(url).execute().toResult()) {

@@ -4,19 +4,16 @@ import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
 import com.vsa.filmoteca.domain.usecase.MoviesPersistanceUseCase
 import com.vsa.filmoteca.presentation.view.EventsWidgetView
-import rx.Observer
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
  * Created by seldon on 27/03/15.
  */
 class EventsWidgetPresenterImpl @Inject constructor(
-        private val view:EventsWidgetView,
-        private val getMoviesListUseCase: GetMoviesListUseCase,
-        private val moviesPersistanceUseCase: MoviesPersistanceUseCase)
-    : EventsWidgetPresenter,
-        Observer<List<Movie>> {
+    private val view: EventsWidgetView,
+    private val getMoviesListUseCase: GetMoviesListUseCase,
+    private val moviesPersistanceUseCase: MoviesPersistanceUseCase
+) : EventsWidgetPresenter {
 
     private var currentMovieIndex = 0
     private var moviesListSize = 0
@@ -24,7 +21,7 @@ class EventsWidgetPresenterImpl @Inject constructor(
     override fun onRefresh() {
         view.showProgress()
         view.refreshViews()
-        getMoviesListUseCase.moviesList().subscribe(this)
+        requestMoviesList()
     }
 
     override fun onButtonLeftClick() {
@@ -66,41 +63,43 @@ class EventsWidgetPresenterImpl @Inject constructor(
         }
     }
 
-    override fun onCompleted() {
+    private fun requestMoviesList() {
+        getMoviesListUseCase.moviesList {
+            it.fold({ movies ->
+                if (movies.isEmpty()) {
+                    view.showRefreshButton()
+                } else {
+                    if (movies.isNotEmpty()) {
+                        //Actualizando base de datos
+                        moviesPersistanceUseCase.setMovies(movies)
 
-    }
+                        //Estableciendo elemento actual y tamaño de la base de datos
+                        currentMovieIndex = 0
+                        moviesListSize = movies.size
+                        moviesPersistanceUseCase.currentMovieIndex = 0
+                        moviesPersistanceUseCase.moviesCount = moviesListSize
 
-    override fun onError(e: Throwable) {
-        e.printStackTrace()
-        view.showRefreshButton()
-        view.refreshViews()
-    }
-
-    override fun onNext(movies: List<Movie>) {
-        if (movies.isEmpty()) {
-            view.showRefreshButton()
-        } else {
-            if (movies.isNotEmpty()) {
-                //Actualizando base de datos
-                moviesPersistanceUseCase.setMovies(movies)
-
-                //Estableciendo elemento actual y tamaño de la base de datos
-                currentMovieIndex = 0
-                moviesListSize = movies.size
-                moviesPersistanceUseCase.currentMovieIndex = 0
-                moviesPersistanceUseCase.moviesCount = moviesListSize
-
-                //Configurando la vista
-                view.setupLRButtons()
-                var currentMovie: Movie? = null
-                if (movies.isNotEmpty()) {
-                    currentMovie = movies[currentMovieIndex]
-                    view.setupMovieView(currentMovie.url, currentMovie.title, currentMovie.date)
-                    view.setupIndexView(currentMovieIndex + 1, moviesListSize)
+                        //Configurando la vista
+                        view.setupLRButtons()
+                        var currentMovie: Movie? = null
+                        if (movies.isNotEmpty()) {
+                            currentMovie = movies[currentMovieIndex]
+                            view.setupMovieView(
+                                currentMovie.url,
+                                currentMovie.title,
+                                currentMovie.date
+                            )
+                            view.setupIndexView(currentMovieIndex + 1, moviesListSize)
+                        }
+                        view.hideProgress()
+                    }
                 }
-                view.hideProgress()
-            }
+                view.refreshViews()
+            }, {
+                view.showRefreshButton()
+                view.refreshViews()
+            })
         }
-        view.refreshViews()
     }
+
 }
