@@ -1,6 +1,7 @@
 package com.vsa.filmoteca.data.source.ws
 
 
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Url
 import rx.Observable
@@ -14,6 +15,6 @@ interface FilmotecaInterface {
     fun moviesListHtml(): Observable<String>
 
     @GET
-    fun movieDetail(@Url url: String): Observable<String>
+    fun movieDetail(@Url url: String): Call<String>
 
 }

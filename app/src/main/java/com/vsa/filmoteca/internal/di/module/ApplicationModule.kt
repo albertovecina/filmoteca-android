@@ -1,5 +1,7 @@
 package com.vsa.filmoteca.internal.di.module
 
+import com.vsa.filmoteca.data.net.AsyncExecutor
+import com.vsa.filmoteca.data.net.CoroutineAsyncExecutor
 import com.vsa.filmoteca.presentation.tracker.FirebaseTracker
 import com.vsa.filmoteca.presentation.tracker.Tracker
 import dagger.Binds
@@ -19,5 +21,9 @@ interface ApplicationModule {
     @Binds
     @Singleton
     fun bindsTracker(tracker: FirebaseTracker): Tracker
+
+    @Binds
+    @Singleton
+    fun bindsAsyncExecutor(coroutineAsyncExecutor: CoroutineAsyncExecutor): AsyncExecutor
 
 }

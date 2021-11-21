@@ -1,12 +1,10 @@
 package com.vsa.filmoteca.data.source.repository
 
-import com.vsa.filmoteca.domain.model.Movie
+import com.vsa.filmoteca.data.extensions.toResult
+import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
 import com.vsa.filmoteca.domain.mapper.DetailHtmlParser
 import com.vsa.filmoteca.domain.mapper.MovieHtmlMapper
-import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import com.vsa.filmoteca.domain.model.Movie
 import javax.inject.Inject
 
 /**
@@ -14,22 +12,16 @@ import javax.inject.Inject
  */
 class MoviesDataRepository @Inject constructor(private val filmotecaInterface: FilmotecaInterface) {
 
-    fun moviesList(): Observable<List<Movie>> {
-        return filmotecaInterface.moviesListHtml().map { MovieHtmlMapper.transformMovie(it) }
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
+    fun moviesList(): Result<List<Movie>> =
+        filmotecaInterface.moviesListHtml().execute().toResult()
+            .map { MovieHtmlMapper.transformMovie(it) }
 
-    fun movieDetail(url: String): Observable<String> {
-        return filmotecaInterface.movieDetail(url).map<String> { html ->
-            try {
-                DetailHtmlParser.parse(html)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                ""
-            }
-        }.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
+
+    fun movieDetail(url: String): Result<String> =
+        with(filmotecaInterface.movieDetail(url).execute().toResult()) {
+            DetailHtmlParser.parse(getOrNull())?.let {
+                Result.success(it)
+            } ?: Result.failure(Exception())
+        }
 
 }
