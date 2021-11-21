@@ -8,11 +8,12 @@ import javax.inject.Inject
 
 class CoroutineAsyncExecutor @Inject constructor() : AsyncExecutor {
 
-    override fun <R> execute(block: () -> R, callback: (R) -> Unit) {
+    override fun <R> execute(block: () -> R, callback: ((R) -> Unit)?) {
         MainScope().launch {
-            callback(withContext(Dispatchers.IO) {
+            val result = withContext(Dispatchers.IO) {
                 block()
-            })
+            }
+            callback?.invoke(result)
         }
     }
 
