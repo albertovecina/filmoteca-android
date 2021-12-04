@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.utils.extensions
+package com.vsa.filmoteca.core.extensions
 
 import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty

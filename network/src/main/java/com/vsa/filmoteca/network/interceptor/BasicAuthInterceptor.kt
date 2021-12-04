@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.data.source.ws
+package com.vsa.filmoteca.network.interceptor
 
 import okhttp3.Credentials
 import okhttp3.Interceptor

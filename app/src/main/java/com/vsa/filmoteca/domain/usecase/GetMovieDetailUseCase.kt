@@ -1,6 +1,6 @@
 package com.vsa.filmoteca.domain.usecase
 
-import com.vsa.filmoteca.data.net.AsyncExecutor
+import com.vsa.filmoteca.network.executor.AsyncExecutor
 import com.vsa.filmoteca.data.source.repository.MoviesDataRepository
 import com.vsa.filmoteca.data.source.repository.SystemDataRepository
 import javax.inject.Inject

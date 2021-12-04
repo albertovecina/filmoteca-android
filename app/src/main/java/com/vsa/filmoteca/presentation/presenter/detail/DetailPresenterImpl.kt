@@ -2,8 +2,8 @@ package com.vsa.filmoteca.presentation.presenter.detail
 
 import com.vsa.filmoteca.domain.usecase.GetMovieDetailUseCase
 import com.vsa.filmoteca.presentation.tracker.Tracker
-import com.vsa.filmoteca.presentation.utils.extensions.toUrlEncoded
-import com.vsa.filmoteca.presentation.utils.extensions.weak
+import com.vsa.filmoteca.core.extensions.toUrlEncoded
+import com.vsa.filmoteca.core.extensions.weak
 import com.vsa.filmoteca.presentation.view.DetailView
 import javax.inject.Inject
 
