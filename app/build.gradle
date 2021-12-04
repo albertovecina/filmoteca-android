@@ -11,7 +11,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 31
-    buildToolsVersion '29.0.3'
+    buildToolsVersion '30.0.3'
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 31
@@ -21,7 +21,7 @@ android {
         initPlayStoreApiKeys()
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     lintOptions {
         abortOnError false
