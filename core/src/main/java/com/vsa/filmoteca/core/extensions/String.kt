@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.utils.extensions
+package com.vsa.filmoteca.core.extensions
 
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets

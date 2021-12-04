@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.data.net
+package com.vsa.filmoteca.network.executor
 
 interface AsyncExecutor {
 

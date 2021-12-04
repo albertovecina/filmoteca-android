@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.data.extensions
+package com.vsa.filmoteca.network.extensions
 
 import retrofit2.Response
 

@@ -1,11 +1,11 @@
 package com.vsa.filmoteca.data.source.repository
 
 
-import com.vsa.filmoteca.data.extensions.toResult
 import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
 import com.vsa.filmoteca.domain.mapper.DetailHtmlParser
 import com.vsa.filmoteca.domain.mapper.MovieHtmlMapper
 import com.vsa.filmoteca.domain.model.Movie
+import com.vsa.filmoteca.network.extensions.toResult
 import javax.inject.Inject
 
 /**

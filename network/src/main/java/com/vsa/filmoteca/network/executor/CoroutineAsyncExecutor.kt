@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.data.net
+package com.vsa.filmoteca.network.executor
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope

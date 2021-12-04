@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.data.source.repository
 
 import com.vsa.filmoteca.BuildConfig
-import com.vsa.filmoteca.data.net.AsyncExecutor
+import com.vsa.filmoteca.network.executor.AsyncExecutor
 import com.vsa.filmoteca.data.source.ws.WsInterface
 import javax.inject.Inject
 

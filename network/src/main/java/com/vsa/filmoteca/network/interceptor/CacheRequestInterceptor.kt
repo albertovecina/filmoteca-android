@@ -1,7 +1,7 @@
-package com.vsa.filmoteca.data.source.ws
+package com.vsa.filmoteca.network.interceptor
 
 import android.content.Context
-import com.vsa.filmoteca.presentation.utils.extensions.isInternetAvailable
+import com.vsa.filmoteca.core.extensions.isInternetAvailable
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -22,13 +22,19 @@ class CacheRequestInterceptor(private val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = when (mCachePolicy) {
 
-            CachePolicy.FORCE_CACHE_LOADING -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
-            CachePolicy.FORCE_NETWORK_LOADING -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK).build()
+            CachePolicy.FORCE_CACHE_LOADING -> chain.request().newBuilder().addHeader(
+                HEADER_CACHE_CONTROL, LOAD_FROM_CACHE
+            ).build()
+            CachePolicy.FORCE_NETWORK_LOADING -> chain.request().newBuilder().addHeader(
+                HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK
+            ).build()
             CachePolicy.PRIORITY_NETWORK -> if (context.isInternetAvailable())
                 chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK).build()
             else
                 chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
-            CachePolicy.PRIORITY_CACHE -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_WITH_CACHE_PRIORITY).build()
+            CachePolicy.PRIORITY_CACHE -> chain.request().newBuilder().addHeader(
+                HEADER_CACHE_CONTROL, LOAD_WITH_CACHE_PRIORITY
+            ).build()
             CachePolicy.DISABLE_CACHE -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
         }
         return chain.proceed(request)

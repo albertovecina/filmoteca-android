@@ -1,7 +1,7 @@
 package com.vsa.filmoteca.data.source.repository
 
 import android.content.Context
-import com.vsa.filmoteca.presentation.utils.extensions.isInternetAvailable
+import com.vsa.filmoteca.core.extensions.isInternetAvailable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
