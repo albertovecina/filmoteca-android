@@ -16,14 +16,20 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ApplicationModule {
+class ApplicationModule {
 
-    @Binds
-    @Singleton
-    fun bindsAsyncExecutor(executor: CoroutineAsyncExecutor): AsyncExecutor
+    @Module
+    @InstallIn(SingletonComponent::class)
+    interface Bindings {
 
-    @Binds
-    @Singleton
-    fun bindsTracker(tracker: FirebaseTracker): Tracker
+        @Binds
+        @Singleton
+        fun bindsAsyncExecutor(executor: CoroutineAsyncExecutor): AsyncExecutor
+
+        @Binds
+        @Singleton
+        fun bindsTracker(tracker: FirebaseTracker): Tracker
+
+    }
 
 }

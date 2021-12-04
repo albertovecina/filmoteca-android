@@ -168,7 +168,7 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
             DetailActivity.open(this, url, title, date)
 
     override fun showAboutUs() {
-        val acercade = Intent(this, AboutActivity::class.java)
+        val acercade = Intent(this, com.vsa.filmoteca.about.presentation.view.AboutActivity::class.java)
         startActivity(acercade)
     }
 

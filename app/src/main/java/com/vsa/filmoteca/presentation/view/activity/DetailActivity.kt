@@ -176,7 +176,7 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     override fun showAboutUs() {
-        val intent = Intent(this, AboutActivity::class.java)
+        val intent = Intent(this, com.vsa.filmoteca.about.presentation.view.AboutActivity::class.java)
         startActivity(intent)
     }
 

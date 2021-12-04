@@ -41,7 +41,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.view.activity.AboutActivity"
+            android:name=".about.presentation.view.AboutActivity"
             android:label="@string/about_us"
             android:theme="@style/Theme.Transparent" />
 
