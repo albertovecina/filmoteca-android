@@ -81,22 +81,22 @@ dependencies {
     implementation project(path: ':core')
 
     // DEPENDENCY INJECTION
-    implementation 'com.google.dagger:hilt-android:2.40'
-    kapt 'com.google.dagger:hilt-compiler:2.40'
+    implementation Dependencies.hiltAndroid
+    kapt Dependencies.hiltCompiler
 
     // For instrumentation tests
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.40'
-    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.40'
+    androidTestImplementation Dependencies.hiltAndroidTesting
+    kaptAndroidTest Dependencies.hiltCompiler
 
     // For local unit tests
-    testImplementation 'com.google.dagger:hilt-android-testing:2.40'
-    kaptTest 'com.google.dagger:hilt-compiler:2.40'
+    testImplementation Dependencies.hiltAndroidTesting
+    kaptTest Dependencies.hiltCompiler
 
     //COROUTINES
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    implementation Dependencies.coroutines
 
-    api 'com.squareup.okhttp3:okhttp:4.9.1'
-    api 'com.squareup.okhttp3:logging-interceptor:4.9.1'
-    api 'com.squareup.retrofit2:retrofit:2.9.0'
-    api 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    api Dependencies.okhttp
+    api Dependencies.okhttpLoggingInterceptor
+    api Dependencies.retrofit
+    api Dependencies.retrofitConverterScalars
 }
