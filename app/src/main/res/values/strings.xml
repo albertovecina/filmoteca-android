@@ -7,7 +7,6 @@
         \n¿Deseas acceder al menu de configuración?</string>
     <string name="warning_no_films_recived">
         No hay eventos disponibles para la Filmoteca de Albacete. Durante el més de agosto no hay programación.</string>
-    <string name="image_title_desc">Imagen del título</string>
     <string name="image_search">Imagen del título</string>
     <string name="image_share">Imagen del título</string>
     <string name="image_navigator">Imagen del título</string>
@@ -40,15 +39,6 @@
 
     <!-- Menu -->
     <string name="refresh">Actualizar</string>
-
-    <!-- About us -->
-    <string name="about_us">Acerca de…</string>
-    <string name="developby">Desarrollado por:</string>
-    <string name="albandroid">Asociación Juvenil Albandroid</string>
-    <string name="web">http://www.albandroid.es</string>
-    <string name="email">albaceteandroid@gmail.com</string>
-    <string name="findus">Escuela de Ingenieros Industriales - Aula 1.6</string>
-    <string name="version_code">version %d</string>
 
     <!-- Share -->
     <string name="share_date">Fecha</string>

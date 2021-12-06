@@ -3,11 +3,11 @@ package com.vsa.filmoteca.internal.di.module
 import com.vsa.filmoteca.BuildConfig
 import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
 import com.vsa.filmoteca.data.source.ws.WsInterface
+import com.vsa.filmoteca.network.domain.model.ApiClientBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -16,18 +16,16 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun providesFilmotecaInterface(retrofitBuilder: Retrofit.Builder): FilmotecaInterface =
-        retrofitBuilder
+    fun providesFilmotecaInterface(apiClientBuilder: ApiClientBuilder): FilmotecaInterface =
+        apiClientBuilder
             .baseUrl(BuildConfig.BASE_URL_FILMOTECA)
-            .build()
             .create(FilmotecaInterface::class.java)
 
     @Singleton
     @Provides
-    fun providesWsInterface(retrofitBuilder: Retrofit.Builder): WsInterface =
-        retrofitBuilder
+    fun providesWsInterface(apiClientBuilder: ApiClientBuilder): WsInterface =
+        apiClientBuilder
             .baseUrl(BuildConfig.BASE_URL_WS)
-            .build()
             .create(WsInterface::class.java)
 
 }

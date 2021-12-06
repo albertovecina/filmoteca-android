@@ -11,6 +11,7 @@ import android.view.MenuItem
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
+import com.vsa.filmoteca.about.presentation.view.AboutDialog
 import com.vsa.filmoteca.databinding.ActivityMainBinding
 import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenter
 import com.vsa.filmoteca.presentation.utils.ChangeLog
@@ -26,7 +27,8 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.OnRefreshListener, MoviesAdapter.Callback {
+class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.OnRefreshListener,
+    MoviesAdapter.Callback {
 
     companion object {
         /**
@@ -41,7 +43,13 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
             context.startActivity(intent)
         }
 
-        fun newIntent(context: Context, flags: Int, url: String, title: String, date: String): Intent {
+        fun newIntent(
+            context: Context,
+            flags: Int,
+            url: String,
+            title: String,
+            date: String
+        ): Intent {
             val intent = Intent(context, MoviesListActivity::class.java)
             intent.putExtra(EXTRA_URL, url)
             intent.putExtra(EXTRA_TITLE, title)
@@ -68,7 +76,10 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter(NotificationService.ACTION_NEW_MOVIES))
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            broadcastReceiver,
+            IntentFilter(NotificationService.ACTION_NEW_MOVIES)
+        )
 
         initViews()
         onNewIntent(intent)
@@ -82,12 +93,16 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     private fun initViews() {
         showTitle(0)
         binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
-                R.color.color_accent,
-                R.color.color_primary)
+        binding.swipeRefreshLayout.setColorSchemeResources(
+            R.color.color_primary_dark,
+            R.color.color_accent,
+            R.color.color_primary
+        )
         val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
-        val itemDecoration = androidx.recyclerview.widget.DividerItemDecoration(this,
-                layoutManager.orientation)
+        val itemDecoration = androidx.recyclerview.widget.DividerItemDecoration(
+            this,
+            layoutManager.orientation
+        )
         binding.recyclerViewMovies.layoutManager = layoutManager
         binding.recyclerViewMovies.addItemDecoration(itemDecoration)
         binding.recyclerViewMovies.adapter = MoviesAdapter(this, this)
@@ -96,9 +111,11 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         if (intent.extras != null) {
-            presenter.onCreate(intent.getStringExtra(EXTRA_URL),
-                    intent.getStringExtra(EXTRA_TITLE),
-                    intent.getStringExtra(EXTRA_DATE))
+            presenter.onCreate(
+                intent.getStringExtra(EXTRA_URL),
+                intent.getStringExtra(EXTRA_TITLE),
+                intent.getStringExtra(EXTRA_DATE)
+            )
         } else {
             presenter.onCreate()
         }
@@ -130,26 +147,34 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     override fun showTitle(moviesCount: Int) {
         val spannableString =
-                if (moviesCount < 1)
-                    SpannableString(getString(R.string.title_activity_main))
-                else
-                    SpannableString(getString(R.string.title_activity_main) + " (" + moviesCount + ")")
-        spannableString.setSpan(TypefaceSpan("montserrat_regular.ttf"), 0, spannableString.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            if (moviesCount < 1)
+                SpannableString(getString(R.string.title_activity_main))
+            else
+                SpannableString(getString(R.string.title_activity_main) + " (" + moviesCount + ")")
+        spannableString.setSpan(
+            TypefaceSpan("montserrat_regular.ttf"), 0, spannableString.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         supportActionBar?.title = spannableString
     }
 
     override fun showWifiRequestDialog(okCancelDialogListener: OkCancelDialogListener) {
-        DialogManager.showOkCancelDialog(this, R.string.warning_no_internet_connection, okCancelDialogListener)
+        DialogManager.showOkCancelDialog(
+            this,
+            R.string.warning_no_internet_connection,
+            okCancelDialogListener
+        )
     }
 
     override fun showTimeOutDialog() {
-        DialogManager.showSimpleDialog(this, R.string.timeout_dialog_message
+        DialogManager.showSimpleDialog(
+            this, R.string.timeout_dialog_message
         ) { finish() }
     }
 
     override fun showNoEventsDialog() {
-        DialogManager.showSimpleDialog(this, R.string.warning_no_films_recived
+        DialogManager.showSimpleDialog(
+            this, R.string.warning_no_films_recived
         ) { finish() }
     }
 
@@ -165,11 +190,10 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
     }
 
     override fun navigateToDetail(url: String, title: String, date: String) =
-            DetailActivity.open(this, url, title, date)
+        DetailActivity.open(this, url, title, date)
 
     override fun showAboutUs() {
-        val acercade = Intent(this, AboutActivity::class.java)
-        startActivity(acercade)
+        AboutDialog.show(supportFragmentManager)
     }
 
     override fun setMovies(movies: List<MovieViewModel>) {
@@ -187,12 +211,12 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     override fun updateWidget() {
         val ids = AppWidgetManager.getInstance(application)
-                .getAppWidgetIds(ComponentName(this, EventsWidgetProvider::class.java))
+            .getAppWidgetIds(ComponentName(this, EventsWidgetProvider::class.java))
         sendBroadcast(Intent(this, EventsWidgetProvider::class.java)
-                .apply {
-                    action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-                })
+            .apply {
+                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            })
     }
 
 }

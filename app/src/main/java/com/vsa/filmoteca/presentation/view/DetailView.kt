@@ -27,6 +27,4 @@ interface DetailView : LoadingView {
 
     fun setWebViewContent(html: String, baseUrl: String)
 
-    fun navigateToComments(title: String)
-
 }
