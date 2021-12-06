@@ -17,6 +17,4 @@ interface DetailPresenter {
 
     fun onAboutUsButtonClick()
 
-    fun onFabClick()
-
 }

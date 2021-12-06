@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
+import com.vsa.filmoteca.about.presentation.view.AboutDialog
 import com.vsa.filmoteca.databinding.ActivityDetailBinding
 import com.vsa.filmoteca.presentation.presenter.detail.DetailPresenter
 import com.vsa.filmoteca.presentation.view.DetailView
@@ -49,15 +50,19 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initViews()
-        presenter.onCreate(intent.getStringExtra(EXTRA_URL) ?: "",
-                intent.getStringExtra(EXTRA_TITLE) ?: "")
+        presenter.onCreate(
+            intent.getStringExtra(EXTRA_URL) ?: "",
+            intent.getStringExtra(EXTRA_TITLE) ?: ""
+        )
 
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        presenter.onCreate(intent.getStringExtra(EXTRA_URL) ?: "",
-                intent.getStringExtra(EXTRA_TITLE) ?: "")
+        presenter.onCreate(
+            intent.getStringExtra(EXTRA_URL) ?: "",
+            intent.getStringExtra(EXTRA_TITLE) ?: ""
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -101,9 +106,11 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
 
     private fun initViews() {
         binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark,
-                R.color.color_accent,
-                R.color.color_primary)
+        binding.swipeRefreshLayout.setColorSchemeResources(
+            R.color.color_primary_dark,
+            R.color.color_accent,
+            R.color.color_primary
+        )
         binding.webviewMoviePage.onScrollChangedCallback = { _, top, _, _ ->
             binding.swipeRefreshLayout.isEnabled = top == 0
         }
@@ -147,13 +154,18 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     override fun showErrorNoInternet() {
-        DialogManager.showSimpleDialog(this, R.string.error_no_internet) { dialog -> dialog.dismiss() }
+        DialogManager.showSimpleDialog(
+            this,
+            R.string.error_no_internet
+        ) { dialog -> dialog.dismiss() }
     }
 
     override fun showShareDialog() {
         val titleShareButton = intent.getStringExtra(EXTRA_TITLE)
-        val dateShareButton = getString(R.string.share_date) + ": " + intent.getStringExtra(EXTRA_DATE)?.substring(1)
-        val infoShareButton = getString(R.string.share_message) + " " + titleShareButton + "\n" + dateShareButton
+        val dateShareButton =
+            getString(R.string.share_date) + ": " + intent.getStringExtra(EXTRA_DATE)?.substring(1)
+        val infoShareButton =
+            getString(R.string.share_message) + " " + titleShareButton + "\n" + dateShareButton
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject))
@@ -167,17 +179,14 @@ class DetailActivity : BaseActivity(), DetailView, SwipeRefreshLayout.OnRefreshL
     }
 
     override fun setWebViewContent(html: String, baseUrl: String) {
-        binding.webviewMoviePage.loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8",
-                "about:blank")
-    }
-
-    override fun navigateToComments(title: String) {
-        //TODO
+        binding.webviewMoviePage.loadDataWithBaseURL(
+            baseUrl, html, "text/html", "utf-8",
+            "about:blank"
+        )
     }
 
     override fun showAboutUs() {
-        val intent = Intent(this, com.vsa.filmoteca.about.presentation.view.AboutActivity::class.java)
-        startActivity(intent)
+        AboutDialog.show(supportFragmentManager)
     }
 
 }

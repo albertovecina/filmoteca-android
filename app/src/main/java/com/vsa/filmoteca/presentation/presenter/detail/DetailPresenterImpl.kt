@@ -50,13 +50,6 @@ class DetailPresenterImpl @Inject constructor(
         view?.showAboutUs()
     }
 
-    override fun onFabClick() {
-        if (getMovieDetailUseCase.isInternetAvailable())
-            view?.navigateToComments(title)
-        else
-            view?.showErrorNoInternet()
-    }
-
     override fun onRefresh() {
         if (contentUrl.isNotEmpty())
             loadContent(contentUrl)
