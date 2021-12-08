@@ -170,9 +170,10 @@ def loadKeyPassword() {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation project(path: ':core')
-    implementation project(path: ':network')
-    implementation project(path: ':about')
+    implementation project(':core')
+    implementation project(':resources')
+    implementation project(':network')
+    implementation project(':about')
 
     //ANDROID SUPPORT LIBRARIES
     implementation 'androidx.appcompat:appcompat:1.4.0'
@@ -195,7 +196,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-config'
 
     // UNIT TESTING
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation TestDependencies.junit
     // Set this dependency if you want to use Mockito
     testImplementation 'org.mockito:mockito-core:3.7.7'
     // Set this dependency if you want to use Hamcrest matching
