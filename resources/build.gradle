@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion SdkVersion.compileSdkVersion
     flavorDimensions 'environment', 'location'
     productFlavors {
         real {

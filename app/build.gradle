@@ -9,25 +9,23 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion '30.0.3'
-    defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 31
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    compileSdkVersion SdkVersion.compileSdkVersion
 
+    defaultConfig {
+        minSdkVersion SdkVersion.minSdkVersion
+        targetSdkVersion SdkVersion.targetSdkVersion
         initGoogleServicesJson()
         initPlayStoreApiKeys()
-    }
-    buildFeatures {
-        viewBinding true
-    }
-    lintOptions {
-        abortOnError false
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
+    }
+    buildFeatures {
+        viewBinding true
     }
     signingConfigs {
         release {
@@ -176,7 +174,7 @@ dependencies {
     implementation project(':about')
 
     //ANDROID SUPPORT LIBRARIES
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.exifinterface:exifinterface:1.3.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -208,7 +206,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
 
     //GMS
-    implementation 'com.google.android.play:core:1.10.2'
+    implementation 'com.google.android.play:core:1.10.3'
 
     // DEPENDENCY INJECTION
     implementation Dependencies.hiltAndroid
@@ -223,7 +221,5 @@ dependencies {
     kaptTest Dependencies.hiltCompiler
 
     implementation 'org.jsoup:jsoup:1.13.1'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
 }
 apply plugin: 'com.google.gms.google-services'

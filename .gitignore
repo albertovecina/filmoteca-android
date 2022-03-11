@@ -36,6 +36,9 @@ build/
 *~
 *.swp
 
+#JDK
+*.hprof
+
 #Mac files
 .DS_Store
 
