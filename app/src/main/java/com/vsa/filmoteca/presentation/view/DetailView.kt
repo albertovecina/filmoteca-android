@@ -1,5 +1,7 @@
 package com.vsa.filmoteca.presentation.view
 
+import com.vsa.filmoteca.core.presentation.view.LoadingView
+
 /**
  * Created by seldon on 13/03/15.
  */

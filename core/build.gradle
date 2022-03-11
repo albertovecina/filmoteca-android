@@ -4,14 +4,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion SdkVersion.compileSdkVersion
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -23,10 +19,6 @@ android {
     }
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + "-Xallow-result-return-type"
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -50,6 +42,6 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
 
 }

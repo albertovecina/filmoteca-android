@@ -25,3 +25,9 @@ object TestVersions {
 object TestDependencies {
     const val junit = "junit:junit:${TestVersions.junit}"
 }
+
+object SdkVersion {
+    const val compileSdkVersion = 32
+    const val minSdkVersion = 21
+    const val targetSdkVersion = 32
+}

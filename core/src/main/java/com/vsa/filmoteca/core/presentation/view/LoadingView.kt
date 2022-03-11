@@ -1,4 +1,4 @@
-package com.vsa.filmoteca.presentation.view
+package com.vsa.filmoteca.core.presentation.view
 
 interface LoadingView {
 
