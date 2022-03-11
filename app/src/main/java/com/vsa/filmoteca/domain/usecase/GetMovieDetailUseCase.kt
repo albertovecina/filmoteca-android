@@ -1,8 +1,7 @@
 package com.vsa.filmoteca.domain.usecase
 
-import com.vsa.filmoteca.network.executor.AsyncExecutor
 import com.vsa.filmoteca.data.source.repository.MoviesDataRepository
-import com.vsa.filmoteca.data.source.repository.SystemDataRepository
+import com.vsa.filmoteca.network.executor.AsyncExecutor
 import javax.inject.Inject
 
 /**
@@ -10,7 +9,6 @@ import javax.inject.Inject
  */
 
 class GetMovieDetailUseCase @Inject constructor(
-    private val systemDataRepository: SystemDataRepository,
     private val repository: MoviesDataRepository,
     private val asyncExecutor: AsyncExecutor
 ) {
@@ -20,7 +18,5 @@ class GetMovieDetailUseCase @Inject constructor(
             repository.movieDetail(url)
         }, callback)
     }
-
-    fun isInternetAvailable(): Boolean = systemDataRepository.isInternetAvailable()
 
 }
