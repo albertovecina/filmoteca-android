@@ -12,40 +12,42 @@ import java.io.IOException
  */
 class CacheRequestInterceptor(private val context: Context) : Interceptor {
 
-    private var mCachePolicy = CachePolicy.PRIORITY_NETWORK
+    var cachePolicy: CachePolicy = CachePolicy.PriorityNetwork
 
-    enum class CachePolicy {
-        FORCE_CACHE_LOADING, FORCE_NETWORK_LOADING, DISABLE_CACHE, PRIORITY_NETWORK, PRIORITY_CACHE
+    sealed class CachePolicy {
+        object ForceCacheLoading : CachePolicy()
+        object ForceNetworkLoading : CachePolicy()
+        object DisableCache : CachePolicy()
+        object PriorityNetwork : CachePolicy()
+        object PriorityCache : CachePolicy()
     }
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request: Request = when (mCachePolicy) {
+        val request: Request = when (cachePolicy) {
 
-            CachePolicy.FORCE_CACHE_LOADING -> chain.request().newBuilder().addHeader(
+            CachePolicy.ForceCacheLoading -> chain.request().newBuilder().addHeader(
                 HEADER_CACHE_CONTROL, LOAD_FROM_CACHE
             ).build()
-            CachePolicy.FORCE_NETWORK_LOADING -> chain.request().newBuilder().addHeader(
+            CachePolicy.ForceNetworkLoading -> chain.request().newBuilder().addHeader(
                 HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK
             ).build()
-            CachePolicy.PRIORITY_NETWORK -> if (context.isInternetAvailable())
-                chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK).build()
+            CachePolicy.PriorityNetwork -> if (context.isInternetAvailable())
+                chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_NETWORK)
+                    .build()
             else
-                chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
-            CachePolicy.PRIORITY_CACHE -> chain.request().newBuilder().addHeader(
+                chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE)
+                    .build()
+            CachePolicy.PriorityCache -> chain.request().newBuilder().addHeader(
                 HEADER_CACHE_CONTROL, LOAD_WITH_CACHE_PRIORITY
             ).build()
-            CachePolicy.DISABLE_CACHE -> chain.request().newBuilder().addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
+            CachePolicy.DisableCache -> chain.request().newBuilder()
+                .addHeader(HEADER_CACHE_CONTROL, LOAD_FROM_CACHE).build()
         }
         return chain.proceed(request)
     }
 
-    fun setCachePolicy(cachePolicy: CachePolicy) {
-        mCachePolicy = cachePolicy
-    }
-
     companion object {
-
         private const val HEADER_CACHE_CONTROL = "Cache-Control"
         private const val LOAD_FROM_CACHE = "max-stale"
         private const val LOAD_FROM_NETWORK = "max-age=0"
