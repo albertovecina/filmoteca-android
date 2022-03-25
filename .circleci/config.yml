@@ -55,6 +55,7 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-release:
-          branches:
-            only:
-              - master
+          filters:
+            branches:
+              only:
+                - master

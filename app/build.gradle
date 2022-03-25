@@ -54,8 +54,8 @@ android {
             dimension 'location'
 
             applicationId "com.albandroid.filmoteca"
-            versionCode 47
-            versionName "1.3.5"
+            versionCode 48
+            versionName "1.3.6"
 
             buildConfigField "String", "BASE_URL_FILMOTECA", "\"http://www.albacete.es/\""
             buildConfigField "String", "REGION", "\"ab\""
