@@ -8,6 +8,8 @@ import javax.inject.Inject
  */
 class PushRegistrationTokenUseCase @Inject constructor(private val pushRepository: PushRepository) {
 
-    fun registerToken(token: String) = pushRepository.registerPushNotificationToken(token)
+    fun registerToken(token: String) {
+        pushRepository.registerPushNotificationToken(token)
+    }
 
 }

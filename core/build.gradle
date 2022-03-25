@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+apply from: '../base.gradle'
+
+android {
+    buildToolsVersion '30.0.3'
+    lintOptions {
+        abortOnError false
+    }
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xallow-result-return-type"
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    flavorDimensions 'environment', 'location'
+    productFlavors {
+        real {
+            dimension 'environment'
+        }
+        mock {
+            dimension 'environment'
+        }
+        albacete {
+            dimension 'location'
+        }
+        valencia {
+            dimension 'location'
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+
+}

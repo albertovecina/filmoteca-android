@@ -4,8 +4,8 @@ import com.vsa.filmoteca.presentation.presenter.widget.EventsWidgetPresenter
 import com.vsa.filmoteca.presentation.presenter.widget.EventsWidgetPresenterImpl
 import com.vsa.filmoteca.presentation.view.EventsWidgetView
 import com.vsa.filmoteca.presentation.view.widget.EventsWidgetViewImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
@@ -15,12 +15,12 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-class EventsWidgetModule {
+interface EventsWidgetModule {
 
-    @Provides
-    fun providesEventsWidgetView(view: EventsWidgetViewImpl): EventsWidgetView = view
+    @Binds
+    fun bindsEventsWidgetView(view: EventsWidgetViewImpl): EventsWidgetView
 
-    @Provides
-    fun providesEventsWidgetPresenter(eventsWidgetPresenter: EventsWidgetPresenterImpl): EventsWidgetPresenter = eventsWidgetPresenter
+    @Binds
+    fun bindsEventsWidgetPresenter(eventsWidgetPresenter: EventsWidgetPresenterImpl): EventsWidgetPresenter
 
 }

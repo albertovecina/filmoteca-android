@@ -4,12 +4,11 @@ import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.domain.usecase.ClearCacheUseCase
 import com.vsa.filmoteca.domain.usecase.GetMoviesListUseCase
 import com.vsa.filmoteca.presentation.tracker.Tracker
-import com.vsa.filmoteca.presentation.utils.extensions.weak
+import com.vsa.filmoteca.core.extensions.weak
 import com.vsa.filmoteca.presentation.utils.review.ReviewManager
 import com.vsa.filmoteca.presentation.view.MoviesListView
-import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
+import com.vsa.filmoteca.presentation.view.adapter.model.toViewModel
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
-import rx.Observer
 import javax.inject.Inject
 
 /**
@@ -18,12 +17,12 @@ import javax.inject.Inject
 
 class MoviesListPresenterImpl
 @Inject constructor(
-        view: MoviesListView,
-        private val clearCacheUseCase: ClearCacheUseCase,
-        private val getMoviesListUseCase: GetMoviesListUseCase,
-        private val reviewManager: ReviewManager,
-        private val tracker: Tracker
-) : MoviesListPresenter, OkCancelDialogListener, EventDataProvider, Observer<List<Movie>> {
+    view: MoviesListView,
+    private val clearCacheUseCase: ClearCacheUseCase,
+    private val getMoviesListUseCase: GetMoviesListUseCase,
+    private val reviewManager: ReviewManager,
+    private val tracker: Tracker
+) : MoviesListPresenter, OkCancelDialogListener {
 
     private val view: MoviesListView? by weak(view)
 
@@ -60,7 +59,20 @@ class MoviesListPresenterImpl
     private fun loadMovies() {
         view?.stopRefreshing()
         view?.showLoading()
-        getMoviesListUseCase.moviesList().subscribe(this)
+        getMoviesListUseCase.moviesList {
+            it.fold({ movies ->
+                moviesList = movies
+                view?.showTitle(moviesList.size)
+                if (moviesList.isEmpty())
+                    view?.showNoEventsDialog()
+                else
+                    view?.setMovies(movies.toViewModel())
+                view?.showChangeLog()
+            }, {
+                view?.showTimeOutDialog()
+            })
+            view?.hideLoading()
+        }
     }
 
     override fun onAcceptButtonPressed() {
@@ -71,34 +83,4 @@ class MoviesListPresenterImpl
         view?.finish()
     }
 
-    override fun onCompleted() {
-        view?.hideLoading()
-    }
-
-    override fun onError(e: Throwable) {
-        view?.showTimeOutDialog()
-    }
-
-    override fun onNext(movies: List<Movie>?) {
-        if (movies != null)
-            moviesList = movies
-        view?.showTitle(moviesList.size)
-        if (moviesList.isEmpty())
-            view?.showNoEventsDialog()
-        else
-            view?.setMovies(this)
-        view?.showChangeLog()
-    }
-
-    override fun getTitle(index: Int): String {
-        return moviesList[index].title
-    }
-
-    override fun getDate(index: Int): String {
-        return moviesList[index].date
-    }
-
-    override fun getSize(): Int {
-        return moviesList.size
-    }
 }

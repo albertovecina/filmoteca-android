@@ -1,0 +1,22 @@
+plugins {
+    id 'com.android.library'
+}
+apply from: '../base.gradle'
+
+android {
+    flavorDimensions 'environment', 'location'
+    productFlavors {
+        real {
+            dimension 'environment'
+        }
+        mock {
+            dimension 'environment'
+        }
+        albacete {
+            dimension 'location'
+        }
+        valencia {
+            dimension 'location'
+        }
+    }
+}

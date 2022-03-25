@@ -1,5 +1,7 @@
 package com.vsa.filmoteca.presentation.view
 
+import com.vsa.filmoteca.core.presentation.view.LoadingView
+
 /**
  * Created by seldon on 13/03/15.
  */
@@ -26,7 +28,5 @@ interface DetailView : LoadingView {
     fun showAboutUs()
 
     fun setWebViewContent(html: String, baseUrl: String)
-
-    fun navigateToComments(title: String)
 
 }

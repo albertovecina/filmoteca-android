@@ -6,6 +6,7 @@ import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenterIm
 import com.vsa.filmoteca.presentation.utils.review.ReviewManager
 import com.vsa.filmoteca.presentation.utils.review.ReviewManagerImpl
 import com.vsa.filmoteca.presentation.view.MoviesListView
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,10 +19,16 @@ class MoviesListModule {
     @Provides
     fun providesMoviesListView(activity: Activity): MoviesListView = activity as MoviesListView
 
-    @Provides
-    fun providesRateManager(rateManager: ReviewManagerImpl): ReviewManager = rateManager
+    @Module
+    @InstallIn(ActivityComponent::class)
+    interface Bindings {
 
-    @Provides
-    fun providesMoviesListPresenter(moviesListPresenter: MoviesListPresenterImpl): MoviesListPresenter = moviesListPresenter
+        @Binds
+        fun bindsRateManager(rateManager: ReviewManagerImpl): ReviewManager
+
+        @Binds
+        fun bindsMoviesListPresenter(moviesListPresenter: MoviesListPresenterImpl): MoviesListPresenter
+
+    }
 
 }

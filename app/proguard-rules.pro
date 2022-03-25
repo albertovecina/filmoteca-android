@@ -20,14 +20,10 @@
 # see https://code.google.com/p/android/issues/activity_detail?id=78377
 -keep class !android.support.v7.internal.view.menu.**,android.support.** {*;}
 
-#Crashlytics
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
-
-#Twitter stuff
 -dontwarn com.squareup.okhttp.**
 -dontwarn com.google.appengine.api.urlfetch.**
--dontwarn rx.**
 -dontwarn retrofit.**
 -keepattributes Signature
 -keepattributes *Annotation*
@@ -35,5 +31,5 @@
 -keep interface com.squareup.okhttp.** { *; }
 -keep class retrofit.** { *; }
 -keepclasseswithmembers class * {
-    @retrofit.http.* ;
+    @retrofit.http.* *;
 }

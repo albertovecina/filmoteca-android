@@ -1,6 +1,7 @@
 package com.vsa.filmoteca.presentation.view
 
-import com.vsa.filmoteca.presentation.view.adapter.EventDataProvider
+import com.vsa.filmoteca.core.presentation.view.LoadingView
+import com.vsa.filmoteca.presentation.view.adapter.model.MovieViewModel
 import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListener
 
 /**
@@ -26,7 +27,7 @@ interface MoviesListView : LoadingView {
 
     fun showAboutUs()
 
-    fun setMovies(dataProvider: EventDataProvider)
+    fun setMovies(movies: List<MovieViewModel>)
 
     fun updateWidget()
 

@@ -1,9 +1,11 @@
 package com.vsa.filmoteca.internal.di.module
 
+import com.vsa.filmoteca.network.executor.AsyncExecutor
+import com.vsa.filmoteca.network.executor.CoroutineAsyncExecutor
 import com.vsa.filmoteca.presentation.tracker.FirebaseTracker
 import com.vsa.filmoteca.presentation.tracker.Tracker
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -16,8 +18,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class ApplicationModule {
 
-    @Provides
-    @Singleton
-    fun provideTracker(tracker: FirebaseTracker): Tracker = tracker
+    @Module
+    @InstallIn(SingletonComponent::class)
+    interface Bindings {
+
+        @Binds
+        @Singleton
+        fun bindsAsyncExecutor(executor: CoroutineAsyncExecutor): AsyncExecutor
+
+        @Binds
+        @Singleton
+        fun bindsTracker(tracker: FirebaseTracker): Tracker
+
+    }
 
 }

@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <style type='text/css'>
+      a            { color:#a0a0e0 }
+      div.title    { 
+          color:#252726;
+          font-size:1.2em; 
+          font-weight:bold; 
+          margin-top:1em; 
+          margin-bottom:0.5em; 
+          text-align:center }
+      div.subtitle { 
+          color:#5f5c5c;
+          font-size:0.8em; 
+          margin-bottom:1em; 
+          text-align:center }
+      div.freetext { color:#5f5c5c }
+      div.list     { color:#5f5c5c }
+    </style>
+  </head>
+  <body>
+$ 1.0.0
+  % v1.0.0
+  _ 2021-05-03
+    * Versión inicial.
+$ 1.0.0
+$ END_OF_CHANGE_LOG
+  </body>
+</html>
