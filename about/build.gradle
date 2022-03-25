@@ -4,15 +4,12 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
+apply from: '../base.gradle'
 
 android {
-
-    compileSdkVersion SdkVersion.compileSdkVersion
-
     buildFeatures {
         viewBinding true
     }
-
     flavorDimensions 'environment', 'location'
     productFlavors {
         real {

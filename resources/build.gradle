@@ -1,9 +1,9 @@
 plugins {
     id 'com.android.library'
 }
+apply from: '../base.gradle'
 
 android {
-    compileSdkVersion SdkVersion.compileSdkVersion
     flavorDimensions 'environment', 'location'
     productFlavors {
         real {

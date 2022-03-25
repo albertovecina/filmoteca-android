@@ -3,15 +3,13 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 }
+apply from: '../base.gradle'
 
 android {
-    compileSdkVersion SdkVersion.compileSdkVersion
-
     defaultConfig {
         buildConfigField "String", "BASIC_AUTH_USER", "\"${getBasicAuthUser()}\""
         buildConfigField "String", "BASIC_AUTH_PASSWORD", "\"${getBasicAuthPassword()}\""
     }
-
     flavorDimensions 'environment', 'location'
     productFlavors {
         real {
