@@ -10,10 +10,6 @@
     <string name="image_search">Imagen del título</string>
     <string name="image_share">Imagen del título</string>
     <string name="image_navigator">Imagen del título</string>
-    <string name="changelog_full_title">Change Log</string>
-    <string name="changelog_title">What\'s New</string>
-    <string name="changelog_ok_button">OK</string>
-    <string name="changelog_show_full">more&#8230;</string>
 
     <!-- Menu -->
     <string name="share">Compartir</string>

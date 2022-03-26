@@ -9,8 +9,6 @@ import com.vsa.filmoteca.presentation.view.dialog.interfaces.OkCancelDialogListe
  */
 interface MoviesListView : LoadingView {
 
-    fun showChangeLog()
-
     fun stopRefreshing()
 
     fun showTitle(moviesCount: Int)
