@@ -9,20 +9,19 @@
     android:layout_marginTop="5dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="5dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingStart="20dp"
-    android:paddingTop="10dp"
-    android:paddingEnd="10dp"
-    android:paddingBottom="20dp"
-    app:cardCornerRadius="@dimen/radius_big">
+    app:cardCornerRadius="@dimen/radius_big"
+    app:contentPaddingBottom="10dp"
+    app:contentPaddingLeft="20dp"
+    app:contentPaddingRight="20dp"
+    app:contentPaddingTop="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewTitle"
@@ -32,7 +31,7 @@
             android:fontFamily="@font/montserrat_regular"
             android:gravity="center"
             android:textColor="@color/texto_gris"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             tools:text="Movie title" />
 
