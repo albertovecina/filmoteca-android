@@ -219,5 +219,8 @@ dependencies {
     kaptTest Dependencies.hiltCompiler
 
     implementation 'org.jsoup:jsoup:1.13.1'
+
+    implementation "androidx.cardview:cardview:1.0.0"
+
 }
 apply plugin: 'com.google.gms.google-services'
