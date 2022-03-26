@@ -12,7 +12,7 @@ data class MovieViewModel(
 ) : Serializable
 
 fun Movie?.toViewModel() = this?.let {
-    MovieViewModel(title, subtitle, place, date, url)
+    MovieViewModel(title, subtitle, place, "- $date", url)
 } ?: MovieViewModel()
 
 fun List<Movie>?.toViewModel() = this?.map {

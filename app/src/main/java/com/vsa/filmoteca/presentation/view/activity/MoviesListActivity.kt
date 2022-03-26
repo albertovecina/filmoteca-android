@@ -9,6 +9,8 @@ import android.text.style.TypefaceSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.about.presentation.view.AboutDialog
@@ -98,13 +100,7 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
             R.color.color_accent,
             R.color.color_primary
         )
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
-        val itemDecoration = androidx.recyclerview.widget.DividerItemDecoration(
-            this,
-            layoutManager.orientation
-        )
-        binding.recyclerViewMovies.layoutManager = layoutManager
-        binding.recyclerViewMovies.addItemDecoration(itemDecoration)
+        binding.recyclerViewMovies.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewMovies.adapter = MoviesAdapter(this, this)
     }
 

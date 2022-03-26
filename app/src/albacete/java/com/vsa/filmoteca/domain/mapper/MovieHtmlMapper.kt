@@ -38,7 +38,7 @@ object MovieHtmlMapper {
             }
 
             movie.url = link.attr("href")
-            val date = "- " + dates[x].text()
+            val date = dates[x].text()
             movie.date = date
 
             moviesList.add(movie)
