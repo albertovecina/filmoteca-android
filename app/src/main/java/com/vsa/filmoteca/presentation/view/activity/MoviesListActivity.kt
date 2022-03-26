@@ -9,14 +9,12 @@ import android.text.style.TypefaceSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.vsa.filmoteca.R
 import com.vsa.filmoteca.about.presentation.view.AboutDialog
 import com.vsa.filmoteca.databinding.ActivityMainBinding
 import com.vsa.filmoteca.presentation.presenter.movieslist.MoviesListPresenter
-import com.vsa.filmoteca.presentation.utils.ChangeLog
 import com.vsa.filmoteca.presentation.view.MoviesListView
 import com.vsa.filmoteca.presentation.view.adapter.MoviesAdapter
 import com.vsa.filmoteca.presentation.view.adapter.model.MovieViewModel
@@ -176,13 +174,6 @@ class MoviesListActivity : BaseActivity(), MoviesListView, SwipeRefreshLayout.On
 
     override fun stopRefreshing() {
         binding.swipeRefreshLayout.isRefreshing = false
-    }
-
-    override fun showChangeLog() {
-        //La clase ChangeLog muestra los cambios en la ultima versión
-        val changeLog = ChangeLog(this)
-        if (changeLog.isUpdated())
-            changeLog.logDialog.show()
     }
 
     override fun navigateToDetail(url: String, title: String, date: String) =
