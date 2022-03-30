@@ -218,7 +218,7 @@ dependencies {
     testImplementation Dependencies.hiltAndroidTesting
     kaptTest Dependencies.hiltCompiler
 
-    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.jsoup:jsoup:1.14.3'
 
     implementation "androidx.cardview:cardview:1.0.0"
 

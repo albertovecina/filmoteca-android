@@ -8,7 +8,7 @@ import java.util.*
 /**
  * Created by seldon on 26/03/15.
  */
-object MovieHtmlMapper {
+object MovieHtmlParser {
 
     private const val CLASS_ACTIVITY = "actividad"
     private const val CLASS_MOVIE_TEXTS = "textos-peli"

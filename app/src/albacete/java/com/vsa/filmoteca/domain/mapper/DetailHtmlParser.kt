@@ -61,28 +61,34 @@ object DetailHtmlParser {
         document.getElementsByTag(TAG_DD).removeAttr(ATTR_STYLE)
         document.getElementsByTag(TAG_A).removeAttr(ATTR_HREF)
 
-        var vevent = document.getElementsByClass(CLASS_VEVENT).first()
+        document.getElementsByClass(CLASS_VEVENT).first()?.let { vevent ->
+            vevent.getElementsByClass(CLASS_TABLAEVENTOS)?.let { tablaEventosList ->
+                document.getElementsByClass(CLASS_TABLAEVENTOS).first()?.let { tablaEventos ->
 
-        val tablaEventosList = vevent.getElementsByClass(CLASS_TABLAEVENTOS)
-        val tablaEventos: Element
+                    if (tablaEventosList.isEmpty()) {
+                        document.getElementsByClass(CLASS_TABLAEVENTOS).first()
+                        val nodesToInsert = ArrayList<Node>()
+                        nodesToInsert.add(tablaEventos)
+                        vevent.insertChildren(vevent.childNodeSize(), nodesToInsert)
+                    } else {
+                        tablaEventosList.first()
+                    }
 
-        if (tablaEventosList!!.isEmpty()) {
-            tablaEventos = document.getElementsByClass(CLASS_TABLAEVENTOS).first()
-            val nodesToInsert = ArrayList<Node>()
-            nodesToInsert.add(tablaEventos)
-            vevent = vevent.insertChildren(vevent.childNodeSize(), nodesToInsert)
-        } else {
-            tablaEventos = tablaEventosList.first()
+                    if (tablaEventosList.isNotEmpty()) {
+                        val tablaEventosIcons = tablaEventos.getElementsByTag(TAG_IMG)
+                        tablaEventosIcons.remove()
+                    }
+
+                }
+
+
+            }
+
+            val parsedHTML = vevent.html()
+            return style + parsedHTML
         }
 
-        if (tablaEventosList.isNotEmpty()) {
-            val tablaEventosIcons = tablaEventos.getElementsByTag(TAG_IMG)
-            tablaEventosIcons.remove()
-        }
-
-        val parsedHTML = vevent.html()
-
-        return style + parsedHTML
+        return ""
     }
 
 }

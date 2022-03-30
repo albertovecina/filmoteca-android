@@ -2,7 +2,7 @@ package com.vsa.filmoteca.data.source.repository
 
 import com.vsa.filmoteca.data.source.ws.FilmotecaInterface
 import com.vsa.filmoteca.domain.mapper.DetailHtmlParser
-import com.vsa.filmoteca.domain.mapper.MovieHtmlMapper
+import com.vsa.filmoteca.domain.mapper.MovieHtmlParser
 import com.vsa.filmoteca.domain.model.Movie
 import com.vsa.filmoteca.network.extensions.run
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class MoviesDataRepository @Inject constructor(private val filmotecaInterface: F
 
     fun moviesList(): Result<List<Movie>> =
         filmotecaInterface.moviesListHtml().run()
-            .map { MovieHtmlMapper.transformMovie(it) }
+            .map { MovieHtmlParser.transformMovie(it) }
 
 
     fun movieDetail(url: String): Result<String> =
