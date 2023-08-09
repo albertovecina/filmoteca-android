@@ -10,7 +10,7 @@ import org.junit.Test
 /**
  * Created by albertovecinasanchez on 7/12/15.
  */
-class MovieHtmlMapperTest {
+class MovieHtmlParserTest {
 
     companion object {
         private const val HTML_EXAMPLE =
@@ -20,7 +20,7 @@ class MovieHtmlMapperTest {
     @Test
     fun moviesFactory_ParserValidator() {
 
-        val movies = MovieHtmlMapper.transformMovie(HTML_EXAMPLE)
+        val movies = MovieHtmlParser.transformMovie(HTML_EXAMPLE)
         assertNotNull(movies)
         assertThat(movies.isEmpty(), `is`(false))
         for (movie in movies) {

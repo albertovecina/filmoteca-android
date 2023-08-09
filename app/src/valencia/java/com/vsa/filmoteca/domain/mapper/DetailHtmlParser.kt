@@ -32,13 +32,13 @@ object DetailHtmlParser {
                 "</style>"
 
         val document = Jsoup.parse(source)
-        document.getElementById(ID_HEADER).remove()
-        document.getElementById(ID_MENU_AREA).remove()
+        document.getElementById(ID_HEADER)?.remove()
+        document.getElementById(ID_MENU_AREA)?.remove()
         removeBreadCrumb(document)
         document.getElementsByTag(TAG_H1).remove() //Remove movie title
         document.getElementsByClass(CLASS_SOCIAL_NETWORKS).remove()
-        document.getElementById(ID_FOOTER).remove()
-        document.getElementById(ID_FOOTER_ICONS).remove()
+        document.getElementById(ID_FOOTER)?.remove()
+        document.getElementById(ID_FOOTER_ICONS)?.remove()
 
         return style + document.html()
     }

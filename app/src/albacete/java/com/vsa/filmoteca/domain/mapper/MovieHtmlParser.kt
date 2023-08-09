@@ -7,7 +7,7 @@ import java.util.*
 /**
  * Created by seldon on 26/03/15.
  */
-object MovieHtmlMapper {
+object MovieHtmlParser {
 
     private const val CLASS_EVENT = "contenttype-evento"
     private const val CLASS_DATE = "description"
@@ -28,16 +28,20 @@ object MovieHtmlMapper {
             val event = events[x]
             movie = Movie()
             val link = event.getElementsByClass("url").first()
-            val title = link.text()
-            if (title.indexOf("(") > 0) {
-                movie.title = title.substring(0, title.indexOf("(")).trim { it <= ' ' }
-                movie.subtitle = title.substring(title.indexOf("("))
-            } else {
-                movie.title = title.trim { it <= ' ' }
-                movie.subtitle = ""
+            link?.let {
+                link.text().let { title ->
+                    if (title.indexOf("(") > 0) {
+                        movie.title = title.substring(0, title.indexOf("(")).trim { it <= ' ' }
+                        movie.subtitle = title.substring(title.indexOf("("))
+                    } else {
+                        movie.title = title.trim { it <= ' ' }
+                        movie.subtitle = ""
+                    }
+                }
+                movie.url = link.attr("href")
             }
 
-            movie.url = link.attr("href")
+
             val date = dates[x].text()
             movie.date = date
 
