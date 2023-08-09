@@ -25,6 +25,7 @@ android {
             dimension 'location'
         }
     }
+    namespace 'com.vsa.filmoteca.network'
 }
 
 def getBasicAuthUser() {
@@ -66,22 +67,22 @@ dependencies {
     implementation project(path: ':core')
 
     // DEPENDENCY INJECTION
-    implementation Dependencies.hiltAndroid
-    kapt Dependencies.hiltCompiler
+    implementation ProjectDependencies.hiltAndroid
+    kapt ProjectDependencies.hiltCompiler
 
     // For instrumentation tests
-    androidTestImplementation Dependencies.hiltAndroidTesting
-    kaptAndroidTest Dependencies.hiltCompiler
+    androidTestImplementation ProjectDependencies.hiltAndroidTesting
+    kaptAndroidTest ProjectDependencies.hiltCompiler
 
     // For local unit tests
-    testImplementation Dependencies.hiltAndroidTesting
-    kaptTest Dependencies.hiltCompiler
+    testImplementation ProjectDependencies.hiltAndroidTesting
+    kaptTest ProjectDependencies.hiltCompiler
 
     //COROUTINES
-    implementation Dependencies.coroutines
+    implementation ProjectDependencies.coroutines
 
-    implementation Dependencies.okhttp
-    implementation Dependencies.okhttpLoggingInterceptor
-    api Dependencies.retrofit
-    implementation Dependencies.retrofitConverterScalars
+    implementation ProjectDependencies.okhttp
+    implementation ProjectDependencies.okhttpLoggingInterceptor
+    api ProjectDependencies.retrofit
+    implementation ProjectDependencies.retrofitConverterScalars
 }
