@@ -5,7 +5,7 @@ object Versions {
     const val retrofit = "2.9.0"
 }
 
-object Dependencies {
+object ProjectDependencies {
     const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.hilt}"
     const val hiltCompiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
     const val hiltAndroidTesting = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
