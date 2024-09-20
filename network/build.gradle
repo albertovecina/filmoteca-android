@@ -10,7 +10,7 @@ android {
         buildConfigField "String", "BASIC_AUTH_USER", "\"${getBasicAuthUser()}\""
         buildConfigField "String", "BASIC_AUTH_PASSWORD", "\"${getBasicAuthPassword()}\""
     }
-    flavorDimensions 'environment', 'location'
+    flavorDimensions = ["environment", "location"]
     productFlavors {
         real {
             dimension 'environment'
@@ -67,22 +67,22 @@ dependencies {
     implementation project(path: ':core')
 
     // DEPENDENCY INJECTION
-    implementation ProjectDependencies.hiltAndroid
-    kapt ProjectDependencies.hiltCompiler
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
     // For instrumentation tests
-    androidTestImplementation ProjectDependencies.hiltAndroidTesting
-    kaptAndroidTest ProjectDependencies.hiltCompiler
+    androidTestImplementation libs.hilt.android.testing
+    kaptAndroidTest libs.hilt.compiler
 
     // For local unit tests
-    testImplementation ProjectDependencies.hiltAndroidTesting
-    kaptTest ProjectDependencies.hiltCompiler
+    testImplementation libs.hilt.android.testing
+    kaptTest libs.hilt.compiler
 
     //COROUTINES
-    implementation ProjectDependencies.coroutines
+    implementation libs.kotlinx.coroutines.android
 
-    implementation ProjectDependencies.okhttp
-    implementation ProjectDependencies.okhttpLoggingInterceptor
-    api ProjectDependencies.retrofit
-    implementation ProjectDependencies.retrofitConverterScalars
+    implementation libs.okhttp
+    implementation libs.logging.interceptor
+    api libs.retrofit
+    implementation libs.retrofit.converter.scalars
 }

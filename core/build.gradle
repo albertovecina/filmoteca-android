@@ -5,14 +5,14 @@ plugins {
 apply from: '../base.gradle'
 
 android {
-    buildToolsVersion '30.0.3'
+    buildToolsVersion = "30.0.3"
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + "-Xallow-result-return-type"
     }
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    flavorDimensions 'environment', 'location'
+    flavorDimensions = ["environment", "location"]
     productFlavors {
         real {
             dimension 'environment'
@@ -35,6 +35,6 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation libs.androidx.appcompat
 
 }
